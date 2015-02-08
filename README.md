@@ -1,5 +1,5 @@
 # Art Track Plus
-## Keep track of your Artist Alley.
+##### Keep track of your Artist Alley.
 
 ### Features
 
