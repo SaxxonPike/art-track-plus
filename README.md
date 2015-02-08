@@ -56,3 +56,30 @@ Wipe the entire artist database.
 
 ##### test
 Wipe the artist database and fill it with thousands of test users.
+
+### This application uses...
+- arg.js: https://github.com/stretchr/arg.js
+
+- Dexie.js: http://dexie.org/
+
+- floatThead: http://mkoryak.github.io/floatThead/
+
+- Font Awesome: http://fortawesome.github.io/Font-Awesome/
+
+- jQuery: http://jquery.com/
+
+- Moment.js: http://momentjs.com/
+
+- Open Sans: http://www.google.com/fonts/specimen/Open+Sans
+
+- slimScroll: http://rocha.la/jQuery-slimScroll
+
+# Thanks to...
+- *NallTWD* for the encouragement to write this up in the first place.
+
+- *Nyxsiern* for additional ideas how to improve it.
+
+- *Tormod* for testing and making sure UX was smooth.
+
+- The staff at Midwest FurFest for allowing this software to be used in a real
+environment.
