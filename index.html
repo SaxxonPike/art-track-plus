@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+		<meta http-equiv="X-UA-Compatible" content="IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
+		<meta charset="UTF-8" />
+		<title>Art Track Plus</title>
+		<link rel="stylesheet" href="resources/font-awesome.css" />
+		<link rel="stylesheet" href="resources/art-track-plus.css" />
+		<script src="resources/jquery.js"></script>
+		<script src="resources/arg.js"></script>
+		<script src="resources/moment.js"></script>
+		<script src="resources/jquery-floatthead.js"></script>
+		<script src="resources/jquery-slimscroll.js"></script>
+		<script src="resources/dexie.js"></script>
+	</head>
+	<body>
+	
+		<!-- main screen -->
+		<div class="screen editable-screen" id="main-screen">
+			<div class="container">
+				<div class="col1 allusers">
+					<div class="content">
+						<table class="allusers scrollable">
+							<thead>
+								<tr>
+									<th>
+										<i class="fa fa-user"></i> All Artists <small class='user-count'></small>
+									</th>
+								</tr>
+							</thead>
+							<tbody class="users-table">
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="col1 lottery">
+					<div class="content">
+						<table class="scrollable">
+							<thead>
+								<tr>
+									<th>
+										<i class="fa fa-check"></i> Lottery <small class='lottery-count'></small>
+									</th>
+								</tr>
+							</thead>
+							<tbody class="lottery-table">
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="col1 standby">
+					<div class="content">
+						<table class="scrollable">
+							<thead>
+								<tr>
+									<th>
+										<i class="fa fa-clock-o"></i> Standby <small class='standby-count'></small>
+									</th>
+								</tr>
+							</thead>
+							<tbody class="standby-table">
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="col1 signedin">
+					<div class="content">
+						<table class="scrollable">
+							<thead>
+								<tr>
+									<th>
+										<i class="fa fa-sign-in"></i> Seated <small class='signedin-count'></small>
+									</th>
+								</tr>
+							</thead>
+							<tbody class="signedin-table">
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="footer">
+				<div class="col1 text-left">
+					<p class=""><i class="fa fa-paw"></i> Art Track Plus 2014</p>
+				</div>
+				<div class="col3 text-right">
+					<div class="nav">
+						<ul>
+							<li><a href="#">Export Database</a></li>
+							<li><a href="#">Reporting</a></li>
+							<li><a href="?mode=user" target="_blank">Simple View</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- user screen -->
+		<div class="screen dynamic-screen" id="user-screen">
+			<div class="col3-8 lottery">
+				<div class="content">
+					<table class="scrollable smart-columns lottery">
+						<thead>
+							<tr>
+								<th>
+									<i class="fa fa-clock-o"></i> Lottery <small class='lottery-count'></small>
+								</th>
+							</tr>
+						</thead>
+						<tbody class="sorted-lottery-table">
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="col1 standby">
+				<div class="content">
+					<table class="scrollable standby">
+						<thead>
+							<tr>
+								<th>
+									<i class="fa fa-clock-o"></i> Standby <small class='standby-count'></small>
+								</th>
+							</tr>
+						</thead>
+						<tbody class="standby-table">
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="col3-8 signedin">
+				<div class="content">
+					<table class="scrollable smart-columns signedin">
+						<thead>
+							<tr>
+								<th>
+									<i class="fa fa-sign-in"></i> Seated <small class='signedin-count'></small>
+								</th>
+							</tr>
+						</thead>
+						<tbody class="signedin-table">
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		
+		<!-- raw data edit screen -->
+		<div class="screen" id="raw-screen">
+			<div class="fixed-border dark"></div>
+			<div class="fixed allusers">
+				<div class="content">
+					<div class="inner-container">
+						<div class="div1"></div>
+						<div class="darker">
+							<p class="text-center"><a href="?mode=main"><i class="fa fa-arrow-circle-left"></i> Return</a></p>
+						</div>
+						<div class="div1"></div>
+						<h1 class="text-center">Raw Data Edit</h1>
+						<hr />
+						<p class="text-center">
+							This screen allows you to edit the raw data in the database. It
+							should only ever be used by developers to debug problems in artist
+							records. The data is represented in JSON format and will refuse to
+							save if the syntax doesn't check out. Omitted fields are left
+							unchanged in the database.
+						</p>
+						<div class="div1"></div>
+						<hr />
+						<div class="input">
+							<div class="col2 data-column">
+								<div class="input-buttons">
+									<select class="raw-user-list">
+										<option value="0">[select one...]</option>
+									</select>
+								</div>
+							</div>
+							<div class="col2 data-column">
+								<div class="input-buttons">
+									<button class="col2 fail raw-user-delete"><i class="fa fa-times"></i> Erase</button>
+									<button class="col2 raw-user-new"><i class="fa fa-user"></i> New</button>
+								</div>
+							</div>
+						</div>
+						<div class="div1"></div>
+						<div class="input-buttons">
+							<textarea wrap="off" rows="12" class="raw-user-data"></textarea>
+						</div>
+						<div class="div2"></div>
+						<div class="input-buttons">
+							<button class="col1-3 return"><i class="fa fa-arrow-circle-left"></i> Back</button>
+							<button class="col1-3 raw-user-revert"><i class="fa fa-undo"></i> Revert</button>
+							<button class="col1-3 primary raw-user-save"><i class="fa fa-save"></i> Save</button>
+						</div>
+						<div class="div1"></div>
+					</div>
+				</div>
+			</div>
+			<div class="fixed-border dark"></div>
+		</div>
+		
+		<!-- edit screen -->
+		<div class="screen" id="edit-screen">
+			<div class="container">
+				<div class="fixed-border dark"></div>
+				<div class="fixed allusers">
+					<div class="content">
+						<div class="inner-container">
+							<form method="get" action="?mode=main">
+								<div class="div1"></div>
+								<div class="darker">
+									<p class="text-center"><a href="?mode=main"><i class="fa fa-arrow-circle-left"></i> Return</a></p>
+								</div>
+								<h1 class="text-center"><span class="badgeName"></span> <small>[<span class="id"></span>]</small></h1>
+								<div class="div1"></div>
+								<button type="button" class="col1-3 user-sign-out"><i class="fa fa-sign-out"></i> Sign Out</button>
+								<button type="button" class="col1-3 standby user-standby"><i class="fa fa-clock-o"></i> Standby</button>
+								<button type="button" class="col1-3 signedin user-sign-in"><i class="fa fa-sign-in"></i> Sign In</button>
+								<div class="div2"></div>
+								<!-- badge name -->
+								<div class="input">
+									<div class="col1 input-column">
+										<label for="badgeName">Badge Name</label>
+									</div>
+									<div class="col3 data-column">
+										<input type="text" id="badgeName" name="badgeName" />
+									</div>
+								</div>
+								<!-- badge number -->
+								<div class="input">
+									<div class="col1 input-column">
+										<label for="badgeNumber">Badge #</label>
+									</div>
+									<div class="col1 data-column">
+										<input type="text" id="badgeNumber" name="badgeNumber" />
+									</div>
+									<div class="col1 input-column">
+										<label for="seatedTable">Table #</label>
+									</div>
+									<div class="col1 data-column">
+										<input type="text" id="seatedTable" name="seatedTable" />
+									</div>
+								</div>
+								<!-- phone number -->
+								<div class="input">
+									<div class="col1 input-column">
+										<label for="contact">Phone</label>
+									</div>
+									<div class="col3 data-column">
+										<input type="text" id="contact" name="contact" />
+									</div>
+								</div>
+								<!-- remarks -->
+								<div class="input">
+									<div class="col1 input-column">
+										<label for="remarks">Remarks</label>
+									</div>
+									<div class="col3 data-column">
+										<input type="text" id="remarks" name="remarks" />
+									</div>
+								</div>
+								<!-- lottery info -->
+								<div class="input">
+									<div class="col1 input-column">
+										Lottery
+									</div>
+									<div class="col3">
+										<div class="col2 data-column">
+											<label class="small-caps">
+												<input type="checkbox" id="lotteryEligible" name="lotteryEligible" />Eligible
+											</label>
+										</div>
+										<div class="col2 data-column">
+											<label class="small-caps">
+												<input type="checkbox" id="lotteryGuaranteed" name="lotteryGuaranteed" />Guaranteed
+											</label>
+										</div>
+									</div>
+								</div>
+								<!-- save changes -->
+								<div class="input">
+									<div class="col1 input-column">
+										Changes
+									</div>
+									<div class="col3 data-column">
+										<div class="input-buttons">
+											<button type="button" class="col2 return"><i class="fa fa-arrow-circle-left"></i> Cancel</button>
+											<button type="submit" class="col2 primary user-save"><i class="fa fa-save"></i> Save</button>
+										</div>
+									</div>
+								</div>
+								<!-- additional actions -->
+								<div class="input">
+									<div class="col2 text-left">
+									</div>
+									<div class="col2 text-right">
+										<div class="input-buttons">
+											<ul class="inline-list">
+												<li><a href="#" class="user-save-and-add" tabIndex="-1">Save and Add New</a></li>
+												<li><a href="#" class="user-delete" tabIndex="-1">Delete Artist</a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<hr />
+								<!-- extra info -->
+								<div class="input">
+									<div class="col1 text-right">
+										Last Seated
+									</div>
+									<div class="col3 text-left">
+										<div class="input-buttons">
+											<span class="signInDate highlight"></span>
+										</div>
+									</div>
+									<div class="col1 text-right">
+										Days Seated
+									</div>
+									<div class="col3 text-left">
+										<div class="input-buttons">
+											<span class="checkedInDays highlight"></span>
+										</div>
+									</div>
+									<div class="col1 text-right">
+										Days On Standby
+									</div>
+									<div class="col3 text-left">
+										<div class="input-buttons">
+											<span class="standbyDays highlight"></span>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="fixed-border dark"></div>
+			</div>
+			<div class="footer"></div>
+		</div>
+		
+		<!-- lottery screen -->
+		<div class="screen" id="lottery-screen">
+			<div class="fixed-border dark"></div>
+			<div class="fixed lottery">
+				<div class="content">
+					<div class="inner-container">
+						<div class="div1"></div>
+						<div class="darker">
+							<p class="text-center"><a href="?mode=main"><i class="fa fa-arrow-circle-left"></i> Return</a></p>
+						</div>
+						<h1 class="text-center">Lottery</h1>
+						<div class="lottery-error" style="display:none;">
+							<p class="text-center">
+								The lottery can't be run without any eligible artists.
+							</p>
+							<div class="div1"></div>
+							<hr />
+							<button type="button" class="col4 return"><i class="fa fa-arrow-circle-left"></i> Cancel</button>
+						</div>
+						<div class="lottery-main">
+							<p class="text-center">
+								This section will allow you to run the lottery.
+							</p>
+							<div class="div1"></div>
+							<hr />
+							<ul>
+								<li>Running the lottery will erase the current lottery and standby lists.</li>
+								<li>The results are picked from artists that are marked as 'eligible' for the lottery.</li>
+								<li class="lottery-checkbox-collapse">Artists checked below will be considered before anyone else.</li>
+								<li>Artists that are picked will be added to the top of the standby list.</li>
+								<li class="lottery-checkbox-collapse">You may manually check (or uncheck) guaranteed winners for this lottery below.</li>
+							</ul>
+							<hr />
+							<div class="lottery-guaranteed-collapse">
+								<p>
+									These artists are marked as 'guaranteed':
+								</p>
+								<ul class="lottery-guaranteed-list plain-list">
+								</ul>
+								<div class="div1"></div>
+								<hr />
+							</div>
+							<div class="lottery-unlucky-collapse">
+								<p class="lottery-unlucky-collapse">
+									These artists have been on standby and unseated for the maximum number of days:
+								</p>
+								<ul class="lottery-unlucky-list plain-list">
+								</ul>
+								<div class="div1"></div>
+								<hr />
+							</div>
+							<button type="button" class="col2 return"><i class="fa fa-arrow-circle-left"></i> Cancel</button>
+							<button type="button" class="col2 lottery lottery-execute"><i class="fa fa-play-circle-o"></i> Run</button>
+						</div>
+						<div class="div1"></div>
+					</div>
+				</div>
+			</div>
+			<div class="fixed-border dark"></div>
+		</div>
+		
+		<!-- license screen -->
+		<div class="screen" id="license-screen">
+			<div class="fixed-border dark"></div>
+			<div class="fixed allusers">
+				<div class="content">
+					<div class="inner-container">
+						<h1 class="text-center">Welcome!</h1>
+						<p class="text-center">
+							Thank you for choosing Art Track Plus. Before you begin, we'd like to
+							remind you that this is open source software under the MIT
+							license. If you would like to learn more about the license or how to
+							interpret it, check out the <a class="highlight" href="http://en.wikipedia.org/wiki/MIT_License">MIT License Wikipedia article</a>.
+						</p>
+						<div class="div1"></div><hr />
+						<small>Copyright &copy; 2014 FurInfinity Group.</small>
+						<small>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</small>
+						<small>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</small>
+						<small>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</small>
+						<div class="div1"></div><hr />
+						<button type="button" class="col4 primary return">Let's get started!</button>
+					</div>
+				</div>
+			</div>
+			<div class="fixed-border dark"></div>
+		</div>
+		
+		<!-- reset screen -->
+		<div class="screen" id="reset-screen">
+			<div class="fixed-border dark"></div>
+			<div class="fixed allusers">
+				<div class="content">
+					<div class="inner-container">
+						<div class="div1"></div>
+						<div class="darker">
+							<p class="text-center"><a href="?mode=main"><i class="fa fa-arrow-circle-left"></i> Return</a></p>
+						</div>
+						<h1 class="text-center">Reset Database</h1>
+						<hr />
+						<p class="text-center">
+							<span class="highlight">Warning!</span>
+							What you're about to do will erase all of the database content.
+							All artists and history will be deleted. There's no going back after
+							you click the button below. (ID auto-increment will not reset.)
+						</p>
+						<div class="div1"></div>
+						<hr />
+						<p class="text-center">
+							You may consider using the <a href="#" class="highlight export-database">Export Database</a>
+							feature to preserve it in CSV format before you delete it.
+						</p>
+						<div class="div1"></div>
+						<hr />
+						<div class="div1"></div>
+						<button type="button" class="col2 return"><i class="fa fa-arrow-circle-left"></i> Cancel</button>
+						<button type="button" class="col2 fail user-erase-all"><i class="fa fa-trash-o"></i> Nuke Everything</button>
+						<div class="div1"></div>
+					</div>
+				</div>
+			</div>
+			<div class="fixed-border dark"></div>
+		</div>
+		
+		<!-- test screen -->
+		<div class="screen" id="test-screen">
+			<div class="fixed-border dark"></div>
+			<div class="fixed allusers">
+				<div class="content">
+					<div class="inner-container">
+						<div class="div1"></div>
+						<div class="darker">
+							<p class="text-center"><a href="?mode=main"><i class="fa fa-arrow-circle-left"></i> Return</a></p>
+						</div>
+						<h1 class="text-center">Generate Test Data</h1>
+						<hr />
+						<p class="text-center">
+							<span class="highlight">Warning!</span>
+							All database content will be erased and replaced with a lot of test data.
+							This is to be used for stress testing the system only.
+						</p>
+						<div class="div1"></div>
+						<hr />
+						<p class="text-center">
+							You may consider using the <a href="#" class="highlight export-database">Export Database</a>
+							feature to preserve it in CSV format before you delete it.
+						</p>
+						<div class="div1"></div>
+						<hr />
+						<div class="div1"></div>
+						<button type="button" class="col2 return"><i class="fa fa-arrow-circle-left"></i> Cancel</button>
+						<button type="button" class="col2 fail user-generate-test-data"><i class="fa fa-trash-o"></i> Trash Everything</button>
+						<div class="div1"></div>
+					</div>
+				</div>
+			</div>
+			<div class="fixed-border dark"></div>
+		</div>
+		
+		<!-- footer -->
+		<div class="footer-source">
+			<div class="col1 text-left">
+				<div class="nav">
+					<ul>
+						<li><a href="?"><i class="fa fa-paw"></i> Art Track Plus</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="col3 text-right">
+				<div class="nav">
+					<ul>
+						<li><a href="#" class="new-user">New Artist</a></li>
+						<li><a href="#" class="find-by-table">Find By Table</a></li>
+						<li><a href="#" class="run-lottery">Run Lottery</li>
+						<li><a href="#" class="export-database">Export Database</a></li>
+						<li><a href="#" class="set-mode">System</a></li>
+						<li><a href="?mode=user" target="_blank">Second View</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<!-- page script -->
+		<script src="resources/art-track-plus-db.js"></script>
+		<script src="resources/art-track-plus.js"></script>
+	</body>
+</html>
