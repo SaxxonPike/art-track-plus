@@ -1,0 +1,11 @@
+doctype html
+html(lang="en")
+  head
+    title= AppName
+    link(rel='stylesheet', href='#{StylePath}app.css')
+    script(src='#{ScriptPath}jquery.min.js')
+    script(src='#{ScriptPath}Dexie.min.js')
+    script(src='#{ScriptPath}app.js')
+  body
+    include ./includes/nav.jade
+    include ./includes/screens/intro.jade
