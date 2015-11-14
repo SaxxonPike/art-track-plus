@@ -6,7 +6,7 @@ $(function(){
 	var _id = _args.id || 0;
 	var _mode = _args.mode || "";
 	var _renderBusy = false;
-	
+
 	// add new user from the raw screen
 	function addRawUserData() {
 		var userName;
@@ -16,7 +16,7 @@ $(function(){
 			}, { badgeName: userName });
 		}
 	}
-	
+
 	// add user
 	function addUser() {
 		var userName;
@@ -26,7 +26,7 @@ $(function(){
 			}, { badgeName: userName });
 		}
 	}
-	
+
 	// append today's day to an array
 	function appendToday(inDays) {
 		var days = JSON.parse(inDays);
@@ -37,12 +37,12 @@ $(function(){
 		}
 		return JSON.stringify(days);
 	}
-	
+
 	// compare by lottery order
 	function compareLottery(a, b) {
 		return a.lotteryOrder - b.lotteryOrder;
 	}
-	
+
 	// compare by badge name
 	function compareName(a, b) {
 		var a1 = a.badgeName.toLowerCase();
@@ -51,17 +51,17 @@ $(function(){
 		if (a1 > b1) { return 1; }
 		return 0;
 	}
-	
+
 	// compare by standby order
 	function compareStandby(a, b) {
 		return a.standbyOrder - b.standbyOrder;
 	}
-	
+
 	// count the number of days in a stringified day array
 	function countDays(inDays) {
 		return JSON.parse(inDays || []).length;
 	}
-	
+
 	// delete everything from the database
 	function deleteAll() {
 		var input;
@@ -72,21 +72,21 @@ $(function(){
 			}
 		}
 	}
-	
+
 	// delete currently edited raw user data
 	function deleteRawUserData() {
 		if (confirm("Really delete this user's data?")) {
 			db.eraseUser(setRawMode, { id: _id });
 		}
 	}
-	
+
 	// delete currently selected user
 	function deleteUser() {
 		if (confirm("Really delete this user?")) {
 			db.deleteUser(setMainMode, { id: _id });
 		}
 	}
-	
+
 	// export the database as CSV
 	function exportDatabase() {
 		db.getAllUsers(function(users) {
@@ -128,7 +128,7 @@ $(function(){
 			}
 		});
 	}
-	
+
 	// find a user by table number
 	function findUserByTableNumber() {
 		var table;
@@ -148,7 +148,7 @@ $(function(){
 			});
 		}
 	}
-	
+
 	// retrieve a list of lottery candidates
 	function getLotteryWinners(users, forcedIds, count) {
 		var results = [];
@@ -156,7 +156,6 @@ $(function(){
 		var lotteryOrder = 1;
 		var standbyOrder = 1;
 		// process all the forced winners
-		alert(forcedIds.length);
 		for (var i in forcedIds) {
 			for (var j in users) {
 				var user = users[j];
@@ -204,12 +203,12 @@ $(function(){
 			}
 		}
 	}
-	
+
 	// get the URL for a different mode
 	function getModeUrl(newMode) {
 		return Args.url({ mode: newMode });
 	}
-	
+
 	// get nice looking JSON for editing
 	function getNiceJSON(o) {
 		var result = [];
@@ -219,15 +218,15 @@ $(function(){
 		}
 		return "{\n" + result.join(',\n') + "\n}";
 	}
-	
+
 	// get user table entry
 	function getUserEntry(user) {
 		var displayName = sanitize(user.badgeName);
-		
+
 		if (user.seatedTable && user.seatedTable.trim().length > 0) {
 			displayName += " <span class='list-table-number'>(" + user.seatedTable + ")</span>"
 		}
-		
+
 		if (_editable) {
 			displayName = "<a href='?mode=edit&id=" + user.id + "' id='" + user.id + "' class='user'>" + displayName + "</a>";
 			if (isUnluckyUser(user)) {
@@ -236,12 +235,12 @@ $(function(){
 		}
 		return "<tr><td>" + displayName + "</td></tr>";
 	}
-	
+
 	// get edit user url
 	function getUserEditUrl(id) {
 		return "?mode=edit&id=" + id;
 	}
-	
+
 	// initialize script
 	function init() {
 		// fall back to default mode if invalid
@@ -250,7 +249,7 @@ $(function(){
 			_mode = "license";
 			screenQuery = '#license-screen';
 		}
-		
+
 		// do not use show(), it doesn't always work in Chrome
 		$('[id$="-screen"]').each(function() {
 			var element = $(this);
@@ -275,11 +274,11 @@ $(function(){
 
 		// init screen divs
 		initScreen();
-		
+
 		// init input elements
 		initInputs();
 	}
-	
+
 	// attach input element event handlers
 	function initInputs() {
 		// from http://stackoverflow.com/questions/1009808/enter-key-press-behaves-like-a-tab-in-javascript
@@ -298,15 +297,15 @@ $(function(){
 			}
 		});
 	}
-	
+
 	// initialize page
 	function initScreen() {
 		// floating THEAD elements
 		$('table.scrollable').floatThead({ useAbsolutePositioning: false });
-		
+
 		// attach slimscroll
 		initSlimScroll();
-		
+
 		// attach event handlers
 		$(window).resize(onWindowResize);
 		$('.run-lottery').click(setLotteryMode);
@@ -331,15 +330,15 @@ $(function(){
 
 		// disable form submission (we'll handle that separately)
 		$('form').submit(function(e) { e.preventDefault(); });
-		
+
 		// render onscreen data
 		if ($("table").length > 0) {
 			renderTables();
 		}
-		
+
 		renderUserData();
 	}
-	
+
 	// initialize slimscroll on all content divs
 	function initSlimScroll() {
 		$('.content').each(function(i){
@@ -350,19 +349,19 @@ $(function(){
 			div.slimScroll({ height: divHeight, width: divWidth, size: '12px', wheelStep: 1, disableFadeOut: true, color: '#ffffff' });
 		});
 	}
-	
+
 	// returns true if the user is 'unlucky' (been on standby until the last day)
 	function isUnluckyUser(user) {
 		return (countDays(user.checkedInDays) == 0 && countDays(user.standbyDays) >= 2);
 	}
-	
+
 	// event handler for resizing the window
 	function onWindowResize() {
 		// destroy and recreate slimscroll (not the most efficient, but..)
 		$('.content').slimScroll({destroy: true});
 		initSlimScroll();
 	}
-	
+
 	// render tables
 	function renderTables() {
 		if (!_renderBusy) {
@@ -377,7 +376,7 @@ $(function(){
 				var signedInTable = "";
 				var signedInCount = 0;
 				var sortedLotteryTable = "";
-				
+
 				// populate sorted tables
 				users.sort(compareName);
 				for (var i in users) {
@@ -388,7 +387,7 @@ $(function(){
 					if (user.signedIn) { signedInTable += userEntry; signedInCount++; }
 					if (user.lottery) { sortedLotteryTable += userEntry; }
 				}
-				
+
 				// populate lottery table
 				users.sort(compareLottery);
 				for (var i in users) {
@@ -408,14 +407,14 @@ $(function(){
 						standbyCount++;
 					}
 				}
-				
+
 				// populate tables
 				$('.users-table').html(allUsersTable);
 				$('.lottery-table').html(lotteryTable);
 				$('.standby-table').html(standbyTable);
 				$('.signedin-table').html(signedInTable);
 				$('.sorted-lottery-table').html(sortedLotteryTable);
-				
+
 				// populate table counts
 				$('.user-count').html(allUsersCount);
 				$('.lottery-count').html(lotteryCount);
@@ -425,7 +424,7 @@ $(function(){
 			_renderBusy = false;
 		}
 	}
-	
+
 	// render user-relevant data
 	function renderUserData() {
 		// user editor data
@@ -453,7 +452,7 @@ $(function(){
 						$('span.' + key).text(String(value).trim());
 						$('input[type="checkbox"]#' + key).prop("checked", Boolean(value));
 					}
-					
+
 					// initialize the cursor if there are important missing fields
 					$('#badgeNumber').each(function() {
 						if ($(this).val().length == 0) {
@@ -463,7 +462,7 @@ $(function(){
 				}
 			}, { id: _id });
 		}
-		
+
 		// raw user editor data
 		if ($('.raw-user-data:visible').length > 0) {
 			db.getAllUsers(function(users) {
@@ -487,7 +486,7 @@ $(function(){
 				});
 			});
 		}
-		
+
 		// lottery user data
 		if ($('.lottery-guaranteed-list:visible').length > 0) {
 			db.getLotteryUsers(function(users) {
@@ -533,7 +532,7 @@ $(function(){
 			});
 		}
 	}
-	
+
 	// revert raw user data to saved (or load raw data)
 	function revertRawUserData() {
 		if (_id > 0) {
@@ -548,7 +547,7 @@ $(function(){
 			$('.raw-user-data').val("");
 		}
 	}
-	
+
 	// run lottery
 	function runLottery() {
 		var count;
@@ -570,7 +569,6 @@ $(function(){
 						var forcedIds = [];
 						$('.lottery-filter:checked').each(function() {
 							var id = Number($(this).attr('id'));
-							alert(id);
 							forcedIds.push(id);
 						});
 						// get the lottery winners
@@ -582,12 +580,12 @@ $(function(){
 			});
 		}
 	}
-	
+
 	// sanitize data for HTML
 	function sanitize(s) {
 		return $('<div/>').text(s).html();
 	}
-	
+
 	// save currently edited raw user data
 	function saveRawUserData() {
 		if (_id > 0) {
@@ -602,7 +600,7 @@ $(function(){
 			$('.raw-user-data').val("");
 		}
 	}
-	
+
 	// save currently edited user data
 	function saveUser(changes, callback) {
 		if (!callback) {
@@ -636,27 +634,27 @@ $(function(){
 			}, { id: _id });
 		}
 	}
-	
+
 	// switch to the lottery mode
 	function setLotteryMode() {
 		setMode('lottery');
 	}
-	
+
 	// switch to the main mode
 	function setMainMode() {
 		setMode('main');
 	}
-	
+
 	// switch to a specific mode
 	function setMode(newMode) {
 		$(location).attr('href', '?mode=' + newMode)
 	}
-	
+
 	// switch to raw edit mode
 	function setRawMode() {
 		setMode('raw');
 	}
-	
+
 	// switch to a user-specified mode
 	function setUserMode() {
 		var newMode;
@@ -668,7 +666,7 @@ $(function(){
 			}
 		}
 	}
-	
+
 	// sign user in
 	function signInUser() {
 		db.getUser(function(users) {
@@ -681,7 +679,7 @@ $(function(){
 			}
 		}, { id: _id});
 	}
-	
+
 	// sign user out
 	function signOutUser() {
 		var eligible = false;
@@ -690,18 +688,18 @@ $(function(){
 		}
 		saveUser({ signedIn: false, standby: false, standbyOrder: 0, lottery: false, lotteryOrder: 0, lotteryEligible: eligible, seatedTable: " " });
 	}
-	
+
 	function spin(target) {
 		$(target).html("<i class='fa fa-spinner fa-spin'></i> <span class='progress'></span>");
 	}
-	
+
 	// standby all remaining lottery users
 	function standbyLotteryUsers() {
 		db.getLotteryUsers(function(users) {
-			
+
 		});
 	}
-	
+
 	// standby user
 	function standbyUser() {
 		db.getUsers(function(users) {
@@ -725,7 +723,7 @@ $(function(){
 			}
 		});
 	}
-	
+
 	// generate test data
 	function testDatabase() {
 		var input;
