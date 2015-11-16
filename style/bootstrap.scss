@@ -1,0 +1,27 @@
+// Bootstrap variables
+
+$body-bg: $background;
+
+$brand-danger: darken(#d9534f, 20%);
+$brand-info: darken(#5bc0de, 20%);
+$brand-primary: darken(#428bca, 30%);
+$brand-success: darken(#5cb85c, 20%);
+$brand-warning: darken(#f0ad4e, 20%);
+
+$btn-default-bg: darken($background, 10%);
+$btn-default-border: #111;
+$btn-default-color: $foreground;
+
+$btn-danger-border: lighten($brand-danger, 5%);
+$btn-info-border: lighten($brand-info, 5%);
+$btn-primary-border: lighten($brand-primary, 10%);
+$btn-success-border: lighten($brand-success, 5%);
+$btn-warning-border: lighten($brand-warning, 5%);
+
+$border-radius-base: 1px;
+
+$font-size-base: 18px;
+
+$hr-border: #333;
+
+$text-color: $foreground;
