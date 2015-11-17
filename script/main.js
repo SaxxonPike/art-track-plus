@@ -1,18 +1,8 @@
 $(function(){
-  // Show or hide items based on whether or not the user has agreed to the
-  // license terms.
-  function InitializeAgreement(agreed) {
-    if (agreed === true) {
-      $('.must-agree').show();
-    } else {
-      $('.must-agree').hide();
-    }
-  }
-
   function InitializeFirstScreen() {
     var screenId = window.location.hash.substring(1);
     if (!screenId || screenId.length == 0) {
-      screenId = "intro";
+      screenId = "main";
     }
     Screen.select(screenId);
   }
@@ -20,6 +10,21 @@ $(function(){
   // Initialize the window handler which repositions content on resize.
   function InitializeResizeHandler() {
     $(window).resize(Screen.reposition);
+  }
+
+  // Initialize all links with the "data-modal" attribute so they pop up when
+  // activated.
+  function InitializeModalNavigation() {
+    $('a[data-modal]').each(function(i, e) {
+      var linkElement = $(e);
+      var modalId = linkElement.attr('data-modal');
+      linkElement
+        .attr("href", "#")
+        .click(function(ev) {
+          ev.stopPropagation();
+          $('#' + modalId).modal();
+        });
+    });
   }
 
   // Initialize all links with the "data-screen" attribute so they switch
@@ -38,8 +43,8 @@ $(function(){
   }
 
   // Initialization.
+  InitializeModalNavigation();
   InitializeScreenNavigation();
   InitializeFirstScreen();
   InitializeResizeHandler();
-  InitializeAgreement(false);
 });

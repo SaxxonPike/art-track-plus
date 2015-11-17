@@ -14,4 +14,96 @@ body {
   font-family: 'Open Sans';
   background-color: $background;
   text-color: $foreground;
+  overflow: hidden;
+}
+
+.line {
+  display: block;
+}
+
+#main {
+  div[class^="col-"], div[class*=" col-"] {
+    &:nth-child(n+2) {
+      border-left: 1px #111 solid;
+    }
+  }
+
+  .header-container {
+    height: 1.41em;
+    width: 100%;
+    box-sizing: border-box;
+    border-bottom: 1px #111 solid;
+
+    .artists {
+      background: #080808;
+      color: #aaa;
+    }
+
+    .lottery {
+      background: #002;
+      color: #aaf;
+    }
+
+    .standby {
+      background: #200;
+      color: #faa;
+    }
+
+    .seated {
+      background: #020;
+      color: #afa;
+    }
+  }
+
+  .header {
+    text-align: center;
+    font-weight: bold;
+    width: 25%;
+    display: inline-block;
+
+    .fa {
+      margin-right: 5px;
+      margin-left: -10px;
+    }
+  }
+
+  .content {
+    .artists {
+      a {
+        color: #aaa;
+        background: #282828;
+        margin: 0;
+      }
+    }
+
+    .lottery {
+      a {
+        color: #88f;
+        background: #181840;
+      }
+    }
+
+    .standby {
+      a {
+        color: #f88;
+        background: #401818;
+      }
+    }
+
+    .seated {
+      a {
+        color: #8f8;
+        background: #184018;
+      }
+    }
+
+    a {
+      text-decoration: none;
+      &:hover {
+        font-weight: bolder;
+        box-shadow:0px 0px 0px 1.5em rgba(1,1,1,0.2) inset;
+      }
+    }
+  }
+
 }

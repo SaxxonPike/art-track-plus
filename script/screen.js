@@ -19,7 +19,7 @@ var Screen = {
 
     var desiredScreen = $('.screen#' + screenId);
     if (desiredScreen.length > 0) {
-      
+
       // Show the desired screen.
       desiredScreen.show();
       Screen.reposition();
