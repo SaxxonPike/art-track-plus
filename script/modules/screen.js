@@ -1,7 +1,12 @@
-var Screen = {
+var Screen;
 
-  // Center the screen.
-  reposition: function() {
+(function(){
+  Screen = {
+    reposition: reposition,
+    select: select
+  };
+
+  function reposition() {
     var width = $(window).width();
     var leftMargin = 0;
     if (width > 960)
@@ -10,10 +15,9 @@ var Screen = {
       leftMargin = (width - containerWidth) / 2;
     }
     $(".screen").css("marginLeft", leftMargin);
-  },
+  }
 
-  // Select a screen by ID.
-  select: function(screenId) {
+  function select(screenId) {
     // Hide other screens.
     $('.screen[id!="' + screenId + '"]').hide();
 
@@ -34,4 +38,4 @@ var Screen = {
       }
     }
   }
-};
+})();

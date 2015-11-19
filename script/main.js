@@ -22,7 +22,7 @@ $(function(){
         .attr("href", "#")
         .click(function(ev) {
           ev.stopPropagation();
-          $('#' + modalId).modal();
+          Modal[modalId]();
         });
     });
   }
@@ -47,4 +47,6 @@ $(function(){
   InitializeScreenNavigation();
   InitializeFirstScreen();
   InitializeResizeHandler();
+
+  Names.populate();
 });

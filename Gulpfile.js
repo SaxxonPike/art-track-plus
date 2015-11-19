@@ -65,6 +65,11 @@ gulp.task('copy-bootstrap', function() {
     .pipe(gulp.dest('build/' + config.FontPath));
 });
 
+gulp.task('copy-bootstrap-js', function() {
+  return gulp.src('node_modules/bootstrap-sass/assets/javascripts/bootstrap.min.js')
+    .pipe(gulp.dest('build/' + config.ScriptPath));
+});
+
 gulp.task('copy-jquery', function() {
   return gulp.src('node_modules/jquery/dist/jquery.min.*')
     .pipe(gulp.dest('build/' + config.ScriptPath));
@@ -104,12 +109,12 @@ gulp.task('compile-html', function() {
 gulp.task('compile-js', ['test-js'], function() {
   return gulp.src([
       // always process main.js first
+      'script/modules/**/*.js',
       'script/main.js',
       'script/**/*.js'
     ]).pipe(sourceMaps.init())
     .pipe(plumber())
     .pipe(babel())
-    .pipe(concat.header('\n// file: <%= file.path %>\n'))
     .pipe(concat('app.js'))
     .pipe(sourceMaps.write('.'))
     .pipe(gulp.dest('tmp'));
@@ -177,6 +182,7 @@ gulp.task('serve-dev', ['dev-css', 'dev-js'], function() {
 gulp.task('assets', [
   'copy-include',
   'copy-bootstrap',
+  'copy-bootstrap-js',
   'copy-font-awesome',
   'copy-jquery',
   'copy-dexie'

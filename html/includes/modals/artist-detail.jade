@@ -1,0 +1,60 @@
+.modal.fade#artist-detail
+  .modal-dialog
+    .modal-content
+      form
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') &times;
+          h4.modal-title
+            | Edit Artist 
+            small
+              | (#
+              span#artist-id
+              | )
+        .modal-body
+          .form-horizontal
+            .form-group
+              label.col-xs-2(for='artist-name') Name
+              .col-xs-10
+                input(type='text', name='name')#artist-name.form-control
+            .form-group
+              label.col-xs-2(for='artist-badge') Badge
+              .col-xs-2
+                input(type='text', name='badgeNumber')#artist-badge.form-control
+              label.col-xs-2.text-right(for='artist-table') Table
+              .col-xs-2
+                input(type='text', name='tableNumber')#artist-table.form-control
+              label.col-xs-2.text-right(for='artist-room') Room
+              .col-xs-2
+                input(type='text', name='roomNumber')#artist-room.form-control
+            .form-group
+              label.col-xs-2(for='artist-phone') Phone
+              .col-xs-10
+                input(type='text', name='phone')#artist-phone.form-control
+            .form-group
+              label.col-xs-2(for='artist-remarks') Remarks
+              .col-xs-10
+                input(type='text', name='remarks')#artist-remarks.form-control
+            .form-group
+              .col-xs-4
+                .checkbox
+                  label
+                    input#artist-lottery-eligible(type='checkbox')
+                    | Lottery Eligible
+                .checkbox
+                  label
+                    input#artist-lottery-guaranteed(type='checkbox')
+                    | Lottery Guaranteed
+              .col-xs-8(style='margin-top:0.25em')
+                .row
+                  .col-xs-5.text-right Last Seated
+                  .col-xs-7.highlight#artist-seated-last Sunday
+                .row
+                  .col-xs-5.text-right Days Seated
+                  .col-xs-7.highlight#artist-seated-days Friday, Saturday, Sunday
+                .row
+                  .col-xs-5.text-right Days on Standby
+                  .col-xs-7.highlight#artist-standby-days Friday, Saturday, Sunday
+        .modal-footer
+          button.btn.btn-default.btn-wide(type='button', data-dismiss='modal') Cancel
+          button.btn.btn-primary.btn-wide(type='button', data-dismiss='modal', data-save) Save

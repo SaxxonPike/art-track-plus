@@ -20,8 +20,34 @@ $btn-warning-border: lighten($brand-warning, 5%);
 
 $border-radius-base: 1px;
 
-$font-size-base: 24px;
+$font-size-base: 20px;
+$form-group-margin-bottom: 10px;
 
 $hr-border: #333;
 
+$input-bg: #000;
+$input-bg-disabled: #222;
+$input-color: #ddd;
+$input-border: #444;
+$input-border-focus: #06c;
+
+$modal-content-bg: #333;
+$modal-content-fallback-border-color: #111;
+$modal-header-border-color: #111;
+
 $text-color: $foreground;
+
+.btn {
+  &.btn-wide {
+    min-width: 8em;
+  }
+}
+
+form {
+  label {
+    padding-top: 0.3em;
+    input[type='checkbox'] {
+      margin-top:0.4em;
+    }
+  }
+}
