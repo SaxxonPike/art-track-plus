@@ -4,28 +4,23 @@ var Names;
 
 (function(){
   Names = {
-    clear: clear,
     populate: populate
   };
 
-  function clear() {
-    $('#artist-names').clear();
-    $('#lottery-names').clear();
-    $('#standby-names').clear();
-    $('#seated-names').clear();
-  }
-
+  // Populate columns in all places in the app that contain artist lists.
   function populate() {
-    var testNames = [
-      { id: 1, name: "Test 1" },
-      { id: 2, name: "Test 0" }
-    ];
-
-    buildSortedNames($('#artist-names'), testNames);
+    Artists.getAll().then(function(artistData) {
+      buildNames($('#artist-names'), Artists.sortByName(artistData), false, true);
+      buildNames($('#lottery-names'), Artists.filterLottery(artistData));
+      buildNames($('#standby-names'), Artists.filterStandby(artistData));
+      buildNames($('#seated-names'), Artists.filterSeated(artistData));
+    });
   }
 
   // Build a name list for use in the DOM.
-  function buildNames(container, nameData, disableClick) {
+  function buildNames(container, nameData, disableClick, withSymbols) {
+    container.empty();
+
     for (var i in nameData) {
 
       var nameElement = $('<a/>')
@@ -42,16 +37,6 @@ var Names;
     }
   }
 
-  // Build a sorted name list for use in the DOM.
-  function buildSortedNames(container, nameData) {
-    var sortedNames = [];
-    for (var i in nameData) {
-      sortedNames.push(nameData[i]);
-    }
-    sortedNames.sort(nameSorter);
-    return buildNames(container, sortedNames);
-  }
-
   // Create a click handler for opening name detail modals.
   function createNameDetailClickHandler(id) {
     return (function() {
@@ -61,19 +46,6 @@ var Names;
 
   // Show name detail modal.
   function openNameDetail(id) {
-    alert("Testing!");
-  }
-
-  // function used to sort name data arrays
-  function nameSorter(a, b) {
-    var nameA = a.name || "";
-    var nameB = b.name || "";
-    if (nameA < nameB) {
-      return -1;
-    }
-    if (nameA > nameB) {
-      return 1;
-    }
-    return 0;
+    Modal.editArtist(Number(id));
   }
 })();

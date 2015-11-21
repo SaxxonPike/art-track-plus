@@ -21,7 +21,6 @@ $(function(){
       linkElement
         .attr("href", "#")
         .click(function(ev) {
-          ev.stopPropagation();
           Modal[modalId]();
         });
     });
@@ -36,8 +35,19 @@ $(function(){
       linkElement
         .attr("href", "#" + screenId)
         .click(function(ev) {
-          ev.stopPropagation();
           Screen.select(screenId);
+        });
+    });
+  }
+
+  // Initialize links with system actions.
+  function InitializeSystemActions() {
+    $('[data-system-action]').each(function(i, e) {
+      var linkElement = $(e);
+      var action = linkElement.attr('data-system-action');
+      linkElement
+        .click(function(ev) {
+          SystemActions[action]();
         });
     });
   }
@@ -47,6 +57,7 @@ $(function(){
   InitializeScreenNavigation();
   InitializeFirstScreen();
   InitializeResizeHandler();
+  InitializeSystemActions();
 
   Names.populate();
 });

@@ -5,8 +5,10 @@ html(lang="en")
     link(rel='stylesheet', href='#{StylePath}app.css')
     script(src='#{ScriptPath}jquery.min.js')
     script(src='#{ScriptPath}jquery.slimscroll.min.js')
+    script(src='#{ScriptPath}plusastab.joelpurra.js')
     script(src='#{ScriptPath}Dexie.min.js')
     script(src='#{ScriptPath}bootstrap.min.js')
+    script(src='#{ScriptPath}moment.min.js')
     script(src='#{ScriptPath}app.js')
   body
     include ./includes/nav.jade
@@ -14,3 +16,7 @@ html(lang="en")
     include ./includes/screens/main.jade
     
     include ./includes/modals/artist-detail.jade
+    include ./includes/modals/generate-dialog.jade
+    include ./includes/modals/raw-editor.jade
+    include ./includes/modals/reset-dialog.jade
+    include ./includes/modals/run-lottery.jade

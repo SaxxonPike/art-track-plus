@@ -1,0 +1,22 @@
+.modal.fade#generate-dialog
+  .modal-dialog
+    .modal-content
+      form
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') &times;
+          h4.modal-title
+            span.fa.fa-database
+            |  Generate Test Data
+        .modal-body
+          p
+            | This will generate random artists for testing. The database will be
+            | completely reset. This action can 
+            b not 
+            | be undone.
+        .modal-footer
+          .row
+            .col-xs-8
+              button.btn.btn-default.btn-block(type='button', data-dismiss='modal') Cancel
+            .col-xs-4
+              button.btn.btn-danger.btn-block(type='button', data-dismiss='modal', data-system-action="seedDatabase") Generate

@@ -80,6 +80,11 @@ gulp.task('copy-dexie', function() {
     .pipe(gulp.dest('build/' + config.ScriptPath));
 });
 
+gulp.task('copy-moment', function() {
+  return gulp.src('node_modules/moment/min/moment.min.*')
+    .pipe(gulp.dest('build/' + config.ScriptPath));
+});
+
 gulp.task('copy-include', function() {
   return gulp.src('include/**/*')
     .pipe(gulp.dest('build'));
@@ -185,7 +190,8 @@ gulp.task('assets', [
   'copy-bootstrap-js',
   'copy-font-awesome',
   'copy-jquery',
-  'copy-dexie'
+  'copy-dexie',
+  'copy-moment'
 ]);
 
 // aggregate build tasks

@@ -1,0 +1,25 @@
+.modal.fade#run-lottery
+  .modal-dialog
+    .modal-content
+      form
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') &times;
+          h4.modal-title
+            span.fa.fa-clock-o
+            |  Run Lottery
+        .modal-body
+          ul
+            li Running the lottery will erase the current lottery and standby lists.
+            li The results are picked from artists that are marked as 'eligible' for the lottery.
+            li Artists that are picked will be added to the top of the standby list.
+        .modal-footer
+          .row
+            .col-xs-8
+              button.btn.btn-default.btn-block(type='button', data-dismiss='modal')
+                span.fa.fa-chevron-left
+                |  Cancel
+            .col-xs-4
+              button.btn.btn-lottery.btn-block(type='button', data-dismiss='modal', data-system-action="runLottery")
+                span.fa.fa-play-circle-o
+                |  Run

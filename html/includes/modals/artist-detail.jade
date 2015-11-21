@@ -1,22 +1,38 @@
 .modal.fade#artist-detail
   .modal-dialog
     .modal-content
-      form
+      form(data-plus-as-tab='true')
         .modal-header
           button.close(type='button', data-dismiss='modal', aria-label='Close')
             span(aria-hidden='true') &times;
           h4.modal-title
-            | Edit Artist 
-            small
+            span.fa.fa-user
+            |  
+            span#artist-detail-mode
+            small.artist-edit-only
               | (#
               span#artist-id
               | )
+        .modal-body.artist-edit-only
+          .row
+            .col-xs-4
+              button.btn.btn-signout.btn-block(tabindex='-1', type='button', data-dismiss='modal', data-signout="artist" data-skip-enter data-signout='artist')
+                span.fa.fa-sign-out
+                |  Sign Out
+            .col-xs-4
+              button.btn.btn-standby.btn-block(tabindex='-1', type='button', data-dismiss='modal', data-standby="artist" data-skip-enter data-standby='artist')
+                span.fa.fa-clock-o
+                |  Standby
+            .col-xs-4
+              button.btn.btn-seated.btn-block(tabindex='-1', type='button', data-dismiss='modal', data-signin="artist" data-skip-enter data-signin='artist')
+                span.fa.fa-sign-in
+                |  Sign In
         .modal-body
           .form-horizontal
             .form-group
               label.col-xs-2(for='artist-name') Name
               .col-xs-10
-                input(type='text', name='name')#artist-name.form-control
+                input(type='text', name='name', autofocus)#artist-name.form-control
             .form-group
               label.col-xs-2(for='artist-badge') Badge
               .col-xs-2
@@ -39,11 +55,11 @@
               .col-xs-4
                 .checkbox
                   label
-                    input#artist-lottery-eligible(type='checkbox')
+                    input#artist-lottery-eligible(tabindex='-1', type='checkbox')
                     | Lottery Eligible
                 .checkbox
                   label
-                    input#artist-lottery-guaranteed(type='checkbox')
+                    input#artist-lottery-guaranteed(tabindex='-1', type='checkbox')
                     | Lottery Guaranteed
               .col-xs-8(style='margin-top:0.25em')
                 .row
@@ -56,5 +72,20 @@
                   .col-xs-5.text-right Days on Standby
                   .col-xs-7.highlight#artist-standby-days Friday, Saturday, Sunday
         .modal-footer
-          button.btn.btn-default.btn-wide(type='button', data-dismiss='modal') Cancel
-          button.btn.btn-primary.btn-wide(type='button', data-dismiss='modal', data-save) Save
+          .row
+            .col-xs-4.artist-edit-only
+              button.btn.btn-link.btn-block(tabindex='-1', type='button', data-dismiss='modal', data-delete="artist" data-skip-enter)
+                span.fa.fa-times-circle
+                |  Delete
+            .col-xs-4
+              button.btn.btn-default.btn-block(tabindex='-1', type='button', data-dismiss='modal' data-skip-enter)
+                span.fa.fa-chevron-left
+                |  Cancel
+            .col-xs-4.artist-add-only
+              button.btn.btn-primary.btn-block#add-and-new(type='button' data-confirm-enter)
+                span.fa.fa-floppy-o
+                |  Save & Clear
+            .col-xs-4
+              button.btn.btn-primary.btn-block(type='button', data-dismiss='modal', data-save="artist"  data-confirm-enter)
+                span.fa.fa-floppy-o
+                |  Save

@@ -6,10 +6,42 @@ nav.navbar.navbar-inverse.navbar-fixed-top
         span.icon-bar
         span.icon-bar
         span.icon-bar
-      a.navbar-brand(data-screen='intro') Art Track Plus NEO
+      a.navbar-brand(data-screen='main')= AppName
     #navbar.collapse.navbar-collapse
       ul.nav.navbar-nav.navbar-right
+        li.dropdown
+          a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false')
+            | System 
+            span.caret
+          ul.dropdown-menu
+            li
+              a(data-modal='resetDatabase')
+                span.fa.fa-database
+                |  Reset
+            li
+              a(data-modal='seedDatabase')
+                span.fa.fa-database
+                |  Generate Test Data
+            li
+              a(data-modal='editArtistRaw')
+                span.fa.fa-database
+                |  Raw Data Editor
+            li.divider
+            li
+              a(data-screen='about')
+                span.fa.fa-question-circle
+                |  About 
+                = AppName
+        li.dropdown
+          a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false')
+            | Actions 
+            span.caret
+          ul.dropdown-menu
+            li
+              a(data-modal='runLottery')
+                span.fa.fa-play-circle-o
+                |  Run Lottery
         li
-          a(data-screen='about') About
-        li
-          a(data-modal='addArtist') New Artist
+          a(data-modal='addArtist')
+            span.fa.fa-plus
+            |  New Artist

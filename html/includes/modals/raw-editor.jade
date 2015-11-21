@@ -1,0 +1,25 @@
+.modal.fade#raw-editor
+  .modal-dialog
+    .modal-content
+      form
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') &times;
+          h4.modal-title
+            span.fa.fa-database
+            |  Raw Artist Data Editor
+        .modal-body
+          p This editor allows you to edit raw artist data. It is designed only to be used as a diagnostics tool. Please use with care.
+          .form-horizontal
+            .form-group
+              label.col-xs-2(for='raw-artist-list') Artists
+              .col-xs-10
+                select#raw-artist-list.form-control
+        .modal-footer
+          .row
+            .col-xs-8
+              button.btn.btn-warning.btn-block#save-artist-raw(type='button')
+                span.fa.fa-floppy-o
+                |  Save
+            .col-xs-4
+              button.btn.btn-default.btn-block(type='button', data-dismiss='modal') Close

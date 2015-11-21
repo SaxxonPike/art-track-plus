@@ -20,6 +20,12 @@ $btn-warning-border: lighten($brand-warning, 5%);
 
 $border-radius-base: 1px;
 
+$dropdown-bg: #080808;
+$dropdown-border: #111;
+$dropdown-link-color: $foreground;
+$dropdown-link-hover-color: #fff;
+$dropdown-link-hover-bg: #222;
+
 $font-size-base: 20px;
 $form-group-margin-bottom: 10px;
 
@@ -30,6 +36,8 @@ $input-bg-disabled: #222;
 $input-color: #ddd;
 $input-border: #444;
 $input-border-focus: #06c;
+
+$link-color: #eee;
 
 $modal-content-bg: #333;
 $modal-content-fallback-border-color: #111;
