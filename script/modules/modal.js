@@ -5,6 +5,7 @@ var Modal;
   // Interface.
   Modal = {
     addArtist: addArtist,
+    batchSignOut: batchSignOut,
     editArtist: editArtist,
     editArtistRaw: editArtistRaw,
     resetDatabase: resetDatabase,
@@ -37,6 +38,10 @@ var Modal;
     $('.artist-add-only').show();
     $('.artist-edit-only').hide();
     $('#artist-detail').modal();
+  }
+
+  function batchSignOut() {
+    $('#batch-sign-out').modal();
   }
 
   // Show the Artist modal with fields from an existing artist.
@@ -89,25 +94,32 @@ $(function() {
     artistData.remarks = $('#artist-remarks').val();
     artistData.lotteryEligible = $('#artist-lottery-eligible').prop('checked');
     artistData.lotteryGuaranteed = $('#artist-lottery-guaranteed').prop('checked');
+    if (artistData.tableNumber) {
+      artistData.lotteryOrder = 0;
+      artistData.standbyOrder = 0;
+    }
     Artists.set(artistData).then(function() {
       Names.populate();
     });
   });
 
   $('[data-standby=artist]').click(function() {
-    Artists.setStandby(getArtistFormId());
+    Artists.setStandby(getArtistFormId())
+      .then(Names.populate);
   });
 
   $('[data-signin=artist]').click(function() {
     var seat = prompt('Enter the table number to sign this artist in.');
     if (seat) {
-      Artists.setSeated(getArtistFormId(), seat);
+      Artists.setSeated(getArtistFormId(), seat)
+        .then(Names.populate);
     }
   });
 
   $('[data-signout=artist]').click(function() {
     var eligible = confirm('The artist will be entered for the next lottery.\nClick OK to confirm.\nClick CANCEL if you don\'t want this to happen.');
-    Artists.setSignedOut(getArtistFormId(), eligible);
+    Artists.setSignedOut(getArtistFormId(), eligible)
+      .then(Names.populate);
   });
 
 });

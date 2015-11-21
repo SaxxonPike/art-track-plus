@@ -1,0 +1,22 @@
+.modal.fade#batch-sign-out
+  .modal-dialog
+    .modal-content
+      form
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') &times;
+          h4.modal-title
+            span.fa.fa-sign-out
+            |  Batch Sign Out
+        .modal-body
+          ul
+            li This action signs everyone out.
+            li Artists that are currently seated will be excluded from the next lottery
+            | because they have not yet signed out.
+            li The standby list will be cleared.
+        .modal-footer
+          .row
+            .col-xs-8
+              button.btn.btn-default.btn-block(type='button', data-dismiss='modal') Cancel
+            .col-xs-4
+              button.btn.btn-primary.btn-block(type='button', data-dismiss='modal', data-system-action="batchSignOut") Close Out Day

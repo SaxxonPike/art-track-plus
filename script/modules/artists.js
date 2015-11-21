@@ -17,8 +17,63 @@ var Artists;
     filterSeated: filterSeated,
     filterLotteryEligible: filterLotteryEligible,
     filterLotteryGuaranteed: filterLotteryGuaranteed,
-    filterTable: filterTable
+    filterTable: filterTable,
+
+    setSeated: setSeated,
+    setStandby: setStandby,
+    setSignedOut: setSignedOut
   };
+
+  function getMaxFieldValue(artists, fieldName) {
+    var maxValue = 0;
+    for (var i in artists) {
+      if (artists[i][fieldName] > maxValue) {
+        maxValue = artists[i][fieldName];
+      }
+    }
+    alert(fieldName + ":" + maxValue);
+    return maxValue;
+  }
+
+  function setSeated(id, tableNumber) {
+    return setArtist({ id: id, tableNumber: tableNumber });
+  }
+
+  function setStandby(id) {
+    return getAllArtists().then(function(artists) {
+      return setArtist({
+        id: id,
+        standbyOrder: getMaxFieldValue(artists, 'standbyOrder') + 1,
+        lotteryOrder: null,
+        tableNumber: null,
+        roomNumber: null
+      });
+    });
+  }
+
+  function setSignedOut(id, eligible) {
+    return setArtist({
+      id: id,
+      tableNumber: null,
+      lotteryOrder: null,
+      standbyOrder: null,
+      lotteryEligible: eligible,
+      tableNumber: null,
+      roomNumber: null
+   });
+  }
+
+  function addLottery(id) {
+    return getAllArtists().then(function(artists) {
+      return setArtist({
+        id: id,
+        lotteryOrder: getMaxFieldValue(artists, 'lotteryOrder') + 1,
+        standbyOrder: null,
+        tableNumber: null,
+        roomNumber: null
+      });
+    });
+  }
 
   // Field sorters.
   var nameSorter = getValueSorter('name', '');
@@ -83,10 +138,14 @@ var Artists;
 
   // Set an artist's data. If the ID doesn't exist, a new record is made.
   function setArtist(artistData) {
-    if (artistData.id === 0) {
-      delete artistData.id;
+    var isNew = artistData.id === 0 || artistData.id === null || (typeof artistData.id == "undefined");
+    var data = $.extend({}, artistData);
+    delete data.id;
+    if (isNew) {
+      return Database.open().artists.put(data);
+    } else {
+      return Database.open().artists.update(artistData.id, data);
     }
-    return Database.open().artists.put(artistData);
   }
 
   // Build a value sorter for an object field.

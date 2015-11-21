@@ -10,10 +10,18 @@ var Names;
   // Populate columns in all places in the app that contain artist lists.
   function populate() {
     Artists.getAll().then(function(artistData) {
-      buildNames($('#artist-names'), Artists.sortByName(artistData), false, true);
-      buildNames($('#lottery-names'), Artists.filterLottery(artistData));
-      buildNames($('#standby-names'), Artists.filterStandby(artistData));
-      buildNames($('#seated-names'), Artists.filterSeated(artistData));
+      var standbyList = Artists.filterStandby(artistData);
+      var seatedList = Artists.filterSeated(artistData);
+      var lotteryList = Artists.filterLottery(artistData);
+      
+      buildNames($('.artist-names'), Artists.sortByName(artistData), false, true);
+      buildNames($('.lottery-names'), Artists.filterLottery(artistData));
+      buildNames($('.standby-names'), standbyList);
+      buildNames($('.seated-names'), seatedList);
+
+      buildNames($('.lottery-sorted-names'), Artists.sortByName(lotteryList), true);
+      buildNames($('.standby-sorted-names'), standbyList, true);
+      buildNames($('.seated-sorted-names'), seatedList, true);
     });
   }
 
@@ -23,9 +31,24 @@ var Names;
 
     for (var i in nameData) {
 
+      var artist = nameData[i];
       var nameElement = $('<a/>')
         .addClass('line')
-        .text(nameData[i].name);
+        .text(artist.name + " ");
+
+      if (withSymbols) {
+        if (artist.lotteryOrder > 0) {
+          nameElement.append($('<i class="fa fa-check"/>'));
+        }
+
+        if (artist.standbyOrder > 0) {
+          nameElement.append($('<i class="fa fa-clock-o"/>'));
+        }
+
+        if (artist.tableNumber) {
+          nameElement.append($('<i class="fa fa-sign-in"/>'));
+        }
+      }
 
       container.append(nameElement);
 
