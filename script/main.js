@@ -1,6 +1,6 @@
 /* globals Database, Modal, Names, Scheduler, Screen, SystemActions */
 
-$(function(){
+$(function() {
   function InitializeFirstScreen() {
     var screenId = window.location.hash.substring(1);
     if (!screenId || screenId.length === 0) {

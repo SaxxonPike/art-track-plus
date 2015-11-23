@@ -2,7 +2,7 @@
 
 var Modal;
 
-(function(){
+(function() {
 
   // Interface.
   Modal = {

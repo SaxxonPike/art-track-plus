@@ -17,21 +17,19 @@ var Artists = (function() {
   // Return a copy of the array with the element added, without duplications.
   function addArrayEntry(arrayData, elementToAdd) {
     if (Array.isArray(arrayData)) {
-      var result = $.merge([], arrayData);
-      return $.merge(result, [elementToAdd]);
+      if ($.inArray(elementToAdd, arrayData) < 0) {
+        return arrayData.concat(elementToAdd);
+      }
+      return $.merge([], arrayData);
     }
     return [elementToAdd];
   }
 
   // Get the maximum value for a field name.
   function getMaxFieldValue(artists, fieldName) {
-    var maxValue = 0;
-    for (var i in artists) {
-      if (artists[i][fieldName] > maxValue) {
-        maxValue = artists[i][fieldName];
-      }
-    }
-    return maxValue;
+    return Math.max.apply(0, artists.map(function(a) {
+      return a[fieldName] || 0;
+    }));
   }
 
   // Get a copy of the array with today's day string added.
@@ -46,13 +44,11 @@ var Artists = (function() {
 
   // Get an artist by ID from a collection.
   function getArtistFromArray(artists, id) {
-    for (var i in artists) {
-      var artist = artists[i];
-      if (artist.id === id) {
-        return artist;
-      }
-    }
-    return { id: id };
+    return artists.find(function(artist) {
+        return artist.id === id;
+      }) || {
+        id: id
+      };
   }
 
   // Set an artist's status to seated, with the specified table number.
@@ -91,7 +87,7 @@ var Artists = (function() {
       standbyOrder: null,
       lotteryEligible: eligible,
       roomNumber: null
-   });
+    });
   }
 
   // Add an artist to the end of the lottery list.
@@ -131,7 +127,7 @@ var Artists = (function() {
 
   // Set an artist's data. If the ID doesn't exist, a new record is made.
   function setArtist(artistData) {
-    var isNew = artistData.id === 0 || artistData.id === null || (typeof artistData.id === 'undefined');
+    var isNew = !artistData.id;
     var data = $.extend({}, artistData);
     delete data.id;
     Database.incrementTableVersion('artists');

@@ -1,3 +1,5 @@
+/* globals require */
+
 // imports
 
 var gulp = require('gulp');
@@ -60,7 +62,7 @@ gulp.task('test-js', ['clean-js'], function() {
         'js',
         'json'
       ]
-  }));
+    }));
 });
 
 // asset tasks
@@ -68,22 +70,26 @@ gulp.task('test-js', ['clean-js'], function() {
 gulp.task('copy-fonts', function() {
   var config = getConfig();
   return gulp.src([
-      'node_modules/font-awesome/fonts/**/*',
-      'node_modules/bootstrap-sass/assets/fonts/**/*'
-    ])
-    .pipe(rename({dirname: ''}))
+    'node_modules/font-awesome/fonts/**/*',
+    'node_modules/bootstrap-sass/assets/fonts/**/*'
+  ])
+    .pipe(rename({
+      dirname: ''
+    }))
     .pipe(gulp.dest('build/' + config.FontPath));
 });
 
 gulp.task('copy-scripts', function() {
   var config = getConfig();
   return gulp.src([
-      'node_modules/bootstrap-sass/assets/javascripts/bootstrap.min.js',
-      'node_modules/jquery/dist/jquery.min.*',
-      'node_modules/dexie/dist/latest/Dexie.min.*',
-      'node_modules/moment/min/moment.min.*'
-    ])
-    .pipe(rename({dirname: ''}))
+    'node_modules/bootstrap-sass/assets/javascripts/bootstrap.min.js',
+    'node_modules/jquery/dist/jquery.min.*',
+    'node_modules/dexie/dist/latest/Dexie.min.*',
+    'node_modules/moment/min/moment.min.*'
+  ])
+    .pipe(rename({
+      dirname: ''
+    }))
     .pipe(gulp.dest('build/' + config.ScriptPath));
 });
 
@@ -96,10 +102,10 @@ gulp.task('copy-include', function() {
 
 gulp.task('compile-css', ['clean-css'], function() {
   return gulp.src([
-      // always process main.scss first
-      'style/**/main.scss',
-      'style/**/*.scss'
-    ]).pipe(concat.header('\n/* file: <%= file.path %> */\n'))
+    // always process main.scss first
+    'style/**/main.scss',
+    'style/**/*.scss'
+  ]).pipe(concat.header('\n/* file: <%= file.path %> */\n'))
     .pipe(concat('app.scss'))
     .pipe(plumber())
     .pipe(sass())
@@ -110,21 +116,25 @@ gulp.task('compile-html', function() {
   var config = getConfig();
   return gulp.src(['html/**/*.jade', '!html/includes/**/*'])
     .pipe(plumber())
-    .pipe(jade({ locals: config }))
+    .pipe(jade({
+      locals: config
+    }))
     .pipe(gulp.dest('build'));
 });
 
 gulp.task('compile-js', ['test-js'], function() {
   return gulp.src([
-      // always process main.js first
-      'script/modules/**/*.js',
-      'script/main.js',
-      'script/**/*.js'
-    ]).pipe(sourceMaps.init())
+    // always process main.js first
+    'script/modules/**/*.js',
+    'script/main.js',
+    'script/**/*.js'
+  ]).pipe(sourceMaps.init())
     .pipe(plumber())
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
-    .pipe(babel({ presets: ['es2015'] }))
+    .pipe(babel({
+      presets: ['es2015']
+    }))
     .pipe(concat('app.js'))
     .pipe(sourceMaps.write('.'))
     .pipe(gulp.dest('tmp'));

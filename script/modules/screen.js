@@ -1,6 +1,6 @@
 var Screen;
 
-(function(){
+(function() {
   Screen = {
     reposition: reposition,
     select: select
@@ -11,8 +11,7 @@ var Screen;
   function reposition() {
     var width = $(window).width();
     var leftMargin = 0;
-    if (width > 960)
-    {
+    if (width > 960) {
       var containerWidth = $('.screen:visible').width();
       leftMargin = (width - containerWidth) / 2;
     }
@@ -42,7 +41,7 @@ var Screen;
       if (!content.hasClass('scroll-added')) {
         content.addClass('scroll-added');
         content.slimScroll({
-            height: '100%'
+          height: '100%'
         });
       }
     }

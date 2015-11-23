@@ -34,7 +34,9 @@ var Scheduler = (function() {
     if (!isDatabaseBusy) {
       Database.getTableVersion('artists').then(function(versions) {
         if (!versions) {
-          versions = { id: 1 };
+          versions = {
+            id: 1
+          };
           Database.open().tableVersions.put(versions);
         }
         if (versions.artists !== artistTableVersion) {

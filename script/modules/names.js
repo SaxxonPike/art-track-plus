@@ -2,7 +2,7 @@
 
 var Names;
 
-(function(){
+(function() {
   Names = {
     populate: populate
   };

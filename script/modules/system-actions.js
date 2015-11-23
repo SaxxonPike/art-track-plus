@@ -12,7 +12,7 @@ var SystemActions;
 
   function confirmAction(actionName) {
     return prompt('Confirm this action by typing \'' + actionName +
-      '\' into the box below.') === actionName;
+        '\' into the box below.') === actionName;
   }
 
   function resetDatabase() {

@@ -82,7 +82,9 @@ var Database = (function() {
   function incrementTableVersion(tableName) {
     return getTableVersion(tableName).then(function(versions) {
       if (!versions) {
-        versions = { id: 1 };
+        versions = {
+          id: 1
+        };
       }
       if (!versions[tableName]) {
         versions[tableName] = 0;
