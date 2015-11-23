@@ -1,17 +1,4 @@
-var ArtistFilter;
-
-(function() {
-
-  // Interface.
-  ArtistFilter = {
-    sortByName: sortByName,
-    filterStandby: filterStandby,
-    filterLottery: filterLottery,
-    filterSeated: filterSeated,
-    filterLotteryEligible: filterLotteryEligible,
-    filterLotteryGuaranteed: filterLotteryGuaranteed,
-    filterTable: filterTable
-  };
+var ArtistFilter = (function() {
 
   // Field sorters.
   var nameSorter = getValueSorter('name', '');
@@ -25,6 +12,17 @@ var ArtistFilter;
   var roomFilter = getValueFilter('roomNumber');
   var standbyFilter = getValueFilter('standbyOrder');
   var tableFilter = getValueFilter('tableNumber');
+
+  // Interface.
+  return {
+    sortByName: sortByName,
+    filterStandby: filterStandby,
+    filterLottery: filterLottery,
+    filterSeated: filterSeated,
+    filterLotteryEligible: filterLotteryEligible,
+    filterLotteryGuaranteed: filterLotteryGuaranteed,
+    filterTable: filterTable
+  };
 
   // Sort artists by the name field.
   function sortByName(artists) {
@@ -80,27 +78,18 @@ var ArtistFilter;
 
   // Build a value filter for an object field.
   function getValueFilter(valueName, filterValue) {
-    if (typeof filterValue == 'undefined') {
+    if (typeof filterValue === 'undefined') {
       return function(data) {
-        var result = [];
-        for (var i in data) {
-          if (data[i][valueName]) {
-            result.push(data[i]);
-          }
-        }
-        return result;
-      }
+        return $.grep(data, function(v) {
+          return v[valueName] !== null && (typeof v[valueName]) !== 'undefined';
+        });
+      };
     } else {
       return function(data) {
-        var result = [];
-        for (var i in data) {
-          if (data[i][valueName] == filterValue) {
-            result.push(data[i]);
-          }
-        }
-        return result;
-      }
+        return $.grep(data, function(v) {
+          return v[valueName] === filterValue;
+        });
+      };
     }
   }
-
 })();

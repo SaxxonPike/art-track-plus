@@ -1,2 +1,18 @@
 {
+  "browser": true,
+  "curly": true,
+  "devel": true,
+  "eqeqeq": true,
+  "freeze": true,
+  "immed": true,
+  "nonbsp": true,
+  "quotmark": true,
+  "undef": true,
+
+  "predef": [
+    "$",
+    "Dexie",
+    "moment",
+    "JoelPurra"
+  ]
 }

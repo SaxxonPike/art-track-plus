@@ -6,17 +6,20 @@ var Screen;
     select: select
   };
 
+  // Center the screen element horizontally. This isn't the most
+  // elegant solution...
   function reposition() {
     var width = $(window).width();
     var leftMargin = 0;
     if (width > 960)
     {
-      var containerWidth = $(".screen:visible").width();
+      var containerWidth = $('.screen:visible').width();
       leftMargin = (width - containerWidth) / 2;
     }
-    $(".screen").css("marginLeft", leftMargin);
+    $('.screen').css('marginLeft', leftMargin);
   }
 
+  // Select a screen by ID to show.
   function select(screenId) {
     // Hide other screens.
     $('.screen[id!="' + screenId + '"]').hide();

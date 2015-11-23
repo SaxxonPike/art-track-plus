@@ -1,8 +1,10 @@
+/* globals Database, Modal, Names, Scheduler, Screen, SystemActions */
+
 $(function(){
   function InitializeFirstScreen() {
     var screenId = window.location.hash.substring(1);
-    if (!screenId || screenId.length == 0) {
-      screenId = "main";
+    if (!screenId || screenId.length === 0) {
+      screenId = 'main';
     }
     Screen.select(screenId);
   }
@@ -19,7 +21,7 @@ $(function(){
       var linkElement = $(e);
       var modalId = linkElement.attr('data-modal');
       linkElement
-        .attr("href", "#")
+        .attr('href', '#')
         .click(function(ev) {
           Modal[modalId]();
         });
@@ -33,7 +35,7 @@ $(function(){
       var linkElement = $(e);
       var screenId = linkElement.attr('data-screen');
       linkElement
-        .attr("href", "#" + screenId)
+        .attr('href', '#' + screenId)
         .click(function(ev) {
           Screen.select(screenId);
         });

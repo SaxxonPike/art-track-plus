@@ -10,10 +10,10 @@ var Generator;
   // Generate random artist data.
   function getRandomArtist() {
     var artist = {
-      name: "Test " + (random(9000) + 1000),
+      name: 'Test ' + (random(9000) + 1000),
       badgeNumber: random(10000) + 1,
       phone: randomOf([null, randomPhone()]),
-      remarks: randomOf([null, "Etc Whatever"]),
+      remarks: randomOf([null, 'Etc Whatever']),
       lotteryEligible: randomBool(),
     };
 

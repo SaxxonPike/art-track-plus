@@ -1,3 +1,5 @@
+/* globals Artists */
+
 var Modal;
 
 (function(){
@@ -16,17 +18,17 @@ var Modal;
   // Populate the Artist modal with data from the model.
   function mapArtistData(artistData) {
     $('#artist-id').text(artistData.id || 0);
-    $('#artist-name').val(artistData.name || "");
-    $('#artist-badge').val(artistData.badgeNumber || "");
-    $('#artist-table').val(artistData.tableNumber || "");
-    $('#artist-room').val(artistData.roomNumber || "");
-    $('#artist-phone').val(artistData.phone || "");
-    $('#artist-remarks').val(artistData.remarks || "");
+    $('#artist-name').val(artistData.name || '');
+    $('#artist-badge').val(artistData.badgeNumber || '');
+    $('#artist-table').val(artistData.tableNumber || '');
+    $('#artist-room').val(artistData.roomNumber || '');
+    $('#artist-phone').val(artistData.phone || '');
+    $('#artist-remarks').val(artistData.remarks || '');
     $('#artist-lottery-eligible').prop('checked', artistData.lotteryEligible || false);
     $('#artist-lottery-guaranteed').prop('checked', artistData.lotteryGuaranteed || false);
-    $('#artist-seated-last').text(artistData.seatedLast || "");
-    $('#artist-seated-days').text(artistData.seatedDays || "");
-    $('#artist-standby-days').text(artistData.standbyDays || "");
+    $('#artist-seated-last').text(artistData.seatedLast || '');
+    $('#artist-seated-days').text(artistData.seatedDays || '');
+    $('#artist-standby-days').text(artistData.standbyDays || '');
   }
 
   // Show the Artist modal with empty fields.
@@ -34,7 +36,7 @@ var Modal;
     mapArtistData({
       lotteryEligible: true
     });
-    $('#artist-detail-mode').text("New Artist ");
+    $('#artist-detail-mode').text('New Artist ');
     $('.artist-add-only').show();
     $('.artist-edit-only').hide();
     $('#artist-detail').modal();
@@ -48,7 +50,7 @@ var Modal;
   function editArtist(id) {
     Artists.get(id).then(function(artistData) {
       mapArtistData(artistData);
-      $('#artist-detail-mode').text("Edit Artist ");
+      $('#artist-detail-mode').text('Edit Artist ');
       $('.artist-add-only').hide();
       $('.artist-edit-only').show();
       $('#artist-detail').modal();

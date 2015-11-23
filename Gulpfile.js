@@ -8,6 +8,7 @@ var jade = require('gulp-jade');
 var jest = require('gulp-jest-iojs');
 var jshint = require('gulp-jshint');
 var minifyCss = require('gulp-minify-css');
+var moment = require('moment');
 var plumber = require('gulp-plumber');
 var rename = require('gulp-rename');
 var sass = require('gulp-sass');
@@ -18,7 +19,11 @@ var webserver = require('gulp-webserver');
 // reloadable configuration
 
 function getConfig() {
-  return require('./config.json');
+  var config = require('./config.json');
+
+  // dynamically generated config items
+  config.CopyrightYear = moment().year();
+  return config;
 }
 
 // clean tasks
@@ -45,15 +50,15 @@ gulp.task('test-js', ['clean-js'], function() {
   return gulp.src('__tests__')
     .pipe(jshint())
     .pipe(jest({
-      scriptPreprocessor: "test/support/preprocessor.js",
-      testDirectoryName: "test",
+      scriptPreprocessor: 'test/support/preprocessor.js',
+      testDirectoryName: 'test',
       testPathIgnorePatterns: [
-        "node_modules",
-        "test/support"
+        'node_modules',
+        'test/support'
       ],
       moduleFileExtensions: [
-        "js",
-        "json"
+        'js',
+        'json'
       ]
   }));
 });
@@ -118,7 +123,8 @@ gulp.task('compile-js', ['test-js'], function() {
     ]).pipe(sourceMaps.init())
     .pipe(plumber())
     .pipe(jshint())
-    .pipe(babel())
+    .pipe(jshint.reporter('default'))
+    .pipe(babel({ presets: ['es2015'] }))
     .pipe(concat('app.js'))
     .pipe(sourceMaps.write('.'))
     .pipe(gulp.dest('tmp'));

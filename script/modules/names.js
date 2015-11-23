@@ -1,6 +1,6 @@
-var Names;
+/* globals Artists, ArtistFilter, Modal */
 
-// NOTE: nameData consists of {name, id}
+var Names;
 
 (function(){
   Names = {
@@ -29,12 +29,10 @@ var Names;
   function buildNames(container, nameData, disableClick, withSymbols) {
     container.empty();
 
-    for (var i in nameData) {
-
-      var artist = nameData[i];
+    $.each(nameData, function(index, artist) {
       var nameElement = $('<a/>')
         .addClass('line')
-        .text(artist.name + " ");
+        .text(artist.name + ' ');
 
       if (withSymbols) {
         var standbyFlag = !artist.seatedLast &&
@@ -62,16 +60,16 @@ var Names;
       if (!disableClick) {
         nameElement
           .attr('href', '#')
-          .click(createNameDetailClickHandler(nameData[i].id));
+          .click(createNameDetailClickHandler(artist.id));
       }
-    }
+    });
   }
 
   // Create a click handler for opening name detail modals.
   function createNameDetailClickHandler(id) {
-    return (function() {
+    return function() {
       openNameDetail(id);
-    });
+    };
   }
 
   // Show name detail modal.

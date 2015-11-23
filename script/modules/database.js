@@ -1,48 +1,22 @@
-var Database;
-
-(function() {
+var Database = (function() {
   var db;
 
   // Set true to report via alert() instead of console.error()
   var obviousErrorMode = false;
 
   // Interface.
-  Database = {
+  return {
     delete: deleteDatabase,
     getTableVersion: getTableVersion,
     incrementTableVersion: incrementTableVersion,
-    open: openDatabase,
+    open: initialize,
     transaction: performTransaction
   };
 
-  // Get stack trace.
-  function getStackTrace() {
-    var err = new Error();
-    return err.stack;
-  }
-
-  // Error handler for Dexie.
-  function handleError(error) {
-    var errorMessage = "Dexie has encountered an error: " + error + "\n\n" + getStackTrace();
-    if (obviousErrorMode) {
-      alert(errorMessage);
-    } else {
-      console.error(errorMessage);
-    }
-  }
-
-  // Delete database.
-  function deleteDatabase() {
-    var database = openDatabase();
-    db = null;
-    return database.delete();
-  }
-
   // (Lazily) initialize Dexie.
-  function openDatabase() {
+  function initialize() {
     if (!db) {
-      console.log("Init DB.");
-      var dexie = new Dexie("ArtTrackNeo1");
+      var dexie = new Dexie('ArtTrackPlus2');
       dexie.version(1)
         .stores({
           artists: [
@@ -67,8 +41,7 @@ var Database;
           ].join()
         });
       dexie.open().catch(handleError);
-      Dexie.Promise.on("error", handleError);
-      console.log("Init DB finished.");
+      Dexie.Promise.on('error', handleError);
 
       db = dexie;
     }
@@ -76,14 +49,33 @@ var Database;
     return db;
   }
 
+  // Get stack trace.
+  function getStackTrace() {
+    var err = new Error();
+    return err.stack;
+  }
+
+  // Error handler for Dexie.
+  function handleError(error) {
+    var errorMessage = 'Dexie has encountered an error: ' + error + '\n\n' + getStackTrace();
+    console.error(errorMessage);
+  }
+
+  // Delete database.
+  function deleteDatabase() {
+    var database = initialize();
+    db = null;
+    return database.delete();
+  }
+
   // Perform a database transaction.
   function performTransaction(callback) {
-    return openDatabase().transaction('rw', ['artists', 'tableVersions'], callback);
+    return initialize().transaction('rw', ['artists', 'tableVersions'], callback);
   }
 
   // Get current table version.
   function getTableVersion(tableName) {
-    return openDatabase().tableVersions.get(1);
+    return initialize().tableVersions.get(1);
   }
 
   // Increment table version.
@@ -96,7 +88,7 @@ var Database;
         versions[tableName] = 0;
       }
       versions[tableName]++;
-      return openDatabase().tableVersions.put(versions);
+      return initialize().tableVersions.put(versions);
     });
   }
 })();

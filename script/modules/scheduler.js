@@ -1,22 +1,27 @@
-var Scheduler;
+/* globals Database */
 
-(function() {
-
-  // Interface.
-  Scheduler = {
-    onArtistChange: onArtistChange,
-  };
+var Scheduler = (function() {
 
   // Handlers for when artist data changes.
   var artistChangeEvents = [];
   var artistTableVersion = -1;
   var isDatabaseBusy = false;
 
+  // Initialize the timer event on load.
+  $(function() {
+    window.setInterval(onTick, 500);
+  });
+
+  // Interface.
+  return {
+    onArtistChange: onArtistChange,
+  };
+
   // Call all functions in an array.
   function invokeAll(events) {
-    for (var i in events) {
-      events[i]();
-    }
+    $.each(events, function(i, e) {
+      e();
+    });
   }
 
   // Schedule an event to run every time artist data changes.
@@ -26,15 +31,14 @@ var Scheduler;
 
   // Main timer event.
   function onTick() {
-    console.log("Refreshed.");
     if (!isDatabaseBusy) {
       Database.getTableVersion('artists').then(function(versions) {
         if (!versions) {
           versions = { id: 1 };
           Database.open().tableVersions.put(versions);
         }
-        if (versions.artists != artistTableVersion) {
-          console.log("Update requested. New version " + versions.artists);
+        if (versions.artists !== artistTableVersion) {
+          console.log('Update requested. New version ' + versions.artists);
           artistTableVersion = versions.artists;
           invokeAll(artistChangeEvents);
         }
@@ -43,7 +47,4 @@ var Scheduler;
       isDatabaseBusy = true;
     }
   }
-
-  // Initialize the timer event on load.
-  window.setInterval(onTick, 500);
 })();

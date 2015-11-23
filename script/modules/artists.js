@@ -1,8 +1,8 @@
-var Artists;
+/* globals Database */
 
-(function() {
+var Artists = (function() {
   // Interface.
-  Artists = {
+  return {
     addLottery: addLottery,
     clear: clearArtists,
     delete: deleteArtistById,
@@ -41,14 +41,14 @@ var Artists;
 
   // Get today's day string.
   function getTodayString() {
-    return moment().format("dddd");
+    return moment().format('dddd');
   }
 
   // Get an artist by ID from a collection.
   function getArtistFromArray(artists, id) {
     for (var i in artists) {
       var artist = artists[i];
-      if (artist.id == id) {
+      if (artist.id === id) {
         return artist;
       }
     }
@@ -65,7 +65,7 @@ var Artists;
         seatedLast: getTodayString(),
         standbyOrder: null
       });
-    })
+    });
   }
 
   // Add an artist to the end of the standby list.
@@ -90,7 +90,6 @@ var Artists;
       lotteryOrder: null,
       standbyOrder: null,
       lotteryEligible: eligible,
-      tableNumber: null,
       roomNumber: null
    });
   }
@@ -132,7 +131,7 @@ var Artists;
 
   // Set an artist's data. If the ID doesn't exist, a new record is made.
   function setArtist(artistData) {
-    var isNew = artistData.id === 0 || artistData.id === null || (typeof artistData.id == "undefined");
+    var isNew = artistData.id === 0 || artistData.id === null || (typeof artistData.id === 'undefined');
     var data = $.extend({}, artistData);
     delete data.id;
     Database.incrementTableVersion('artists');
