@@ -10,16 +10,16 @@ var Names;
   // Populate columns in all places in the app that contain artist lists.
   function populate() {
     Artists.getAll().then(function(artistData) {
-      var standbyList = Artists.filterStandby(artistData);
-      var seatedList = Artists.filterSeated(artistData);
-      var lotteryList = Artists.filterLottery(artistData);
-      
-      buildNames($('.artist-names'), Artists.sortByName(artistData), false, true);
-      buildNames($('.lottery-names'), Artists.filterLottery(artistData));
+      var standbyList = ArtistFilter.filterStandby(artistData);
+      var seatedList = ArtistFilter.filterSeated(artistData);
+      var lotteryList = ArtistFilter.filterLottery(artistData);
+
+      buildNames($('.artist-names'), ArtistFilter.sortByName(artistData), false, true);
+      buildNames($('.lottery-names'), ArtistFilter.filterLottery(artistData));
       buildNames($('.standby-names'), standbyList);
       buildNames($('.seated-names'), seatedList);
 
-      buildNames($('.lottery-sorted-names'), Artists.sortByName(lotteryList), true);
+      buildNames($('.lottery-sorted-names'), ArtistFilter.sortByName(lotteryList), true);
       buildNames($('.standby-sorted-names'), standbyList, true);
       buildNames($('.seated-sorted-names'), seatedList, true);
     });
@@ -37,6 +37,9 @@ var Names;
         .text(artist.name + " ");
 
       if (withSymbols) {
+        var standbyFlag = !artist.seatedLast &&
+          (artist.standbyDays && artist.standbyDays.length >= 2);
+
         if (artist.lotteryOrder > 0) {
           nameElement.append($('<i class="fa fa-check"/>'));
         }
@@ -47,6 +50,10 @@ var Names;
 
         if (artist.tableNumber) {
           nameElement.append($('<i class="fa fa-sign-in"/>'));
+        }
+
+        if (standbyFlag) {
+          nameElement.append($('<i class="fa fa-exclamation attention"/>'));
         }
       }
 

@@ -24,6 +24,12 @@ var Screen;
     var desiredScreen = $('.screen#' + screenId);
     if (desiredScreen.length > 0) {
 
+      // Hide the nav if the screen calls for it.
+      if (desiredScreen.hasClass('hide-nav')) {
+        $('nav').remove();
+        $('.screen').css('padding-top', 0);
+      }
+
       // Show the desired screen.
       desiredScreen.show();
       Screen.reposition();

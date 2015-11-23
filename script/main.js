@@ -59,5 +59,9 @@ $(function(){
   InitializeResizeHandler();
   InitializeSystemActions();
 
-  Names.populate();
+  // Hook events.
+  Scheduler.onArtistChange(Names.populate);
+
+  // Preconnect database.
+  Database.open();
 });

@@ -21,7 +21,7 @@ body {
   display: block;
 }
 
-#main {
+#main, #second {
   div[class^="col-"], div[class*=" col-"] {
     &:nth-child(n+2) {
       border-left: 1px #111 solid;
@@ -72,24 +72,33 @@ body {
   }
 
   .content {
+
     .artists {
-      color: #aaa;
-      background: #282828;
+      &, a {
+        color: #aaa;
+        background: #282828;
+      }
     }
 
     .lottery {
-      color: #88f;
-      background: #181840;
+      &, a {
+        color: #88f;
+        background: #181840;
+      }
     }
 
     .standby {
-      color: #f88;
-      background: #401818;
+      &, a {
+        color: #f88;
+        background: #401818;
+      }
     }
 
     .seated {
-      color: #8f8;
-      background: #184018;
+      &, a {
+        color: #8f8;
+        background: #184018;
+      }
     }
 
     a {
@@ -101,5 +110,19 @@ body {
       }
     }
   }
+}
 
+.attention {
+  color: yellow;
+}
+
+#second {
+  .seated.header {
+    width: 50%;
+  }
+  .seated.full-height {
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+    column-count: 3;
+  }
 }

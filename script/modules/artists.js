@@ -1,29 +1,29 @@
 var Artists;
 
-// This requires Database to be loaded.
-
 (function() {
   // Interface.
   Artists = {
+    addLottery: addLottery,
     clear: clearArtists,
     delete: deleteArtistById,
     get: getArtistById,
     getAll: getAllArtists,
     set: setArtist,
-
-    sortByName: sortByName,
-    filterStandby: filterStandby,
-    filterLottery: filterLottery,
-    filterSeated: filterSeated,
-    filterLotteryEligible: filterLotteryEligible,
-    filterLotteryGuaranteed: filterLotteryGuaranteed,
-    filterTable: filterTable,
-
     setSeated: setSeated,
     setStandby: setStandby,
     setSignedOut: setSignedOut
   };
 
+  // Return a copy of the array with the element added, without duplications.
+  function addArrayEntry(arrayData, elementToAdd) {
+    if (Array.isArray(arrayData)) {
+      var result = $.merge([], arrayData);
+      return $.merge(result, [elementToAdd]);
+    }
+    return [elementToAdd];
+  }
+
+  // Get the maximum value for a field name.
   function getMaxFieldValue(artists, fieldName) {
     var maxValue = 0;
     for (var i in artists) {
@@ -31,14 +31,44 @@ var Artists;
         maxValue = artists[i][fieldName];
       }
     }
-    alert(fieldName + ":" + maxValue);
     return maxValue;
   }
 
-  function setSeated(id, tableNumber) {
-    return setArtist({ id: id, tableNumber: tableNumber });
+  // Get a copy of the array with today's day string added.
+  function appendToday(arr) {
+    return addArrayEntry(arr, getTodayString());
   }
 
+  // Get today's day string.
+  function getTodayString() {
+    return moment().format("dddd");
+  }
+
+  // Get an artist by ID from a collection.
+  function getArtistFromArray(artists, id) {
+    for (var i in artists) {
+      var artist = artists[i];
+      if (artist.id == id) {
+        return artist;
+      }
+    }
+    return { id: id };
+  }
+
+  // Set an artist's status to seated, with the specified table number.
+  function setSeated(id, tableNumber) {
+    return getArtistById(id).then(function(artist) {
+      return setArtist({
+        id: id,
+        tableNumber: tableNumber,
+        seatedDays: appendToday(artist.seatedDays),
+        seatedLast: getTodayString(),
+        standbyOrder: null
+      });
+    })
+  }
+
+  // Add an artist to the end of the standby list.
   function setStandby(id) {
     return getAllArtists().then(function(artists) {
       return setArtist({
@@ -46,11 +76,13 @@ var Artists;
         standbyOrder: getMaxFieldValue(artists, 'standbyOrder') + 1,
         lotteryOrder: null,
         tableNumber: null,
-        roomNumber: null
+        roomNumber: null,
+        standbyDays: appendToday(getArtistFromArray(artists, id).standbyDays)
       });
     });
   }
 
+  // Set an artist to signed out.
   function setSignedOut(id, eligible) {
     return setArtist({
       id: id,
@@ -63,6 +95,7 @@ var Artists;
    });
   }
 
+  // Add an artist to the end of the lottery list.
   function addLottery(id) {
     return getAllArtists().then(function(artists) {
       return setArtist({
@@ -75,55 +108,16 @@ var Artists;
     });
   }
 
-  // Field sorters.
-  var nameSorter = getValueSorter('name', '');
-  var lotterySorter = getValueSorter('lotteryOrder', 0);
-  var standbySorter = getValueSorter('standbyOrder', 0);
-
-  // Field filters.
-  var lotteryFilter = getValueFilter('lotteryOrder');
-  var lotteryEligibleFilter = getValueFilter('lotteryEligible');
-  var lotteryGuaranteedFilter = getValueFilter('lotteryGuaranteed');
-  var roomFilter = getValueFilter('roomNumber');
-  var standbyFilter = getValueFilter('standbyOrder');
-  var tableFilter = getValueFilter('tableNumber');
-
-  function sortByName(artists) {
-    return nameSorter(artists);
-  }
-
-  function filterStandby(artists) {
-    return standbySorter(standbyFilter(artists));
-  }
-
-  function filterLottery(artists) {
-    return lotterySorter(lotteryFilter(artists));
-  }
-
-  function filterSeated(artists) {
-    return nameSorter(tableFilter(artists));
-  }
-
-  function filterLotteryEligible(artists) {
-    return lotteryEligibleFilter(artists);
-  }
-
-  function filterLotteryGuaranteed(artists) {
-    return lotteryGuaranteedFilter(artists);
-  }
-
-  function filterTable(artists, tableNumber) {
-    return getValueFilter('tableNumber', tableNumber)(artists);
-  }
-
   // Clear all artists from the database.
   function clearArtists() {
-    return Database.open().artists.clear();
+    return Database.open().artists.clear()
+      .then(incrementTableVersion);
   }
 
   // Delete an artist from the database by ID.
   function deleteArtistById(id) {
-    return Database.open().artists.delete(id);
+    return Database.open().artists.delete(id)
+      .then(incrementTableVersion);
   }
 
   // Get all artists.
@@ -141,6 +135,7 @@ var Artists;
     var isNew = artistData.id === 0 || artistData.id === null || (typeof artistData.id == "undefined");
     var data = $.extend({}, artistData);
     delete data.id;
+    Database.incrementTableVersion('artists');
     if (isNew) {
       return Database.open().artists.put(data);
     } else {
@@ -148,45 +143,7 @@ var Artists;
     }
   }
 
-  // Build a value sorter for an object field.
-  function getValueSorter(valueName, defaultForMissing) {
-    return function(collection) {
-      return collection.sort(function(a, b) {
-        var valueA = a[valueName] || defaultForMissing;
-        var valueB = b[valueName] || defaultForMissing;
-        if (valueA < valueB) {
-          return -1;
-        }
-        if (valueA > valueB) {
-          return 1;
-        }
-        return 0;
-      });
-    };
-  }
-
-  // Build a value filter for an object field.
-  function getValueFilter(valueName, filterValue) {
-    if (typeof filterValue == 'undefined') {
-      return function(data) {
-        var result = [];
-        for (var i in data) {
-          if (data[i][valueName]) {
-            result.push(data[i]);
-          }
-        }
-        return result;
-      }
-    } else {
-      return function(data) {
-        var result = [];
-        for (var i in data) {
-          if (data[i][valueName] == filterValue) {
-            result.push(data[i]);
-          }
-        }
-        return result;
-      }
-    }
+  function incrementTableVersion() {
+    return Database.incrementTableVersion('artists');
   }
 })();

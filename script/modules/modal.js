@@ -98,28 +98,23 @@ $(function() {
       artistData.lotteryOrder = 0;
       artistData.standbyOrder = 0;
     }
-    Artists.set(artistData).then(function() {
-      Names.populate();
-    });
+    Artists.set(artistData);
   });
 
   $('[data-standby=artist]').click(function() {
-    Artists.setStandby(getArtistFormId())
-      .then(Names.populate);
+    Artists.setStandby(getArtistFormId());
   });
 
   $('[data-signin=artist]').click(function() {
     var seat = prompt('Enter the table number to sign this artist in.');
     if (seat) {
-      Artists.setSeated(getArtistFormId(), seat)
-        .then(Names.populate);
+      Artists.setSeated(getArtistFormId(), seat);
     }
   });
 
   $('[data-signout=artist]').click(function() {
     var eligible = confirm('The artist will be entered for the next lottery.\nClick OK to confirm.\nClick CANCEL if you don\'t want this to happen.');
-    Artists.setSignedOut(getArtistFormId(), eligible)
-      .then(Names.populate);
+    Artists.setSignedOut(getArtistFormId(), eligible);
   });
 
 });
