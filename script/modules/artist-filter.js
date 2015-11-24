@@ -7,8 +7,8 @@ var ArtistFilter = (function() {
 
   // Field filters.
   var lotteryFilter = getValueFilter('lotteryOrder');
-  var lotteryEligibleFilter = getValueFilter('lotteryEligible');
-  var lotteryGuaranteedFilter = getValueFilter('lotteryGuaranteed');
+  var lotteryEligibleFilter = getValueFilter('lotteryEligible', true);
+  var lotteryGuaranteedFilter = getValueFilter('lotteryGuaranteed', true);
   var roomFilter = getValueFilter('roomNumber');
   var standbyFilter = getValueFilter('standbyOrder');
   var tableFilter = getValueFilter('tableNumber');
@@ -80,12 +80,14 @@ var ArtistFilter = (function() {
   function getValueFilter(valueName, filterValue) {
     if (typeof filterValue === 'undefined') {
       return function(data) {
+        console.log('Filter only ' + valueName);
         return $.grep(data, function(v) {
-          return v[valueName] !== null && (typeof v[valueName]) !== 'undefined';
+          return !!v[valueName];
         });
       };
     } else {
       return function(data) {
+        console.log('Filter exact ' + valueName);
         return $.grep(data, function(v) {
           return v[valueName] === filterValue;
         });

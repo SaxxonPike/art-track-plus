@@ -17,10 +17,6 @@ var Generator;
       lotteryEligible: randomBool(),
     };
 
-    if (artist.lotteryEligible) {
-      artist.lotteryGuaranteed = randomBool();
-    }
-
     return artist;
   }
 

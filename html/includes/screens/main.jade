@@ -2,16 +2,24 @@
   .header-container
     .header.artists
       .fa.fa-user
-      | All Artists
+      | All Artists (
+      span.count-artists
+      | )
     .header.lottery
       .fa.fa-check
-      | Lottery
+      | Lottery (
+      span.count-lottery
+      | )
     .header.standby
       .fa.fa-clock-o
-      | Standby
+      | Standby (
+      span.count-standby
+      | )
     .header.seated
       .fa.fa-sign-in
-      | Seated
+      | Seated (
+      span.count-seated
+      | )
   div(style='height:calc(100% - 30px)')
     .col-xs-3
       .content

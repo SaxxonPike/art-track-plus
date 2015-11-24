@@ -59,7 +59,8 @@ var Artists = (function() {
         tableNumber: tableNumber,
         seatedDays: appendToday(artist.seatedDays),
         seatedLast: getTodayString(),
-        standbyOrder: null
+        standbyOrder: null,
+        lotteryOrder: null
       });
     });
   }
