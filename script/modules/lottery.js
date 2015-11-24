@@ -4,8 +4,29 @@ var Lottery = (function() {
 
   // Interface.
   return {
+    reset: resetSeating,
     run: runLottery
   };
+
+  // Clear existing artist lottery/seated data.
+  function resetSeating(artists) {
+    $.each(artists, function(i, a) {
+      a.lotteryOrder = null;
+      a.standbyOrder = null;
+      a.tableNumber = null;
+    });
+  }
+
+  // Shuffle artists.
+  function shuffleArtists(artists) {
+    var count = artists.length;
+    $.each(artists, function(i, a) {
+      var randomIndex = Math.floor(Math.random() * count);
+      var temp = artists[i];
+      artists[i] = artists[randomIndex];
+      artists[randomIndex] = temp;
+    });
+  }
 
   // Run the lottery for the specified number of slots available.
   function runLottery(slotsAvailable) {
@@ -22,55 +43,39 @@ var Lottery = (function() {
       // Initialization.
       var eligibleArtists = ArtistFilter
         .filterLotteryEligible(allArtists);
-      var guaranteedArtists = ArtistFilter
-        .filterLotteryGuaranteed(eligibleArtists);
-      var eligibleCount = eligibleArtists.length;
-      var lotteryNumber = 1;
-      var standbyNumber = 1;
 
-      // Clear existing artist lottery/seated data.
-      $.each(allArtists, function(i, a) {
-        a.lotteryOrder = null;
-        a.standbyOrder = null;
-        a.tableNumber = null;
-      });
+      resetSeating(allArtists);
+      shuffleArtists(eligibleArtists);
 
       // Populate the guaranteed artists first.
-      $.each(guaranteedArtists, function(i, a) {
-        if (slotsAvailable > 0) {
+      var lotteryNumber = 1;
+      $.each(eligibleArtists, function(i, a) {
+        if (slotsAvailable <= 0) {
+          return false;
+        }
+        if (!!a.lotteryGuaranteed) {
           a.lotteryOrder = lotteryNumber++;
           slotsAvailable--;
-          eligibleCount--;
         }
       });
 
-      // Use randomization to pick the remaining lottery slots.
-      var slots = [];
-      var i;
-      for (i = 0; i < eligibleCount; i++) {
-        slots.push(i);
-      }
-
-      // Swap the entire array randomly. It's a good enough shuffle.
-      for (i = 0; i < eligibleCount; i++) {
-        var randomIndex = Math.floor(Math.random() * eligibleCount);
-        var temp = eligibleArtists[i];
-        eligibleArtists[i] = eligibleArtists[randomIndex];
-        eligibleArtists[randomIndex] = temp;
-      }
-
-      // Draw the winners off the top.
-      i = 0;
-      while (eligibleCount > 0) {
-        if (slotsAvailable > 0) {
-          eligibleArtists[i].lotteryOrder = lotteryNumber++;
-        } else {
-          eligibleArtists[i].standbyOrder = standbyNumber++;
+      // Fill up the remaining slots. If no further slots are
+      // avaialble, assign standby order.
+      var standbyNumber = 1;
+      $.each(eligibleArtists, function(i, a) {
+        if (!a.lotteryOrder) {
+          if (slotsAvailable > 0) {
+            console.log("Picked for lottery: " + a.id);
+            a.lotteryOrder = lotteryNumber++;
+            slotsAvailable--;
+          } else {
+            console.log("Picked for standby: " + a.id);
+            a.standbyOrder = standbyNumber++;
+          }
         }
-        i++;
-        slotsAvailable--;
-        eligibleCount--;
-      }
+      });
+
+      console.log(eligibleArtists);
 
       // Apply the changes.
       return Database.transaction(function() {

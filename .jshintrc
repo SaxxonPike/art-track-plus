@@ -11,6 +11,7 @@
 
   "predef": [
     "$",
+    "_",
     "Dexie",
     "moment",
     "JoelPurra"

@@ -37,6 +37,7 @@
     "gulp-webserver": "^0.9.1",
     "jquery": "^2.1.4",
     "jshint": "^2.8.0",
-    "moment": "^2.10.6"
+    "moment": "^2.10.6",
+    "underscore": "^1.8.3"
   }
 }

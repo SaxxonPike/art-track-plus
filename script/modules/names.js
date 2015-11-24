@@ -7,21 +7,64 @@ var Names;
     populate: populate
   };
 
+  // Filter and sort an artist list.
+  function filterAndSortArtists(artists, filterField, sortField) {
+    return sortArtists(
+      _.filter(artists, function(a) {
+        return !!a[filterField];
+      }), sortField || filterField);
+  }
+
+  // Sort an artist list.
+  function sortArtists(artists, sortField) {
+    return _.sortBy(artists, function(a) {
+      return a[sortField];
+    });
+  }
+
+  // Create an icon to go on the name list.
+  function buildIcon(iconName) {
+    return $('<i/>')
+      .addClass('fa fa-' + iconName);
+  }
+
+  // Create a span element with the specified class.
+  function buildSpan(className) {
+    return $('<span/>')
+      .addClass(className);
+  }
+
   // Populate columns in all places in the app that contain artist lists.
   function populate() {
     Artists.getAll().then(function(artistData) {
-      var standbyList = ArtistFilter.filterStandby(artistData);
-      var seatedList = ArtistFilter.filterSeated(artistData);
-      var lotteryList = ArtistFilter.filterLottery(artistData);
+      var allListByName = sortArtists(artistData, 'name');
+      var standbyList = filterAndSortArtists(artistData, 'standbyOrder');
+      var seatedList = filterAndSortArtists(artistData, 'tableNumber');
+      var lotteryList = filterAndSortArtists(artistData, 'lotteryOrder');
+      var lotteryListByName = sortArtists(lotteryList, 'lotteryOrder');
 
-      buildNames($('.artist-names'), ArtistFilter.sortByName(artistData), false, true);
-      buildNames($('.lottery-names'), lotteryList, false, false, true);
-      buildNames($('.standby-names'), standbyList, false, false, true);
+      buildNames($('.artist-names'), allListByName, {
+        withSymbols: true
+      });
+      buildNames($('.lottery-names'), lotteryList, {
+        withOrder: true
+      });
+      buildNames($('.standby-names'), standbyList, {
+        withOrder: true
+      });
       buildNames($('.seated-names'), seatedList);
 
-      buildNames($('.lottery-sorted-names'), ArtistFilter.sortByName(lotteryList), true);
-      buildNames($('.standby-sorted-names'), standbyList, true);
-      buildNames($('.seated-sorted-names'), seatedList, true);
+      buildNames($('.lottery-sorted-names'), lotteryListByName, {
+        disableClick: true
+      });
+      buildNames($('.standby-sorted-names'), standbyList, {
+        disableClick: true
+      });
+      buildNames($('.seated-sorted-names'), seatedList, {
+        disableClick: true
+      });
+
+      buildNameOptions($('#raw-artist-list'), allListByName);
 
       $('.count-artists').text(artistData.length);
       $('.count-lottery').text(lotteryList.length);
@@ -30,8 +73,30 @@ var Names;
     });
   }
 
+  // Build a name list for a Select element.
+  function buildNameOptions(container, nameData) {
+    var tempContainer = $('<div/>');
+    tempContainer.append($('<option/>')
+      .text('(select one...)'));
+
+    $.each(nameData, function(index, artist) {
+      tempContainer.append($('<option/>')
+        .attr('value', artist.id)
+        .text(artist.name)
+      );
+    });
+
+    container.html(tempContainer.html());
+  }
+
   // Build a name list for use in the DOM.
-  function buildNames(container, nameData, disableClick, withSymbols, withOrder) {
+  function buildNames(container, nameData, options) {
+    options = $.extend({
+      disableClick: false,
+      withSymbols: false,
+      withOrder: false
+    }, options || {});
+
     container.empty();
 
     $.each(nameData, function(index, artist) {
@@ -39,37 +104,37 @@ var Names;
         .addClass('line')
         .text(artist.name + ' ');
 
-      if (withOrder) {
-        nameElement.prepend($('<span class="artist-order"/>')
+      if (options.withOrder) {
+        nameElement.prepend(buildSpan('artist-order')
           .text((index + 1).toString() + '.'));
       }
 
       if (artist.tableNumber) {
-        var tableElement = $('<span class="artist-seat"/>');
+        var tableElement = buildSpan('artist-seat');
         tableElement.text('#' + artist.tableNumber);
         nameElement.append(tableElement);
       }
 
-      if (withSymbols) {
-        var symbolElement = $('<span class="artist-symbols"/>');
+      if (options.withSymbols) {
+        var symbolElement = buildSpan('artist-symbols');
 
         var standbyFlag = !artist.seatedLast &&
           (artist.standbyDays && artist.standbyDays.length >= 2);
 
         if (artist.lotteryOrder > 0) {
-          symbolElement.append($('<i class="fa fa-check faded"/>'));
+          symbolElement.append(buildIcon('check faded'));
         }
 
         if (artist.standbyOrder > 0) {
-          symbolElement.append($('<i class="fa fa-clock-o faded"/>'));
+          symbolElement.append(buildIcon('clock-o faded'));
         }
 
         if (artist.tableNumber) {
-          symbolElement.append($('<i class="fa fa-sign-in faded"/>'));
+          symbolElement.append(buildIcon('sign-in faded'));
         }
 
         if (standbyFlag) {
-          symbolElement.append($('<i class="fa fa-exclamation attention"/>'));
+          symbolElement.append(buildIcon('exclamation attention'));
         }
 
         if (symbolElement.html().length > 0) {
@@ -79,7 +144,7 @@ var Names;
 
       container.append(nameElement);
 
-      if (!disableClick) {
+      if (!options.disableClick) {
         nameElement
           .attr('href', '#')
           .click(createNameDetailClickHandler(artist.id));

@@ -14,12 +14,15 @@
             .form-group
               label.col-xs-2(for='raw-artist-list') Artists
               .col-xs-10
-                select#raw-artist-list.form-control
+                select.form-control(data-select-raw='artist')
+            .form-group
+              .col-xs-12
+                textarea.form-control(data-edit-raw='artist' rows='3')
         .modal-footer
           .row
-            .col-xs-8
-              button.btn.btn-warning.btn-block#save-artist-raw(type='button')
-                span.fa.fa-floppy-o
-                |  Save
             .col-xs-4
               button.btn.btn-default.btn-block(type='button', data-dismiss='modal') Close
+            .col-xs-8
+              button.btn.btn-warning.btn-block(type='button', data-system-action='saveArtistRaw')
+                span.fa.fa-floppy-o
+                |  Save

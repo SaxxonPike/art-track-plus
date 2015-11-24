@@ -78,7 +78,7 @@ var Modal;
   }
 })();
 
-// Initialize modal save actions.
+// Initialize modal actions.
 $(function() {
 
   function getArtistFormId() {
@@ -119,4 +119,7 @@ $(function() {
     Artists.setSignedOut(getArtistFormId(), eligible);
   });
 
+  $('[data-select-raw=artist]').change(function() {
+    // TODO.
+  });
 });

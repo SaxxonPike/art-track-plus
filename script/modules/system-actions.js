@@ -9,6 +9,7 @@ var SystemActions;
     batchSignOut: batchSignOut,
     resetDatabase: resetDatabase,
     runLottery: runLottery,
+    saveArtistRaw: saveArtistRaw,
     seedDatabase: seedDatabase
   };
 
@@ -52,6 +53,11 @@ var SystemActions;
         Lottery.run(slotsAvailable);
       }
     }
+  }
+
+  // Save raw artist data.
+  function saveArtistRaw() {
+
   }
 
   // Fill the database with mock data.

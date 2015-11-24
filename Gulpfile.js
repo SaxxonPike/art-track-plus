@@ -3,6 +3,7 @@
 // imports
 
 var gulp = require('gulp');
+
 var babel = require('gulp-babel');
 var concat = require('gulp-concat-util');
 var del = require('del');
@@ -83,9 +84,10 @@ gulp.task('copy-scripts', function() {
   var config = getConfig();
   return gulp.src([
     'node_modules/bootstrap-sass/assets/javascripts/bootstrap.min.js',
-    'node_modules/jquery/dist/jquery.min.*',
-    'node_modules/dexie/dist/latest/Dexie.min.*',
-    'node_modules/moment/min/moment.min.*'
+    'node_modules/jquery/dist/jquery.min.js',
+    'node_modules/dexie/dist/latest/Dexie.min.js',
+    'node_modules/moment/min/moment.min.js',
+    'node_modules/underscore/underscore-min.js'
   ])
     .pipe(rename({
       dirname: ''
