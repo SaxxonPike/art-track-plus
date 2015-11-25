@@ -87,7 +87,8 @@ gulp.task('copy-scripts', function() {
     'node_modules/jquery/dist/jquery.min.js',
     'node_modules/dexie/dist/latest/Dexie.min.js',
     'node_modules/moment/min/moment.min.js',
-    'node_modules/underscore/underscore-min.js'
+    'node_modules/es5-shim/es5-shim.min.js',
+    'node_modules/es6-shim/es6-shim.min.js'
   ])
     .pipe(rename({
       dirname: ''
@@ -104,7 +105,7 @@ gulp.task('copy-include', function() {
 
 gulp.task('compile-css', ['clean-css'], function() {
   return gulp.src([
-    // always process main.scss first
+    // order is important here
     'style/**/main.scss',
     'style/**/*.scss'
   ]).pipe(concat.header('\n/* file: <%= file.path %> */\n'))
@@ -126,7 +127,7 @@ gulp.task('compile-html', function() {
 
 gulp.task('compile-js', ['test-js'], function() {
   return gulp.src([
-    // always process main.js first
+    // order is important here
     'script/modules/**/*.js',
     'script/main.js',
     'script/**/*.js'

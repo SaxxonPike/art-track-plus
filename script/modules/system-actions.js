@@ -18,68 +18,80 @@ var SystemActions;
   };
 
   // Make the user type in a word. Returns true if they actually did it.
-  function confirmAction(actionName) {
-    return prompt('Confirm this action by typing \'' + actionName +
-        '\' into the box below.') === actionName;
+  function confirmAction(actionName, caption, callback) {
+    return Modal.prompt(
+      'Confirm this action by typing \'' + actionName + '\' into the box below.',
+      caption || 'Confirmation',
+      function(value) {
+        if (value === actionName) {
+          callback();
+        }
+      });
   }
 
   // Sign out all artists. Mark those who have not signed out ineligible.
   // Artists still on standby are marked eligible for lottery.
   function batchSignOut() {
-    if (confirmAction('close')) {
-      Artists.getAll().then(function(artists) {
-        Database.transaction(function() {
-          $.each(artists, function(i, a) {
-            if (!!a.tableNumber) {
-              Artists.setSignedOut(a.id, false);
-            } else if (!!a.standbyOrder || !!a.lotteryOrder) {
-              Artists.setSignedOut(a.id, true);
-            }
+    confirmAction(
+      'close',
+      'Close Out Day',
+      function() {
+        return Artists.getAll().then(function(artists) {
+          return Database.transaction(function() {
+            var promise;
+            artists.forEach(function(a) {
+              if (!!a.tableNumber) {
+                promise = Artists.setSignedOut(a.id, false);
+              } else if (!!a.standbyOrder || !!a.lotteryOrder) {
+                promise = Artists.setSignedOut(a.id, true);
+              }
+            });
+            return promise;
           });
         });
       });
-    }
   }
 
   // Export everything as a CSV file.
   function exportCsv() {
-    Artists.getAll().then(function(users) {
-      var undef;
+    return Artists.getAll().then(function(users) {
       var schema = Database.getSchema('artists').instanceTemplate;
       var csv = '';
 
       // build CSV columns
       var csvColumns = [];
-      for (var k in schema) {
+      schema.forEach(function(k) {
         if (k !== 'id') {
           csvColumns.push(k);
         }
-      }
+      });
       csv += csvColumns.join(',') + '\r\n';
 
       // build CSV rows
-      for (var i in users) {
-        var user = users[i];
+      users.forEach(function(user) {
         var csvRow = [];
-        for (var j in csvColumns) {
-          var column = csvColumns[j];
+        csvColumns.forEach(function(column) {
           var columnValue = user[column];
           if (columnValue === false) {
-            columnValue = 'false';
+            columnValue = 'N';
           } else if (columnValue === true) {
-            columnValue = 'true';
-          } else if (columnValue === undef || columnValue === null) {
-            columnValue = '';
+            columnValue = 'Y';
+          } else if (typeof columnValue === 'undefined') {
+            columnValue = null;
           } else if (Array.isArray(columnValue)) {
-            columnValue = columnValue.join('+');
+            columnValue = columnValue.join('|');
           } else {
-            columnValue = String(columnValue);
+            columnValue = '' + columnValue;
           }
-          columnValue = '"' + columnValue.replace(/"/g, '""') + '"';
+          if (columnValue !== null) {
+            columnValue = '"' + columnValue.replace(/"/g, '""') + '"';
+          } else {
+            columnValue = '';
+          }
           csvRow.push(columnValue);
-        }
+        });
         csv += csvRow.join(',') + '\r\n';
-      }
+      });
 
       // build data URI and start downloading
       var anchor = window.document.createElement('a');
@@ -96,38 +108,49 @@ var SystemActions;
   // Find an artist. Pass in a function that returns TRUE for criteria.
   function findArtist(predicate) {
     return Artists.getAll().then(function(artists) {
-      var filteredArtists = _.filter(artists, predicate);
+      var filteredArtists = artists.filter(predicate);
       if (filteredArtists.length > 0) {
         Modal.editArtist(filteredArtists[0].id);
       } else {
-        alert('Couldn\'t find who you were looking for.');
+        Modal.alert(
+          'No matching artists were found.',
+          'Search Results'
+        );
       }
     });
   }
 
   // Find an artist by field===value
   function findArtistBy(fieldName, value) {
-    var valueString = String(value);
+    var valueString = '' + value;
     return findArtist(function(a) {
       return !!a[fieldName] &&
-        a[fieldName].toString() === valueString;
+        ('' + a[fieldName]) === valueString;
     });
   }
 
   // Find an artist by badge number.
   function findArtistByBadge() {
-    var badgeNumber = prompt('Enter badge number.');
-    if (!!badgeNumber) {
-      findArtistBy('badgeNumber', badgeNumber);
-    }
+    Modal.prompt(
+      'Enter badge number.',
+      'Find Artist by Badge Number',
+      function(badgeNumber) {
+        if (!!badgeNumber) {
+          findArtistBy('badgeNumber', badgeNumber);
+        }
+      });
   }
 
   // Find an artist by table number.
   function findArtistByTable() {
-    var tableNumber = prompt('Enter table number.');
-    if (!!tableNumber) {
-      findArtistBy('tableNumber', tableNumber);
-    }
+    Modal.prompt(
+      'Enter table number.',
+      'Find Artist by Table Number',
+      function(tableNumber) {
+        if (!!tableNumber) {
+          findArtistBy('tableNumber', tableNumber);
+        }
+      });
   }
 
   // Create new artists with rapid entry capability.
@@ -137,49 +160,57 @@ var SystemActions;
 
   // Clear out all artists.
   function resetDatabase() {
-    if (confirmAction('reset')) {
-      Artists.clear();
-    }
+    confirmAction(
+      'reset',
+      'Wipe Everything',
+      Artists.clear);
   }
 
   // Run the lottery for a given number of slots.
   function runLottery() {
-    var input = prompt('How many seats?');
-    if (input) {
-      var slotsAvailable = Number(input);
-      if (slotsAvailable > 0) {
-        Lottery.run(slotsAvailable);
-      }
-    }
+    Modal.prompt(
+      'How many seats?',
+      'Run Lottery',
+      function(seats) {
+        if (seats) {
+          var slotsAvailable = +seats;
+          if (slotsAvailable > 0) {
+            Lottery.run(slotsAvailable);
+          }
+        }
+      });
   }
 
   // Save raw artist data.
   function saveArtistRaw() {
     try {
-      var artistId = Number($('[data-select-raw]').find(':selected').attr('value'));
+      var artistId = +$('[data-select-raw]').find(':selected').attr('value');
       if (artistId) {
         var artist = JSON.parse($('[data-edit-raw]').val());
         artist.id = artistId;
         Artists.set(artist).then(function() {
-          alert('The artist was saved successfully.');
+          Modal.alert('The artist was saved successfully.');
         });
       }
     } catch (e) {
-      alert('The artist could not be saved:\n' + e.message);
+      Modal.alert('The artist could not be saved:\n' + e.message);
     }
   }
 
   // Fill the database with mock data.
   function seedDatabase() {
-    if (confirmAction('generate')) {
-      Artists.clear().then(function() {
-        Database.transaction(function() {
+    confirmAction(
+      'generate',
+      'Generate Test Data',
+      function() {
+        Artists.clear().then(function() {
+          var artists = [];
           for (var i = 0; i < 200; i++) {
-            Artists.set(Generator.getRandomArtist());
+            artists.push(Generator.getRandomArtist());
           }
+          return Artists.setAll(artists);
         });
       });
-    }
   }
 
 })();

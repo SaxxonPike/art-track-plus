@@ -21,6 +21,8 @@
     "bootstrap-sass": "^3.3.5",
     "del": "^2.0.2",
     "dexie": "^1.2.0",
+    "es5-shim": "^4.3.1",
+    "es6-shim": "^0.33.13",
     "font-awesome": "^4.4.0",
     "gulp": "^3.9.0",
     "gulp-babel": "^6.1.0",
@@ -37,7 +39,6 @@
     "gulp-webserver": "^0.9.1",
     "jquery": "^2.1.4",
     "jshint": "^2.8.0",
-    "moment": "^2.10.6",
-    "underscore": "^1.8.3"
+    "moment": "^2.10.6"
   }
 }

@@ -19,7 +19,7 @@ var Scheduler = (function() {
 
   // Call all functions in an array.
   function invokeAll(events) {
-    $.each(events, function(i, e) {
+    events.forEach(function(e) {
       e();
     });
   }

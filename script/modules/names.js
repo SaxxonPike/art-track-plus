@@ -1,4 +1,4 @@
-/* globals Artists, ArtistFilter, Modal */
+/* globals Artists, Modal */
 
 var Names;
 
@@ -15,22 +15,26 @@ var Names;
 
   // Filter an artist list.
   function filterArtists(artists, filterField) {
-    return _.filter(artists, function(a) {
-      return a[filterField];
+    return artists.filter(function(a) {
+      return !!a[filterField];
     });
   }
 
   // Sort an artist list.
   function sortArtists(artists, sortField) {
-    return _.sortBy(artists, function(a) {
-      return a[sortField];
+    return artists.slice().sort(function(a, b) {
+      var fieldA = a[sortField];
+      var fieldB = b[sortField];
+      return fieldA > fieldB ? 1 : (fieldA < fieldB ? -1 : 0);
     });
   }
 
   // Sort names without case sensitivity.
   function sortArtistsByName(artists) {
-    return _.sortBy(artists, function(a) {
-      return (a.name || '').toLowerCase();
+    return artists.slice().sort(function(a, b) {
+      var fieldA = a.name.toLocaleLowerCase();
+      var fieldB = b.name.toLocaleLowerCase();
+      return fieldA > fieldB ? 1 : (fieldA < fieldB ? -1 : 0);
     });
   }
 
@@ -91,7 +95,7 @@ var Names;
     tempContainer.append($('<option/>')
       .text('(select one...)'));
 
-    $.each(nameData, function(index, artist) {
+    nameData.forEach(function(artist) {
       tempContainer.append($('<option/>')
         .attr('value', artist.id)
         .text(artist.name)
@@ -111,14 +115,14 @@ var Names;
 
     container.empty();
 
-    $.each(nameData, function(index, artist) {
+    nameData.forEach(function(artist, index) {
       var nameElement = $('<a/>')
         .addClass('line')
         .text(artist.name + ' ');
 
       if (options.withOrder) {
         nameElement.prepend(buildSpan('artist-order')
-          .text((index + 1).toString() + '.'));
+          .text('' + (index + 1) + '.'));
       }
 
       if (artist.tableNumber) {
@@ -173,6 +177,6 @@ var Names;
 
   // Show name detail modal.
   function openNameDetail(id) {
-    Modal.editArtist(Number(id));
+    Modal.editArtist(id);
   }
 })();

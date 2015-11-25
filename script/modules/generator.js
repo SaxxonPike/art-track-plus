@@ -40,9 +40,9 @@ var Generator;
     var separator = randomOf(['.', '-', '']);
     var countryCode = randomOf(['', '1' + separator]);
     return countryCode +
-      (random(800) + 200).toString() + separator +
-      (random(800) + 200).toString() + separator +
-      (random(9000) + 1000).toString();
+      (random(800) + 200) + separator +
+      (random(800) + 200) + separator +
+      (random(9000) + 1000);
   }
 
 })();

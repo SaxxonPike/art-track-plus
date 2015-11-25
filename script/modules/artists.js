@@ -10,6 +10,7 @@ var Artists = (function() {
     get: getArtistById,
     getAll: getAllArtists,
     set: setArtist,
+    setAll: setAllArtists,
     setSeated: setSeated,
     setStandby: setStandby,
     setSignedOut: setSignedOut
@@ -18,10 +19,10 @@ var Artists = (function() {
   // Return a copy of the array with the element added, without duplications.
   function addArrayEntry(arrayData, elementToAdd) {
     if (Array.isArray(arrayData)) {
-      if ($.inArray(elementToAdd, arrayData) < 0) {
+      if (arrayData.indexOf(elementToAdd) < 0) {
         return arrayData.concat(elementToAdd);
       }
-      return $.merge([], arrayData);
+      return arrayData.slice();
     }
     return [elementToAdd];
   }
@@ -127,17 +128,26 @@ var Artists = (function() {
     return Database.open().artists.get(id);
   }
 
+  // Set multiple artist data.
+  function setAllArtists(artists) {
+    return Database.transaction(function() {
+      artists.forEach(function(artist) {
+        var isNew = !artist.id;
+        var data = Object.assign({}, artist);
+        delete data.id;
+        if (isNew) {
+          Database.open().artists.put(data);
+        } else {
+          Database.open().artists.update(artist.id, data);
+        }
+      });
+      Database.incrementTableVersion('artists');
+    });
+  }
+
   // Set an artist's data. If the ID doesn't exist, a new record is made.
-  function setArtist(artistData) {
-    var isNew = !artistData.id;
-    var data = $.extend({}, artistData);
-    delete data.id;
-    Database.incrementTableVersion('artists');
-    if (isNew) {
-      return Database.open().artists.put(data);
-    } else {
-      return Database.open().artists.update(artistData.id, data);
-    }
+  function setArtist(artist) {
+    return setAllArtists([artist]);
   }
 
   function incrementTableVersion() {
