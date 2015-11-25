@@ -27,6 +27,13 @@ var Names;
     });
   }
 
+  // Sort names without case sensitivity.
+  function sortArtistsByName(artists) {
+    return _.sortBy(artists, function(a) {
+      return (a.name || '').toLowerCase();
+    });
+  }
+
   // Create an icon to go on the name list.
   function buildIcon(iconName) {
     return $('<i/>')
@@ -42,9 +49,9 @@ var Names;
   // Populate columns in all places in the app that contain artist lists.
   function populate() {
     Artists.getAll().then(function(artistData) {
-      var allListByName = sortArtists(artistData, 'name');
+      var allListByName = sortArtistsByName(artistData);
       var standbyList = filterAndSortArtists(artistData, 'standbyOrder');
-      var seatedList = filterAndSortArtists(artistData, 'tableNumber', 'name');
+      var seatedList = sortArtistsByName(filterArtists(artistData, 'tableNumber'));
       var lotteryList = filterAndSortArtists(artistData, 'lotteryOrder');
       var lotteryListByName = sortArtists(lotteryList, 'lotteryOrder');
 
