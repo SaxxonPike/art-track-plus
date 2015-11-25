@@ -15,11 +15,6 @@ nav.navbar.navbar-inverse.navbar-fixed-top
             span.caret
           ul.dropdown-menu
             li
-              a(href='#' data-system-action='exportCsv')
-                span.fa.fa-file-text-o
-                |  Export to CSV
-            li.divider
-            li
               a.text-warning(data-modal='editArtistRaw')
                 span.fa.fa-database
                 |  Raw Data Editor
@@ -39,7 +34,16 @@ nav.navbar.navbar-inverse.navbar-fixed-top
                 = AppName
         li.dropdown
           a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false')
-            | Find
+            | Reports 
+            span.caret
+          ul.dropdown-menu
+            li
+              a(href='#' data-system-action='exportCsv')
+                span.fa.fa-file-text-o
+                |  Export to CSV
+        li.dropdown
+          a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false')
+            | Find 
             span.caret
           ul.dropdown-menu
             li
