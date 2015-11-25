@@ -69,6 +69,7 @@ var Lottery = (function() {
             slotsAvailable--;
           } else {
             a.standbyOrder = standbyNumber++;
+            a.standbyDays = Artists.appendToday(a.standbyDays);
           }
         }
       });

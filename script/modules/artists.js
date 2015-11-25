@@ -4,6 +4,7 @@ var Artists = (function() {
   // Interface.
   return {
     addLottery: addLottery,
+    appendToday: appendToday,
     clear: clearArtists,
     delete: deleteArtistById,
     get: getArtistById,
