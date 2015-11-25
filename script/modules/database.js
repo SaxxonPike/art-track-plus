@@ -7,6 +7,7 @@ var Database = (function() {
   // Interface.
   return {
     delete: deleteDatabase,
+    getSchema: getSchema,
     getTableVersion: getTableVersion,
     incrementTableVersion: incrementTableVersion,
     open: initialize,
@@ -47,6 +48,11 @@ var Database = (function() {
     }
 
     return db;
+  }
+
+  // Get the schema for a table.
+  function getSchema(tableName) {
+    return initialize()[tableName].schema;
   }
 
   // Get stack trace.

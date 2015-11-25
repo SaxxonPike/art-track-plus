@@ -15,17 +15,22 @@ nav.navbar.navbar-inverse.navbar-fixed-top
             span.caret
           ul.dropdown-menu
             li
-              a(data-modal='resetDatabase')
-                span.fa.fa-database
-                |  Reset
+              a(href='#' data-system-action='exportCsv')
+                span.fa.fa-file-text-o
+                |  Export to CSV
+            li.divider
             li
-              a(data-modal='seedDatabase')
-                span.fa.fa-database
-                |  Generate Test Data
-            li
-              a(data-modal='editArtistRaw')
+              a.text-warning(data-modal='editArtistRaw')
                 span.fa.fa-database
                 |  Raw Data Editor
+            li
+              a.text-danger(data-modal='resetDatabase')
+                span.fa.fa-database
+                |  Wipe Everything
+            li
+              a.text-danger(data-modal='seedDatabase')
+                span.fa.fa-database
+                |  Generate Test Data
             li.divider
             li
               a(data-screen='about')
@@ -34,9 +39,26 @@ nav.navbar.navbar-inverse.navbar-fixed-top
                 = AppName
         li.dropdown
           a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false')
+            | Find
+            span.caret
+          ul.dropdown-menu
+            li
+              a(href='#' data-system-action='findArtistByTable')
+                span.fa.fa-search
+                |  Artist by Table Number
+              a(href='#' data-system-action='findArtistByBadge')
+                span.fa.fa-search
+                |  Artist by Badge Number
+        li.dropdown
+          a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false')
             | Actions 
             span.caret
           ul.dropdown-menu
+            li
+              a(href='#', data-system-action='newArtistRapidEntry')
+                span.fa.fa-plus
+                |  Rapid New Aritst Entry
+            li.divider
             li
               a(data-modal='runLottery')
                 span.fa.fa-play-circle-o

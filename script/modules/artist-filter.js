@@ -80,14 +80,12 @@ var ArtistFilter = (function() {
   function getValueFilter(valueName, filterValue) {
     if (typeof filterValue === 'undefined') {
       return function(data) {
-        console.log('Filter only ' + valueName);
         return $.grep(data, function(v) {
           return !!v[valueName];
         });
       };
     } else {
       return function(data) {
-        console.log('Filter exact ' + valueName);
         return $.grep(data, function(v) {
           return v[valueName] === filterValue;
         });

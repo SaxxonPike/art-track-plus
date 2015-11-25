@@ -65,17 +65,13 @@ var Lottery = (function() {
       $.each(eligibleArtists, function(i, a) {
         if (!a.lotteryOrder) {
           if (slotsAvailable > 0) {
-            console.log("Picked for lottery: " + a.id);
             a.lotteryOrder = lotteryNumber++;
             slotsAvailable--;
           } else {
-            console.log("Picked for standby: " + a.id);
             a.standbyOrder = standbyNumber++;
           }
         }
       });
-
-      console.log(eligibleArtists);
 
       // Apply the changes.
       return Database.transaction(function() {

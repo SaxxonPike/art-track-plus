@@ -9,10 +9,15 @@ var Names;
 
   // Filter and sort an artist list.
   function filterAndSortArtists(artists, filterField, sortField) {
-    return sortArtists(
-      _.filter(artists, function(a) {
-        return !!a[filterField];
-      }), sortField || filterField);
+    return sortArtists(filterArtists(artists, filterField),
+      sortField || filterField);
+  }
+
+  // Filter an artist list.
+  function filterArtists(artists, filterField) {
+    return _.filter(artists, function(a) {
+      return a[filterField];
+    });
   }
 
   // Sort an artist list.
@@ -39,7 +44,7 @@ var Names;
     Artists.getAll().then(function(artistData) {
       var allListByName = sortArtists(artistData, 'name');
       var standbyList = filterAndSortArtists(artistData, 'standbyOrder');
-      var seatedList = filterAndSortArtists(artistData, 'tableNumber');
+      var seatedList = filterAndSortArtists(artistData, 'tableNumber', 'name');
       var lotteryList = filterAndSortArtists(artistData, 'lotteryOrder');
       var lotteryListByName = sortArtists(lotteryList, 'lotteryOrder');
 
@@ -64,7 +69,7 @@ var Names;
         disableClick: true
       });
 
-      buildNameOptions($('#raw-artist-list'), allListByName);
+      buildNameOptions($('[data-select-raw=artist]'), allListByName);
 
       $('.count-artists').text(artistData.length);
       $('.count-lottery').text(lotteryList.length);

@@ -66,4 +66,7 @@ $(function() {
 
   // Preconnect database.
   Database.open();
+
+  // Disable Plus-As-Tab on untabbable elements.
+  $('[tabindex=-1]').attr('data-plus-as-tab', false);
 });
