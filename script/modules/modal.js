@@ -198,11 +198,16 @@ $(function() {
   });
 
   $('[data-signin=artist]').click(function() {
-    var seat = Modal.prompt(
-      'Enter the table number to sign this artist in.');
-    if (seat) {
-      Artists.setSeated(getArtistFormId(), seat);
-    }
+    var artist = Artists.get(getArtistFormId()).then(function(artist) {
+      Modal.prompt(
+        'Enter a table number.',
+        'Sign In for ' + artist.name,
+        function(seat) {
+          if (seat) {
+            Artists.setSeated(getArtistFormId(), seat);
+          }
+        });
+    });
   });
 
   $('[data-signout=artist]').click(function() {

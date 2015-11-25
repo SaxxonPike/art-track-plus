@@ -20,7 +20,7 @@ var SystemActions;
   // Make the user type in a word. Returns true if they actually did it.
   function confirmAction(actionName, caption, callback) {
     return Modal.prompt(
-      'Confirm this action by typing \'' + actionName + '\' into the box below.',
+      'Confirm by typing \'' + actionName + '\' into the box below.',
       caption || 'Confirmation',
       function(value) {
         if (value === actionName) {
@@ -59,12 +59,17 @@ var SystemActions;
       var csv = '';
 
       // build CSV columns
-      var csvColumns = [];
-      schema.forEach(function(k) {
-        if (k !== 'id') {
-          csvColumns.push(k);
-        }
-      });
+      var csvColumns = [
+        'name',
+        'badgeNumber',
+        'tableNumber',
+        'roomNumber',
+        'phone',
+        'remarks',
+        'seatedLast',
+        'seatedDays',
+        'standbyDays'
+      ];
       csv += csvColumns.join(',') + '\r\n';
 
       // build CSV rows
@@ -76,7 +81,7 @@ var SystemActions;
             columnValue = 'N';
           } else if (columnValue === true) {
             columnValue = 'Y';
-          } else if (typeof columnValue === 'undefined') {
+          } else if (columnValue !== 0 && !columnValue) {
             columnValue = null;
           } else if (Array.isArray(columnValue)) {
             columnValue = columnValue.join('|');

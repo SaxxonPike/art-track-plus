@@ -108,6 +108,7 @@ body {
         font-weight: bolder;
         box-shadow:0px 0px 0px 1.5em rgba(1,1,1,0.2) inset;
       }
+      text-align: left;
     }
   }
 
@@ -121,7 +122,12 @@ body {
 }
 
 #second {
+  font-size: 80%;
+
   .height-full {
+    -webkit-column-gap: 5px;
+    -moz-column-gap: 5px;
+    column-gap: 5px;
     -webkit-column-count: 3;
     -moz-column-count: 3;
     column-count: 3;
@@ -130,9 +136,9 @@ body {
     width: 50%;
   }
   .seated.height-full {
-    -webkit-column-count: 6;
-    -moz-column-count: 6;
-    column-count: 6;
+    -webkit-column-count: 5;
+    -moz-column-count: 5;
+    column-count: 5;
   }
 }
 

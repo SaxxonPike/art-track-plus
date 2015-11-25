@@ -57,7 +57,7 @@ var Names;
       var standbyList = filterAndSortArtists(artistData, 'standbyOrder');
       var seatedList = sortArtistsByName(filterArtists(artistData, 'tableNumber'));
       var lotteryList = filterAndSortArtists(artistData, 'lotteryOrder');
-      var lotteryListByName = sortArtists(lotteryList, 'lotteryOrder');
+      var lotteryListByName = sortArtistsByName(lotteryList);
 
       buildNames($('.artist-names'), allListByName, {
         withSymbols: true
