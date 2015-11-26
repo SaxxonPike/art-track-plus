@@ -9,6 +9,12 @@ var Modal;
     addArtist: addArtist,
     alert: showAlert,
     batchSignOut: batchSignOut,
+    confirm: showConfirm,
+    confirmConfirm: function(value) {
+      if (_promptConfirm) {
+        _promptConfirm(value);
+      }
+    },
     editArtist: editArtist,
     editArtistRaw: editArtistRaw,
     isRapidEntry: function() {
@@ -130,6 +136,16 @@ var Modal;
     }
   }
 
+  // Show the confirm modal.
+  function showConfirm(message, caption, callback) {
+    _promptConfirm = callback;
+    if (message) {
+      $('#confirm-title').text(caption || 'Confirmation Needed');
+      $('#confirm-body').text(message);
+      $('#confirm-dialog').modal();
+    }
+  }
+
   // Show the prompt modal.
   function showPrompt(message, caption, callback) {
     _promptConfirm = callback;
@@ -184,9 +200,14 @@ $(function() {
   });
 
   $('[data-delete=artist]').click(function() {
-    if (confirm('Really delete this artist?')) {
-      Artists.delete(getArtistFormId());
-    }
+    Modal.confirm(
+      'Really delete this artist?',
+      'Delete Artist Confirmation',
+      function(confirmed) {
+        if (confirmed) {
+          Artists.delete(getArtistFormId());
+        }
+      });
   });
 
   $('[data-save=artist]').click(function() {
@@ -211,8 +232,12 @@ $(function() {
   });
 
   $('[data-signout=artist]').click(function() {
-    var eligible = confirm('The artist will be entered for the next lottery.\nClick OK to confirm.\nClick CANCEL if you don\'t want this to happen.');
-    Artists.setSignedOut(getArtistFormId(), eligible);
+    Modal.confirm(
+      'The artist will be entered for the next lottery.\nClick OK to confirm.\nClick CANCEL if you don\'t want this to happen.',
+      'Enter Artist for Tomorrow\'s Lottery',
+      function(eligible) {
+        Artists.setSignedOut(getArtistFormId(), !!eligible);
+      });
   });
 
   $('[data-select-raw=artist]').change(function() {
@@ -223,6 +248,14 @@ $(function() {
 
   $('[data-prompt-confirm]').click(function() {
     Modal.promptConfirm();
+  });
+
+  $('[data-confirm-confirm]').click(function() {
+    Modal.confirmConfirm(true);
+  });
+
+  $('[data-confirm-cancel]').click(function() {
+    Modal.confirmConfirm(false);
   });
 
   $('#prompt-dialog input').keydown(function(e) {
