@@ -1,0 +1,40 @@
+.modal.fade#bulk-artist-room
+  .modal-dialog
+    .modal-content
+      form(data-plus-as-tab='true')
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') &times;
+          h4.modal-title
+            span.fa.fa-th-list
+            |  Rapid Room Entry
+        .modal-body
+          .rooms
+            .room-content
+              table.table.table-hover.table-condensed
+                thead
+                  tr
+                    th Name
+                    th(style='width:100px') Table
+                    th(style='width:100px') Room
+                tbody#bulk-artist-room-table
+                  - var n = 0
+                  while n < 15
+                    tr
+                      td
+                        p.form-control-static
+                          | Test Name 
+                          = n
+                      td
+                        p.form-control-static
+                          | 123
+                      td
+                        .form-group
+                          input.form-control(style='width:100%' type='text')
+                    - n++
+        .modal-footer
+          .row
+            .col-xs-6
+              button.btn.btn-default.btn-block(data-plus-as-tab='false', type='button', data-dismiss='modal') Cancel
+            .col-xs-6
+              button.btn.btn-primary.btn-block(data-plus-as-tab='false', type='button', data-dismiss='modal', data-save='rooms') OK

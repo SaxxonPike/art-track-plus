@@ -9,6 +9,7 @@ var Modal;
     addArtist: addArtist,
     alert: showAlert,
     batchSignOut: batchSignOut,
+    bulkArtistRoom: bulkArtistRoom,
     confirm: showConfirm,
     confirmConfirm: function(value) {
       if (_promptConfirm) {
@@ -68,6 +69,60 @@ var Modal;
 
   function batchSignOut() {
     $('#batch-sign-out').modal();
+  }
+
+  // Show the Rapid Room Entry modal.
+  function bulkArtistRoom() {
+    Artists.getAll().then(function(artists) {
+      // Populate the rooms table.
+      var container = $('<div/>');
+
+      artists = artists.filter(function(a) {
+        return !!a.tableNumber;
+      });
+
+      artists.forEach(function(a) {
+        console.log(a);
+        container.append(
+          $('<tr/>').append(
+            $('<td/>').append(
+              $('<p/>')
+                .addClass('form-control-static')
+                .text(a.name)
+            )
+          ).append(
+            $('<td/>').append(
+              $('<p/>')
+                .addClass('form-control-static')
+                .text(a.tableNumber)
+            )
+          ).append(
+            $('<td/>').append(
+              $('<div/>').addClass('form-group').append(
+                $('<input type="text"></input>')
+                  .addClass('form-control')
+                  .attr('id', 'bulk-artist-room-number-' + a.id)
+              )
+            )
+          )
+        );
+      });
+
+      $('#bulk-artist-room-table').html(container.html());
+      // Put the modal on screen.
+      $('#bulk-artist-room').modal();
+
+      // Dynamically add SlimScroll bar to the modal (it can't be added on load)
+      $('#bulk-artist-room .room-content').each(function() {
+        var div = $(this);
+        if (!div.hasClass('scroll-added')) {
+          div.addClass('scroll-added');
+          div.slimScroll({
+            height: '100%'
+          });
+        }
+      });
+    });
   }
 
   // Show the Artist modal with fields from an existing artist.
@@ -194,8 +249,17 @@ $(function() {
         Modal.addArtist(Modal.isRapidEntry(), true);
         window.setTimeout(function() {
           $('#artist-detail input').first().focus();
-        }, 100);
+        }, 10);
       }
+    }
+  });
+
+  $('#bulk-artist-room input[type=text]').last().keydown(function(e) {
+    if (e.which === 13) {
+      e.preventDefault();
+      window.setTimeout(function() {
+        $('[data-save=rooms]').focus();
+      }, 10);
     }
   });
 
