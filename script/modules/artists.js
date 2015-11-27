@@ -1,8 +1,8 @@
 /* globals Database */
 
-var Artists = (function() {
+(function(scope) {
   // Interface.
-  return {
+  scope.Artists = {
     addLottery: addLottery,
     appendToday: appendToday,
     clear: clearArtists,
@@ -60,7 +60,7 @@ var Artists = (function() {
         id: id,
         tableNumber: tableNumber,
         seatedDays: appendToday(artist.seatedDays),
-        seatedLast: getTodayString(),
+        seatedLast: moment().format(),
         standbyOrder: null,
         lotteryOrder: null
       });
@@ -114,7 +114,7 @@ var Artists = (function() {
 
   // Delete an artist from the database by ID.
   function deleteArtistById(id) {
-    return Database.open().artists.delete(id)
+    return Database.open().artists.delete(+id)
       .then(incrementTableVersion);
   }
 
@@ -125,7 +125,7 @@ var Artists = (function() {
 
   // Get an artist by ID.
   function getArtistById(id) {
-    return Database.open().artists.get(id);
+    return Database.open().artists.get(+id);
   }
 
   // Set multiple artist data.
@@ -138,7 +138,7 @@ var Artists = (function() {
         if (isNew) {
           Database.open().artists.put(data);
         } else {
-          Database.open().artists.update(artist.id, data);
+          Database.open().artists.update(+artist.id, data);
         }
       });
       Database.incrementTableVersion('artists');
@@ -153,4 +153,4 @@ var Artists = (function() {
   function incrementTableVersion() {
     return Database.incrementTableVersion('artists');
   }
-})();
+})(window);

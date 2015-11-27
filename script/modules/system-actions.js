@@ -1,11 +1,9 @@
 /* globals Artists, Database, Generator, Lottery, Modal */
 
-var SystemActions;
-
-(function() {
+(function(scope) {
 
   // Interface.
-  SystemActions = {
+  scope.SystemActions = {
     batchSignOut: batchSignOut,
     exportCsv: exportCsv,
     findArtistByBadge: findArtistByBadge,
@@ -55,7 +53,6 @@ var SystemActions;
   // Export everything as a CSV file.
   function exportCsv() {
     return Artists.getAll().then(function(users) {
-      var schema = Database.getSchema('artists').instanceTemplate;
       var csv = '';
 
       // build CSV columns
@@ -218,4 +215,4 @@ var SystemActions;
       });
   }
 
-})();
+})(window);

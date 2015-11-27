@@ -8,6 +8,7 @@
   "nonbsp": true,
   "quotmark": true,
   "undef": true,
+  "unused": true,
 
   "predef": [
     "$",

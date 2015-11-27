@@ -1,11 +1,8 @@
-var Database = (function() {
+(function(scope) {
   var db;
 
-  // Set true to report via alert() instead of console.error()
-  var obviousErrorMode = false;
-
   // Interface.
-  return {
+  scope.Database = {
     delete: deleteDatabase,
     getSchema: getSchema,
     getTableVersion: getTableVersion,
@@ -63,7 +60,8 @@ var Database = (function() {
 
   // Error handler for Dexie.
   function handleError(error) {
-    var errorMessage = 'Dexie has encountered an error: ' + error + '\n\n' + getStackTrace();
+    var errorMessage = 'Dexie has encountered an error: ' + error + '\n\n' +
+      getStackTrace();
     console.error(errorMessage);
   }
 
@@ -80,7 +78,7 @@ var Database = (function() {
   }
 
   // Get current table version.
-  function getTableVersion(tableName) {
+  function getTableVersion() {
     return initialize().tableVersions.get(1);
   }
 
@@ -99,4 +97,4 @@ var Database = (function() {
       return initialize().tableVersions.put(versions);
     });
   }
-})();
+})(window);

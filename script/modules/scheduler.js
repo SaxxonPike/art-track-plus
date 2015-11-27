@@ -1,6 +1,11 @@
 /* globals Database */
 
-var Scheduler = (function() {
+(function(scope) {
+
+  // Interface.
+  scope.Scheduler = {
+    onArtistChange: onArtistChange,
+  };
 
   // Handlers for when artist data changes.
   var artistChangeEvents = [];
@@ -11,11 +16,6 @@ var Scheduler = (function() {
   $(function() {
     window.setInterval(onTick, 500);
   });
-
-  // Interface.
-  return {
-    onArtistChange: onArtistChange,
-  };
 
   // Call all functions in an array.
   function invokeAll(events) {
@@ -49,4 +49,4 @@ var Scheduler = (function() {
       isDatabaseBusy = true;
     }
   }
-})();
+})(window);

@@ -1,41 +1,43 @@
-/* globals Artists */
+/* globals Artists, Filter */
 
-var Modal;
-
-(function() {
+(function(scope) {
 
   // Interface.
-  Modal = {
+  scope.Modal = {
     addArtist: addArtist,
     alert: showAlert,
     batchSignOut: batchSignOut,
     bulkArtistRoom: bulkArtistRoom,
     confirm: showConfirm,
-    confirmConfirm: function(value) {
-      if (_promptConfirm) {
-        _promptConfirm(value);
-      }
-    },
+    confirmConfirm: confirmConfirm,
     editArtist: editArtist,
     editArtistRaw: editArtistRaw,
-    isRapidEntry: function() {
-      return _rapidEntry;
-    },
     prompt: showPrompt,
-    promptConfirm: function() {
-      if (_promptConfirm) {
-        _promptConfirm($('#prompt-dialog input').val());
-      }
-    },
+    promptConfirm: promptConfirm,
     resetDatabase: resetDatabase,
     runLottery: runLottery,
     seedDatabase: seedDatabase,
-    setRawArtistId: setRawArtistId
+    setRawArtistId: setRawArtistId,
+    showYesNoCancel: showYesNoCancel
   };
 
   // Private vars.
   var _promptConfirm;
   var _rapidEntry = false;
+
+  // Execute confirm dialog confirmation events.
+  function confirmConfirm(value) {
+    if (_promptConfirm) {
+      _promptConfirm(value);
+    }
+  }
+
+  // Execute prompt confirmation events.
+  function promptConfirm() {
+    if (_promptConfirm) {
+      _promptConfirm($('#prompt-dialog input').val());
+    }
+  }
 
   // Populate the Artist modal with data from the model.
   function mapArtistData(artistData) {
@@ -48,9 +50,10 @@ var Modal;
     $('#artist-remarks').val(artistData.remarks || '');
     $('#artist-lottery-eligible').prop('checked', artistData.lotteryEligible || false);
     $('#artist-lottery-guaranteed').prop('checked', artistData.lotteryGuaranteed || false);
-    $('#artist-seated-last').text(artistData.seatedLast || '');
-    $('#artist-seated-days').text(artistData.seatedDays || '');
-    $('#artist-standby-days').text(artistData.standbyDays || '');
+    $('#artist-seated-last').text(!!artistData.seatedLast ?
+      moment(artistData.seatedLast).calendar() : 'Never');
+    $('#artist-seated-days').text(artistData.seatedDays || 'Never');
+    $('#artist-standby-days').text(artistData.standbyDays || 'Never');
   }
 
   // Show the Artist modal with empty fields.
@@ -74,42 +77,45 @@ var Modal;
   // Show the Rapid Room Entry modal.
   function bulkArtistRoom() {
     Artists.getAll().then(function(artists) {
-      // Populate the rooms table.
       var container = $('<div/>');
 
-      artists = artists.filter(function(a) {
-        return !!a.tableNumber;
-      });
+      // Filter out artists who are not already seated.
+      artists = Filter.seatedInOrder(artists);
 
+      // Generate HTML elements for seated artists.
       artists.forEach(function(a) {
-        console.log(a);
+        var nameField = $('<p/>')
+          .addClass('form-control-static')
+          .text(a.name);
+
+        var tableField = $('<p/>')
+          .addClass('form-control-static')
+          .text(a.tableNumber);
+
+        var inputBox = $('<input type="text">')
+          .addClass('form-control')
+          .attr('id', 'bulk-artist-room-number-' + a.id)
+          .attr('value', a.roomNumber)
+          .attr('data-artist-id', a.id);
+
         container.append(
-          $('<tr/>').append(
-            $('<td/>').append(
-              $('<p/>')
-                .addClass('form-control-static')
-                .text(a.name)
-            )
-          ).append(
-            $('<td/>').append(
-              $('<p/>')
-                .addClass('form-control-static')
-                .text(a.tableNumber)
-            )
-          ).append(
-            $('<td/>').append(
-              $('<div/>').addClass('form-group').append(
-                $('<input type="text"></input>')
-                  .addClass('form-control')
-                  .attr('id', 'bulk-artist-room-number-' + a.id)
-              )
-            )
-          )
-        );
+          $('<tr/>').append($('<td/>').append(nameField))
+            .append($('<td/>').append(tableField))
+            .append($('<td/>').append(inputBox)));
       });
 
+      // Apply HTML and events.
       $('#bulk-artist-room-table').html(container.html());
-      // Put the modal on screen.
+      $('#bulk-artist-room-table input[type=text]').last().keydown(function(e) {
+        if (e.which === 13) {
+          e.preventDefault();
+          window.setTimeout(function() {
+            $('[data-save=rooms]').focus();
+          }, 10);
+        }
+      });
+
+      // Show modal.
       $('#bulk-artist-room').modal();
 
       // Dynamically add SlimScroll bar to the modal (it can't be added on load)
@@ -129,7 +135,7 @@ var Modal;
   function editArtist(id) {
     Artists.get(id).then(function(artistData) {
       mapArtistData(artistData);
-      $('#artist-detail-mode').text('Edit Artist ');
+      $('#artist-detail-mode').text((artistData.name || 'Edit Artist') + ' ');
       $('.artist-add-only').hide();
       $('.artist-edit-only').show();
       $('#artist-detail').modal();
@@ -170,6 +176,7 @@ var Modal;
     var editor = $('[data-edit-raw=artist]');
     if (!!selectedId) {
       Artists.get(selectedId).then(function(artist) {
+        console.log(artist);
         if (artist) {
           delete artist.id;
           editor.val(JSON.stringify(artist, null, 2));
@@ -212,120 +219,184 @@ var Modal;
     }
   }
 
-})();
-
-// Initialize modal actions.
-$(function() {
-
-  function getArtistFormId() {
-    return Number($('#artist-id').text());
-  }
-
-  function saveEditedArtist() {
-    var artistData = {};
-    artistData.id = getArtistFormId();
-    artistData.name = $('#artist-name').val();
-    artistData.badgeNumber = $('#artist-badge').val();
-    artistData.tableNumber = $('#artist-table').val();
-    artistData.roomNumber = $('#artist-room').val();
-    artistData.phone = $('#artist-phone').val();
-    artistData.remarks = $('#artist-remarks').val();
-    artistData.lotteryEligible = $('#artist-lottery-eligible').prop('checked');
-    artistData.lotteryGuaranteed = $('#artist-lottery-guaranteed').prop('checked');
-    if (artistData.tableNumber) {
-      artistData.lotteryOrder = 0;
-      artistData.standbyOrder = 0;
+  // Show the yes/no/cancel modal.
+  function showYesNoCancel(message, caption, callback) {
+    _promptConfirm = callback;
+    if (message) {
+      $('#yes-no-cancel-title').text(caption || 'Confirmation Needed');
+      $('#yes-no-cancel-body').text(message);
+      $('#yes-no-cancel-dialog').modal();
     }
-    Artists.set(artistData);
   }
 
-  $('#artist-detail input[type=text]').last().keydown(function(e) {
-    if (e.which === 13) {
-      e.preventDefault();
-      if (!Modal.isRapidEntry()) {
-        $('[data-save=artist]:visible').trigger('click');
-      } else {
-        saveEditedArtist();
-        Modal.addArtist(Modal.isRapidEntry(), true);
-        window.setTimeout(function() {
-          $('#artist-detail input').first().focus();
-        }, 10);
+  // Initialize modal actions.
+  $(function() {
+
+    function getArtistFormId() {
+      return Number($('#artist-id').text());
+    }
+
+    function saveEditedArtist() {
+      var artistData = {};
+      artistData.id = getArtistFormId();
+      artistData.name = $('#artist-name').val();
+      artistData.badgeNumber = $('#artist-badge').val();
+      artistData.tableNumber = $('#artist-table').val();
+      artistData.roomNumber = $('#artist-room').val();
+      artistData.phone = $('#artist-phone').val();
+      artistData.remarks = $('#artist-remarks').val();
+      artistData.lotteryEligible = $('#artist-lottery-eligible').prop('checked');
+      artistData.lotteryGuaranteed = $('#artist-lottery-guaranteed').prop('checked');
+      if (artistData.tableNumber) {
+        artistData.lotteryOrder = 0;
+        artistData.standbyOrder = 0;
       }
+      Artists.set(artistData);
     }
-  });
 
-  $('#bulk-artist-room input[type=text]').last().keydown(function(e) {
-    if (e.which === 13) {
-      e.preventDefault();
-      window.setTimeout(function() {
-        $('[data-save=rooms]').focus();
-      }, 10);
-    }
-  });
+    function saveEditedRooms() {
+      var artistRooms = [];
 
-  $('[data-delete=artist]').click(function() {
-    Modal.confirm(
-      'Really delete this artist?',
-      'Delete Artist Confirmation',
-      function(confirmed) {
-        if (confirmed) {
-          Artists.delete(getArtistFormId());
+      $('#bulk-artist-room-table input[type=text]').each(function() {
+        var inputElement = $(this);
+        var artistId = inputElement.attr('data-artist-id');
+        if (!!artistId) {
+          artistRooms.push({
+            id: artistId,
+            roomNumber: inputElement.val()
+          });
         }
       });
-  });
 
-  $('[data-save=artist]').click(function() {
-    saveEditedArtist();
-  });
+      Artists.setAll(artistRooms);
+    }
 
-  $('[data-standby=artist]').click(function() {
-    Artists.setStandby(getArtistFormId());
-  });
+    $('#artist-detail input[type=text]').last().keydown(function(e) {
+      if (e.which === 13) {
+        e.preventDefault();
+        if (!_rapidEntry) {
+          $('[data-save=artist]:visible').trigger('click');
+        } else {
+          saveEditedArtist();
+          addArtist(_rapidEntry, true);
+          window.setTimeout(function() {
+            $('#artist-detail input').first().focus();
+          }, 10);
+        }
+      }
+    });
 
-  $('[data-signin=artist]').click(function() {
-    var artist = Artists.get(getArtistFormId()).then(function(artist) {
-      Modal.prompt(
-        'Enter a table number.',
-        'Sign In for ' + artist.name,
-        function(seat) {
-          if (seat) {
-            Artists.setSeated(getArtistFormId(), seat);
+    $('[data-delete=artist]').click(function() {
+      showConfirm(
+        'Really delete this artist?',
+        'Delete Artist Confirmation',
+        function(confirmed) {
+          if (confirmed) {
+            Artists.delete(getArtistFormId());
           }
         });
     });
-  });
 
-  $('[data-signout=artist]').click(function() {
-    Modal.confirm(
-      'The artist will be entered for the next lottery.\nClick OK to confirm.\nClick CANCEL if you don\'t want this to happen.',
-      'Enter Artist for Tomorrow\'s Lottery',
-      function(eligible) {
-        Artists.setSignedOut(getArtistFormId(), !!eligible);
+    $('[data-save=artist]').click(function() {
+      saveEditedArtist();
+    });
+
+    $('[data-save=rooms]').click(function() {
+      saveEditedRooms();
+    });
+
+    $('[data-standby=artist]').click(function() {
+      var performAction = function(artist) {
+        Artists.setStandby(artistId).then(function() {
+          Artists.getAll().then(function(artists) {
+            var index = Filter.standbyInOrder(artists).length;
+            showAlert(
+              'The artist is #' + index + ' in standby.',
+              'Add ' + artist.name + ' to Standby List'
+            );
+          });
+        });
+      };
+
+      var artistId = getArtistFormId();
+      Artists.get(artistId).then(function(artist) {
+        var caption = 'Add ' + artist.name + ' to Standby List';
+        if (!!artist.standbyOrder) {
+          showConfirm(
+            'This artist is already on standby. Move them to the bottom of the list?',
+            caption,
+            function(confirmed) {
+              if (confirmed) {
+                performAction(artist);
+              }
+            });
+        } else {
+          performAction(artist);
+        }
       });
-  });
+    });
 
-  $('[data-select-raw=artist]').change(function() {
-    var selectOption = $(this).find(':selected');
-    var selectedId = selectOption.attr('value');
-    Modal.setRawArtistId(selectedId);
-  });
+    $('[data-signin=artist]').click(function() {
+      Artists.get(getArtistFormId()).then(function(artist) {
+        showPrompt(
+          'Enter a table number.',
+          'Sign In for ' + artist.name,
+          function(seat) {
+            if (seat) {
+              Artists.setSeated(getArtistFormId(), seat);
+            }
+          });
+      });
+    });
 
-  $('[data-prompt-confirm]').click(function() {
-    Modal.promptConfirm();
-  });
+    $('[data-signout=artist]').click(function() {
+      Artists.get(getArtistFormId()).then(function(artist) {
+        var caption = 'Signing out ' + artist.name;
+        if (!!artist.tableNumber || !!artist.standbyOrder || !!artist.lotteryOrder) {
+          showYesNoCancel(
+            'Would this artist like to be included in tomorrow\'s lottery?',
+            caption,
+            function(eligible) {
+              if (eligible === true || eligible === false) {
+                Artists.setSignedOut(getArtistFormId(), !!eligible);
+              }
+            });
+        } else {
+          showAlert(
+            'This artist is already signed out.',
+            caption
+          );
+        }
+      });
+    });
 
-  $('[data-confirm-confirm]').click(function() {
-    Modal.confirmConfirm(true);
-  });
+    $('[data-select-raw=artist]').change(function() {
+      var selectOption = $(this).find(':selected');
+      var selectedId = selectOption.attr('value');
+      setRawArtistId(selectedId);
+    });
 
-  $('[data-confirm-cancel]').click(function() {
-    Modal.confirmConfirm(false);
-  });
+    $('[data-prompt-confirm]').click(function() {
+      promptConfirm();
+    });
 
-  $('#prompt-dialog input').keydown(function(e) {
-    if (e.which === 13) {
-      e.preventDefault();
-      $('[data-prompt-confirm]').trigger('click');
-    }
+    $('[data-confirm-confirm]').click(function() {
+      confirmConfirm(true);
+    });
+
+    $('[data-confirm-deny]').click(function() {
+      confirmConfirm(false);
+    });
+
+    $('[data-confirm-cancel]').click(function() {
+      confirmConfirm(null);
+    });
+
+    $('#prompt-dialog input').keydown(function(e) {
+      if (e.which === 13) {
+        e.preventDefault();
+        $('[data-prompt-confirm]').trigger('click');
+      }
+    });
   });
-});
+})(window);

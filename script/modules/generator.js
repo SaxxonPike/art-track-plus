@@ -1,9 +1,7 @@
-var Generator;
-
-(function() {
+(function(scope) {
 
   // Interface.
-  Generator = {
+  scope.Generator = {
     getRandomArtist: getRandomArtist
   };
 
@@ -45,4 +43,4 @@ var Generator;
       (random(9000) + 1000);
   }
 
-})();
+})(window);

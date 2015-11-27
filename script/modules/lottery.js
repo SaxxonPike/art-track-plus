@@ -1,9 +1,9 @@
-/* globals Artists, Database */
+/* globals Artists, Filter */
 
-var Lottery = (function() {
+(function(scope) {
 
   // Interface.
-  return {
+  scope.Lottery = {
     reset: resetSeating,
     run: runLottery
   };
@@ -32,9 +32,7 @@ var Lottery = (function() {
   function runLottery(slotsAvailable) {
     Artists.getAll().then(function(allArtists) {
       // Initialization.
-      var eligibleArtists = allArtists.filter(function(a) {
-        return a.lotteryEligible === true;
-      });
+      var eligibleArtists = Filter.lotteryEligible(allArtists);
 
       resetSeating(allArtists);
       shuffleArtists(eligibleArtists);
@@ -67,4 +65,4 @@ var Lottery = (function() {
       Artists.setAll(eligibleArtists);
     });
   }
-})();
+})(window);

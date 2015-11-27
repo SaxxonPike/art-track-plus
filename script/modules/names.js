@@ -1,42 +1,9 @@
-/* globals Artists, Modal */
+/* globals Artists, Filter, Modal */
 
-var Names;
-
-(function() {
-  Names = {
+(function(scope) {
+  scope.Names = {
     populate: populate
   };
-
-  // Filter and sort an artist list.
-  function filterAndSortArtists(artists, filterField, sortField) {
-    return sortArtists(filterArtists(artists, filterField),
-      sortField || filterField);
-  }
-
-  // Filter an artist list.
-  function filterArtists(artists, filterField) {
-    return artists.filter(function(a) {
-      return !!a[filterField];
-    });
-  }
-
-  // Sort an artist list.
-  function sortArtists(artists, sortField) {
-    return artists.slice().sort(function(a, b) {
-      var fieldA = a[sortField];
-      var fieldB = b[sortField];
-      return fieldA > fieldB ? 1 : (fieldA < fieldB ? -1 : 0);
-    });
-  }
-
-  // Sort names without case sensitivity.
-  function sortArtistsByName(artists) {
-    return artists.slice().sort(function(a, b) {
-      var fieldA = a.name.toLocaleLowerCase();
-      var fieldB = b.name.toLocaleLowerCase();
-      return fieldA > fieldB ? 1 : (fieldA < fieldB ? -1 : 0);
-    });
-  }
 
   // Create an icon to go on the name list.
   function buildIcon(iconName) {
@@ -53,11 +20,11 @@ var Names;
   // Populate columns in all places in the app that contain artist lists.
   function populate() {
     Artists.getAll().then(function(artistData) {
-      var allListByName = sortArtistsByName(artistData);
-      var standbyList = filterAndSortArtists(artistData, 'standbyOrder');
-      var seatedList = sortArtistsByName(filterArtists(artistData, 'tableNumber'));
-      var lotteryList = filterAndSortArtists(artistData, 'lotteryOrder');
-      var lotteryListByName = sortArtistsByName(lotteryList);
+      var allListByName = Filter.sorted(artistData);
+      var standbyList = Filter.standbyInOrder(artistData);
+      var seatedList = Filter.seated(artistData);
+      var lotteryList = Filter.lotteryInOrder(artistData);
+      var lotteryListByName = Filter.lottery(artistData);
 
       buildNames($('.artist-names'), allListByName, {
         withSymbols: true
@@ -179,4 +146,4 @@ var Names;
   function openNameDetail(id) {
     Modal.editArtist(id);
   }
-})();
+})(window);

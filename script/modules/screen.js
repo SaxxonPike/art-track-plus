@@ -1,7 +1,5 @@
-var Screen;
-
-(function() {
-  Screen = {
+(function(scope) {
+  scope.Screen = {
     reposition: reposition,
     select: select
   };
@@ -34,7 +32,7 @@ var Screen;
 
       // Show the desired screen.
       desiredScreen.show();
-      Screen.reposition();
+      reposition();
 
       // Apply SlimScroll if it hasn't already been added.
       var content = desiredScreen.find('.content');
@@ -46,4 +44,4 @@ var Screen;
       }
     }
   }
-})();
+})(window);
