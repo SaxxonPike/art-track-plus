@@ -31,7 +31,7 @@ evolved version of the program.
 
 ### Using Art Track Plus
 
-##### Menus
+#### Menus
 
 - *System*
   - Contains actions you can perform that are often application-wide and can't
@@ -55,7 +55,7 @@ evolved version of the program.
     load this up on a machine they have control over- it's still running the
     full application underneath.
 
-##### Things to know
+#### Things to know
 
 - *Close Out Day*: Perform end-of-day operations and clear the lottery, standby
   and seated lists. This is required in order to run the next day's lottery.
@@ -64,7 +64,7 @@ evolved version of the program.
   lottery's picks. Useful if it's the last day of Artist's Alley and someone
   was particularly unlucky.
 
-##### Start of the Convention
+#### Start of the Convention
 
 On signups for the first day of Artist's Alley, it's expected you'll have to
 enter a lot of data into the program. The first task is to open **Actions >
@@ -74,7 +74,7 @@ as they sign up.
 Once you're done with the initial sign up process, you're ready to run the
 lottery.
 
-##### Start of the Day
+#### Start of the Day
 
 Make sure the lottery, standby and seated lists are all empty. (If you
 still have names in those lists, you can use **Actions > Close Out Day** to
@@ -90,7 +90,7 @@ Go through the Lottery list, calling off names. You can click on a name in the
 list to pull up their details. Here, you can add their table number and send
 them on their way.
 
-##### During the Day
+#### During the Day
 
 If spots open up, or there are people who were picked for the lottery but did
 not show up, you can start reading off the top of the standby list and start
@@ -100,7 +100,7 @@ Signing an artist out is also pretty easy. Just click on their name in any
 column and click Sign Out. You'll be asked if they would like to be included
 in tomorrow's lottery.
 
-##### End of the Day
+#### End of the Day
 
 Once everyone's cleared out, sometimes you might find that an artist has not
 approached you to sign out. You can either sign them out yourself, or you can
@@ -116,7 +116,7 @@ repo, just install dependencies:
 npm install
 ```
 
-##### Gulp Tasks
+#### Gulp Tasks
 
 Gulp is used as the task runner. There are a number of tasks that you can use:
 
@@ -128,7 +128,7 @@ Gulp is used as the task runner. There are a number of tasks that you can use:
 - `gulp build`
   - Builds the project in production mode with minification.
 
-##### Project Layout
+#### Project Layout
 
 There are a few important folders:
 
@@ -165,7 +165,7 @@ You'll also need to know about these files:
     shouldn't change anything inside unless you plan to go over the existing
     scripts to correct any warnings thrown.
 
-##### Contributing
+#### Contributing
 
 If you have something awesome to share with us, put in a pull request! This
 account is checked *at least* weekly, if not daily. Be sure that JSHint does
