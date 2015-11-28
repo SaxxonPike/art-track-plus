@@ -18,6 +18,7 @@ var sass = require('gulp-sass');
 var sourceMaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var webserver = require('gulp-webserver');
+var zip = require('gulp-zip');
 
 // reloadable configuration
 
@@ -253,7 +254,8 @@ gulp.task('build-dev', [
 
 gulp.task('package', ['build'], function() {
   gulp.src('build/**/*')
-    .pipe(gulp.dest('../dist'));
+    .pipe(zip('art-track-plus-release.zip'))
+    .pipe(gulp.dest('../'));
 });
 
 // base task
