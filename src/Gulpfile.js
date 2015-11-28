@@ -251,6 +251,11 @@ gulp.task('build-dev', [
   'dev-js'
 ]);
 
+gulp.task('package', ['build'], function() {
+  gulp.src('build/**/*')
+    .pipe(gulp.dest('../dist'));
+});
+
 // base task
 
 gulp.task('default', ['build']);
