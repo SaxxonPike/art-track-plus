@@ -39,7 +39,9 @@
       if (!content.hasClass('scroll-added')) {
         content.addClass('scroll-added');
         content.slimScroll({
-          height: '100%'
+          height: '100%',
+          size: '12px',
+          alwaysVisible: true
         });
       }
     }
