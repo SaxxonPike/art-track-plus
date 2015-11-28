@@ -29,6 +29,11 @@ evolved version of the program.
   - Includes Internet Explorer, Firefox, and Chrome. Possibly others.
   - Responsive design helps things work on whatever size screen you've got.
 
+### Installation
+
+1. Download `art-track-plus-release.zip`, and extract it into a new folder.
+1. Run `index`. It should automatically open your default browser.
+
 ### Using Art Track Plus
 
 #### Menus
