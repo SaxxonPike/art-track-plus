@@ -1,85 +1,177 @@
 # Art Track Plus
-##### Keep track of your Artist Alley.
+
+##### Keep track of your Artist's Alley.
+
+*Art Track Plus* was originally created for Midwest Furfest in 2014. The
+original version of the software was a great success, so now we bring you the
+evolved version of the program.
 
 ### Features
 
-##### Fast artist entry
-It's the first day of artist signups and you've got a whole lot of people to
-put on the list. This application allows rapid entry of artists so you can get
-right down to the other less tedious (and more important) stuff.
+- Rapid Entry
+  - Quickly add artists to your list (especially on day 1!)
+  - Quickly assign rooms to artists after they've been seated.
+- Alternate View
+  - Designed for use with a second screen.
+  - Show who's picked for the lottery at the start of each day to artists.
+  - Show who's seated to guests looking for their favorite artists.
+- Searching
+  - Find an artist by table number or badge number quickly.
+- Reporting
+  - Artist lists can be exported to CSV which can be loaded in Excel.
+- Non-volatile Database (using IndexedDB)
+  - Artist database doesn't disappear when the browser closes.
+  - Clearing cookies won't affect the artist lists, either.
+- Test Functions
+  - Data generator makes it easy to test the application under load.
+- Cross-browser support
+  - Designed to work in any browser with IndexedDB support!
+  - Includes Internet Explorer, Firefox, and Chrome. Possibly others.
+  - Responsive design helps things work on whatever size screen you've got.
 
-##### Automated lottery
-Randomly pick an order of artists labeled eligible so you don't have to rely on
-rolling dice yourself.
+### Installation
 
-##### Dual screen
-The main screen can be used to perform the usual administrative duties, while
-a second screen is designed to show everyone else (other artists, passers-by,
-etc) what the status is. The second screen is automatically kept updated, so you
-don't need to worry about the two parts being out of sync.
+1. Download `art-track-plus-release.zip`, and extract it into a new folder.
+1. Run `index`. It should automatically open your default browser.
 
-##### Cross-platform
-The application is written in pure HTML, CSS and JavaScript. This means you can
-run this application on anything as long as it supports IndexedDB. If you're
-using a recent browser that supports it, you're golden. (Note: Safari does not
-support this feature; consider using IE, Firefox or Chrome instead.)
+### Using Art Track Plus
 
-##### Backed by local storage
-No need for internet access. Art Track Plus will keep your artist list, even if
-you close your browser window. Because it uses IndexedDB, it will also be
-protected from clearing cookies and history.
+#### Menus
 
-##### CSV export
-Need to save the list for your own records? Export the artist database as a CSV
-which can be loaded in almost all spreadsheet programs.
+- *System*
+  - Contains actions you can perform that are often application-wide and can't
+    be reversed. You can reset all the lists and generate test data from this
+    menu.
+- *Reports*
+  - Contains reporting actions. You can export the artist list to CSV.
+- *Find*
+  - Contains actions related to finding an artist by some sort of criteria. If
+    you happen to find someone's badge or table card and need to quickly find
+    out who in the list it belongs to, this is where you look.
+- *Actions*
+  - A general bucket of actions that don't belong in any other menu. This will
+    allow you to run the lottery, close out a day, and more.
+- *New Artist*
+  - Does exactly what it says. You can add a new artist quickly with this.
+- *View 2*
+  - This opens a new tab or window which shows an alternate view of the lists.
+    This view is meant for artists and users to see, and won't show any
+    sensitive information since nothing is clickable on it. Make sure not to
+    load this up on a machine they have control over- it's still running the
+    full application underneath.
 
-### Running the application
-Just open the `index.html` file in a browser of your choice. In Windows, you can
-right-click the file and select `Open With...` and you should be able to choose
-your browser there. You may also be able to drag the `index.html` file right on
-top of an existing browser window to open it.
+#### Things to know
 
-### System commands
-There is a System menu at the bottom of the screen which will allow you to
-enter a code. These screens are not readily available on the UI because of how
-rarely they will be used (and how dangerous it can be for your data if they
-could accidentally be clicked.)
+- *Close Out Day*: Perform end-of-day operations and clear the lottery, standby
+  and seated lists. This is required in order to run the next day's lottery.
+- *Lottery Eligible*: An artist is eligible to be picked for the next lottery.
+- *Lottery Guaranteed*: An artist is guaranteed to be at the top of next
+  lottery's picks. Useful if it's the last day of Artist's Alley and someone
+  was particularly unlucky.
 
-##### raw
-View and edit the artist database in JSON format. Use this if there's a user
-related bug you can't seem to fix at the moment but need to keep the show going.
-Useful also for developers. Correctness of the JSON will be checked, so you
-shouldn't be able to get the data mangled in a way that crashes the application.
+#### Start of the Convention
 
-##### reset
-Wipe the entire artist database.
+On signups for the first day of Artist's Alley, it's expected you'll have to
+enter a lot of data into the program. The first task is to open **Actions >
+Rapid New Artist Entry**. From there, you can type in information for artists
+as they sign up.
 
-##### test
-Wipe the artist database and fill it with thousands of test users.
+Once you're done with the initial sign up process, you're ready to run the
+lottery.
 
-### This application uses...
-- arg.js: https://github.com/stretchr/arg.js
+#### Start of the Day
 
-- Dexie.js: http://dexie.org/
+Make sure the lottery, standby and seated lists are all empty. (If you
+still have names in those lists, you can use **Actions > Close Out Day** to
+clean them out.)
 
-- floatThead: http://mkoryak.github.io/floatThead/
+Running the lottery is as easy as **Actions > Run Lottery**. It'll explain what
+will happen. Click **Run** and it'll then ask how many seats are available.
+Fill in the number and press Enter (or click OK.) Artists who have been
+selected will be in the blue Lottery list, and artists who were picked after
+all the slots were filled will be in the Standby list.
 
-- Font Awesome: http://fortawesome.github.io/Font-Awesome/
+Go through the Lottery list, calling off names. You can click on a name in the
+list to pull up their details. Here, you can add their table number and send
+them on their way.
 
-- jQuery: http://jquery.com/
+#### During the Day
 
-- Moment.js: http://momentjs.com/
+If spots open up, or there are people who were picked for the lottery but did
+not show up, you can start reading off the top of the standby list and start
+seating those people.
 
-- Open Sans: http://www.google.com/fonts/specimen/Open+Sans
+Signing an artist out is also pretty easy. Just click on their name in any
+column and click Sign Out. You'll be asked if they would like to be included
+in tomorrow's lottery.
 
-- slimScroll: http://rocha.la/jQuery-slimScroll
+#### End of the Day
 
-# Thanks to...
-- *NallTWD* for the encouragement to write this up in the first place.
+Once everyone's cleared out, sometimes you might find that an artist has not
+approached you to sign out. You can either sign them out yourself, or you can
+use **Actions > Close Out Day** to do this. It'll explain what will happen to
+artists listed in each column. This should set you up for the next day.
 
-- *Nyxsiern* for additional ideas how to improve it.
+### Developing Art Track Plus
 
-- *Tormod* for testing and making sure UX was smooth.
+Art Track Plus relies on you having *node.js* available. Once you clone this
+repo, just install dependencies:
 
-- The staff at Midwest FurFest for allowing this software to be used in a real
-environment.
+```
+npm install
+```
+
+#### Gulp Tasks
+
+Gulp is used as the task runner. There are a number of tasks that you can use:
+
+- `gulp dev`
+  - Builds the project in development mode and runs watchers. Great for setting
+    up a terminal window so it can run in the background.
+- `gulp build-dev`
+  - Builds the project in development mode.
+- `gulp build`
+  - Builds the project in production mode with minification.
+
+#### Project Layout
+
+There are a few important folders:
+
+- `build`
+  - This is where your built files are going to go. This folder gets wiped out
+    each time you build, so don't put anything important in here.
+- `docs`
+  - Documentation. Kind of sparse at the moment; we'll get to it.
+- `html`
+  - Jade templates go here. `index.jade` contains the root HTML element,
+    required scripts and stylesheets. Includes need to manually be added here.
+- `include`
+  - Files to include in the build. These files are not processed; they're copied
+    directly into `build` with the directory structure preserved.
+- `script`
+  - Contains JS files. Every file in this tree is built and concatenated.
+    Scripts in the `modules` folder are compiled first in the file, then the
+    scripts in the main folder.
+- `style`
+  - Contains SCSS files. Every file in this tree is built and concatenated.
+    Bootstrap is automatically included, and Bootstrap-specific variables are in
+    a file on their own.
+- `test`
+  - Jasmine tests. For whenever *those* get written.
+
+You'll also need to know about these files:
+
+- `config.json`
+  - Contains configuration information that is used by the build process. It
+    does not need to be included as a file in the build output.
+- `.jshintrc`
+  - JSHint is used to find script problems early in the compilation process.
+    Many of the settings in this file exist for some reason, and you probably
+    shouldn't change anything inside unless you plan to go over the existing
+    scripts to correct any warnings thrown.
+
+#### Contributing
+
+If you have something awesome to share with us, put in a pull request! This
+account is checked *at least* weekly, if not daily. Be sure that JSHint does
+not throw warnings or errors.

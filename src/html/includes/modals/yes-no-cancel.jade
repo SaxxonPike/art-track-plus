@@ -1,0 +1,21 @@
+.modal.fade#yes-no-cancel-dialog
+  .modal-dialog
+    .modal-content
+      form
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') &times;
+          h4.modal-title
+            span.fa.fa-exclamation-triangle
+            |  
+            span#yes-no-cancel-title
+        .modal-body
+          p#yes-no-cancel-body
+        .modal-footer
+          .row
+            .col-xs-4
+              button.btn.btn-default.btn-block(type='button', data-confirm-cancel, data-dismiss='modal' autofocus) Cancel
+            .col-xs-4
+              button.btn.btn-danger.btn-block(type='button', data-confirm-deny, data-dismiss='modal') No
+            .col-xs-4
+              button.btn.btn-success.btn-block(type='button', data-confirm-confirm, data-dismiss='modal') Yes

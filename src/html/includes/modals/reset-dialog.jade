@@ -1,0 +1,21 @@
+.modal.fade#reset-dialog
+  .modal-dialog
+    .modal-content
+      form
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') &times;
+          h4.modal-title
+            span.fa.fa-database
+            |  Full Reset
+        .modal-body
+          p
+            | This will completely reset your database. This action can 
+            b not 
+            | be undone.
+        .modal-footer
+          .row
+            .col-xs-8
+              button.btn.btn-default.btn-block(type='button', data-dismiss='modal') Cancel
+            .col-xs-4
+              button.btn.btn-danger.btn-block(type='button', data-dismiss='modal', data-system-action="resetDatabase") Reset

@@ -1,0 +1,15 @@
+.btn-standby {
+  @include button-variant(#f66, #311, #622);
+}
+
+.btn-seated {
+  @include button-variant(#6f6, #131, #262);
+}
+
+.btn-signout {
+  @include button-variant(#aaa, #222, #444);
+}
+
+.btn-lottery {
+  @include button-variant(#66f, #113, #226);
+}

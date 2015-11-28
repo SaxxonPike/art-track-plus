@@ -1,0 +1,84 @@
+nav.navbar.navbar-inverse.navbar-fixed-top
+  .container
+    .navbar-header
+      button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.navbar-brand(data-screen='main')= AppName
+    #navbar.collapse.navbar-collapse
+      ul.nav.navbar-nav.navbar-right
+        li.dropdown
+          a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false')
+            | System 
+            span.caret
+          ul.dropdown-menu
+            li
+              a.text-warning(data-modal='editArtistRaw')
+                span.fa.fa-database
+                |  Raw Data Editor
+            li
+              a.text-danger(data-modal='resetDatabase')
+                span.fa.fa-database
+                |  Wipe Everything
+            li
+              a.text-danger(data-modal='seedDatabase')
+                span.fa.fa-database
+                |  Generate Test Data
+            li.divider
+            li
+              a(data-screen='about')
+                span.fa.fa-question-circle
+                |  About 
+                = AppName
+        li.dropdown
+          a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false')
+            | Reports 
+            span.caret
+          ul.dropdown-menu
+            li
+              a(href='#' data-system-action='exportCsv')
+                span.fa.fa-file-text-o
+                |  Export to CSV
+        li.dropdown
+          a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false')
+            | Find 
+            span.caret
+          ul.dropdown-menu
+            li
+              a(href='#' data-system-action='findArtistByTable')
+                span.fa.fa-search
+                |  Artist by Table Number
+              a(href='#' data-system-action='findArtistByBadge')
+                span.fa.fa-search
+                |  Artist by Badge Number
+        li.dropdown
+          a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false')
+            | Actions 
+            span.caret
+          ul.dropdown-menu
+            li
+              a(href='#', data-system-action='newArtistRapidEntry')
+                span.fa.fa-plus
+                |  Rapid New Aritst Entry
+              a(data-modal='bulkArtistRoom')
+                span.fa.fa-th-list
+                |  Rapid Room Entry
+            li.divider
+            li
+              a(data-modal='runLottery')
+                span.fa.fa-play-circle-o
+                |  Run Lottery
+            li
+              a(data-modal='batchSignOut')
+                span.fa.fa-sign-out
+                |  Close Out Day
+        li
+          a(data-modal='addArtist')
+            span.fa.fa-plus
+            |  New Artist
+        li
+          a#open-second-screen(href='#second', target='_blank')
+            span.fa.fa-desktop
+            |  View 2

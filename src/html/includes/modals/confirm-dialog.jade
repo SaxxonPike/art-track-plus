@@ -1,0 +1,19 @@
+.modal.fade#confirm-dialog
+  .modal-dialog
+    .modal-content
+      form
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') &times;
+          h4.modal-title
+            span.fa.fa-exclamation-triangle
+            |  
+            span#confirm-title
+        .modal-body
+          p#confirm-body
+        .modal-footer
+          .row
+            .col-xs-6
+              button.btn.btn-default.btn-block(type='button', data-confirm-cancel, data-dismiss='modal' autofocus) Cancel
+            .col-xs-6
+              button.btn.btn-warning.btn-block(type='button', data-confirm-confirm, data-dismiss='modal') OK
