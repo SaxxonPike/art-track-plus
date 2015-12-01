@@ -15,6 +15,15 @@ nav.navbar.navbar-inverse.navbar-fixed-top
             span.caret
           ul.dropdown-menu
             li
+              a(data-system-action='databaseBackup')
+                span.fa.fa-database
+                |  Backup to File
+            li
+              a(data-system-action='databaseRestore')
+                span.fa.fa-database
+                |  Restore Backup
+            li.divider
+            li
               a.text-warning(data-modal='editArtistRaw')
                 span.fa.fa-database
                 |  Raw Data Editor
@@ -47,10 +56,10 @@ nav.navbar.navbar-inverse.navbar-fixed-top
             span.caret
           ul.dropdown-menu
             li
-              a(href='#' data-system-action='findArtistByTable')
+              a(data-system-action='findArtistByTable')
                 span.fa.fa-search
                 |  Artist by Table Number
-              a(href='#' data-system-action='findArtistByBadge')
+              a(data-system-action='findArtistByBadge')
                 span.fa.fa-search
                 |  Artist by Badge Number
         li.dropdown
@@ -59,7 +68,7 @@ nav.navbar.navbar-inverse.navbar-fixed-top
             span.caret
           ul.dropdown-menu
             li
-              a(href='#', data-system-action='newArtistRapidEntry')
+              a(data-system-action='newArtistRapidEntry')
                 span.fa.fa-plus
                 |  Rapid New Aritst Entry
               a(data-modal='bulkArtistRoom')
@@ -79,6 +88,6 @@ nav.navbar.navbar-inverse.navbar-fixed-top
             span.fa.fa-plus
             |  New Artist
         li
-          a#open-second-screen(href='#second', target='_blank')
+          a(href='#second', target='_blank')
             span.fa.fa-desktop
             |  View 2

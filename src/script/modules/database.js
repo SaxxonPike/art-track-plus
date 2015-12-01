@@ -1,13 +1,17 @@
+/* globals Promise */
+
 (function(scope) {
   var db;
 
   // Interface.
   scope.Database = {
+    backup: backupDatabase,
     delete: deleteDatabase,
     getSchema: getSchema,
     getTableVersion: getTableVersion,
     incrementTableVersion: incrementTableVersion,
     open: initialize,
+    restore: restoreDatabase,
     transaction: performTransaction
   };
 
@@ -96,5 +100,41 @@
       versions[tableName]++;
       return initialize().tableVersions.put(versions);
     });
+  }
+
+  // Back up the database
+  function backupDatabase() {
+    var output = {};
+    var tables = initialize().tables;
+
+    return Promise.all(tables.map(function(table) {
+      return new Promise(function(resolve) {
+        output[table.name] = [];
+        table.toArray(function(rows) {
+          rows.forEach(function(row) {
+            output[table.name].push(row);
+          });
+          resolve();
+        });
+      });
+    })).then(function() {
+      return Promise.resolve(output);
+    });
+  }
+
+  // Restore the database
+  function restoreDatabase(tables) {
+    return Promise.all(Object.keys(tables).map(function(tableName) {
+      if (tableName.toLowerCase() !== 'tableversions') {
+        var table = initialize()[tableName];
+        return table.clear().then(function() {
+          var rows = tables[tableName];
+          Promise.all(rows.map(function(row) {
+            return table.put(row);
+          }));
+          return incrementTableVersion(tableName);
+        });
+      }
+    }));
   }
 })(window);

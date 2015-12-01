@@ -1,4 +1,4 @@
-/* globals Artists, Filter */
+/* globals Artists, Filter, Promise */
 
 (function(scope) {
 
@@ -22,20 +22,20 @@
   };
 
   // Private vars.
-  var _promptConfirm;
+  var _promptConfirm = [];
   var _rapidEntry = false;
 
   // Execute confirm dialog confirmation events.
   function confirmConfirm(value) {
-    if (_promptConfirm) {
-      _promptConfirm(value);
+    if (_promptConfirm.length > 0) {
+      _promptConfirm.pop()(value);
     }
   }
 
   // Execute prompt confirmation events.
   function promptConfirm() {
-    if (_promptConfirm) {
-      _promptConfirm($('#prompt-dialog input').val());
+    if (_promptConfirm.length > 0) {
+      _promptConfirm.pop()($('#prompt-dialog input').val());
     }
   }
 
@@ -191,42 +191,77 @@
 
   // Show the alert modal.
   function showAlert(message, caption) {
-    if (message) {
-      $('#alert-title').text(caption || 'Notice');
-      $('#alert-body').text(message);
-      $('#alert-dialog').modal();
-    }
+    return new Promise(function(resolve, reject) {
+      if (message) {
+        $('#alert-title').text(caption || 'Notice');
+        $('#alert-body').text(message);
+        $('#alert-dialog').modal();
+        _promptConfirm.push(resolve);
+      } else {
+        reject();
+      }
+    });
   }
 
   // Show the confirm modal.
-  function showConfirm(message, caption, callback) {
-    _promptConfirm = callback;
-    if (message) {
-      $('#confirm-title').text(caption || 'Confirmation Needed');
-      $('#confirm-body').text(message);
-      $('#confirm-dialog').modal();
-    }
+  function showConfirm(message, caption) {
+    return new Promise(function(resolve, reject) {
+      if (message) {
+        $('#confirm-title').text(caption || 'Confirmation Needed');
+        $('#confirm-body').text(message);
+        $('#confirm-dialog').modal();
+        _promptConfirm.push(function(value) {
+          if (value === true) {
+            resolve(value);
+          } else {
+            reject();
+          }
+        });
+      } else {
+        reject();
+      }
+    });
   }
 
   // Show the prompt modal.
-  function showPrompt(message, caption, callback) {
-    _promptConfirm = callback;
-    if (message) {
-      $('#prompt-dialog input').val('');
-      $('#prompt-title').text(caption || 'Input Needed');
-      $('#prompt-body').text(message);
-      $('#prompt-dialog').modal();
-    }
+  function showPrompt(message, caption) {
+    return new Promise(function(resolve, reject) {
+      if (message) {
+        $('#prompt-dialog input').val('');
+        $('#prompt-title').text(caption || 'Input Needed');
+        $('#prompt-body').text(message);
+        $('#prompt-dialog').modal();
+        _promptConfirm.push(function(value) {
+          if (value === null || value === (void 0)) {
+            reject();
+          } else {
+            resolve(value);
+          }
+        });
+      } else {
+        reject();
+      }
+    });
   }
 
   // Show the yes/no/cancel modal.
-  function showYesNoCancel(message, caption, callback) {
-    _promptConfirm = callback;
-    if (message) {
-      $('#yes-no-cancel-title').text(caption || 'Confirmation Needed');
-      $('#yes-no-cancel-body').text(message);
-      $('#yes-no-cancel-dialog').modal();
-    }
+  function showYesNoCancel(message, caption) {
+    return new Promise(function(resolve, reject) {
+      if (message) {
+        $('#yes-no-cancel-title').text(caption || 'Confirmation Needed');
+        $('#yes-no-cancel-body').text(message);
+        $('#yes-no-cancel-dialog').modal();
+        _promptConfirm.push(function(value) {
+          if (value === true || value === false) {
+            resolve(value);
+          } else {
+            reject();
+          }
+        });
+      } else {
+        reject();
+      }
+    });
   }
 
   // Initialize modal actions.
@@ -322,10 +357,10 @@
       Artists.get(artistId).then(function(artist) {
         var caption = 'Add ' + artist.name + ' to Standby List';
         if (!!artist.standbyOrder) {
-          showConfirm(
+          showYesNoCancel(
             'This artist is already on standby. Move them to the bottom of the list?',
-            caption,
-            function(confirmed) {
+            caption)
+            .then(function(confirmed) {
               if (confirmed) {
                 performAction(artist);
               }
@@ -340,8 +375,8 @@
       Artists.get(getArtistFormId()).then(function(artist) {
         showPrompt(
           'Enter a table number.',
-          'Sign In for ' + artist.name,
-          function(seat) {
+          'Sign In for ' + artist.name)
+          .then(function(seat) {
             if (seat) {
               Artists.setSeated(getArtistFormId(), seat);
             }
@@ -355,11 +390,9 @@
         if (!!artist.tableNumber || !!artist.standbyOrder || !!artist.lotteryOrder) {
           showYesNoCancel(
             'Would this artist like to be included in tomorrow\'s lottery?',
-            caption,
-            function(eligible) {
-              if (eligible === true || eligible === false) {
-                Artists.setSignedOut(getArtistFormId(), !!eligible);
-              }
+            caption)
+            .then(function(eligible) {
+              Artists.setSignedOut(getArtistFormId(), !!eligible);
             });
         } else {
           showAlert(
