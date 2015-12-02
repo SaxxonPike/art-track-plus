@@ -1,4 +1,4 @@
-/* globals Artists, Filter */
+/* globals Artists, Filter, Promise */
 
 (function(scope) {
 
@@ -15,6 +15,7 @@
     prompt: showPrompt,
     promptConfirm: promptConfirm,
     resetDatabase: resetDatabase,
+    restoreDatabase: restoreDatabase,
     runLottery: runLottery,
     seedDatabase: seedDatabase,
     setRawArtistId: setRawArtistId,
@@ -22,20 +23,25 @@
   };
 
   // Private vars.
-  var _promptConfirm;
+  var _promptConfirm = [];
   var _rapidEntry = false;
+
+  // Register a modal response handler.
+  function registerConfirm(handler) {
+    _promptConfirm.push(handler);
+  }
 
   // Execute confirm dialog confirmation events.
   function confirmConfirm(value) {
-    if (_promptConfirm) {
-      _promptConfirm(value);
+    if (_promptConfirm.length > 0) {
+      _promptConfirm.pop()(value);
     }
   }
 
   // Execute prompt confirmation events.
   function promptConfirm() {
-    if (_promptConfirm) {
-      _promptConfirm($('#prompt-dialog input').val());
+    if (_promptConfirm.length > 0) {
+      _promptConfirm.pop()($('#prompt-dialog input').val());
     }
   }
 
@@ -50,7 +56,7 @@
     $('#artist-remarks').val(artistData.remarks || '');
     $('#artist-lottery-eligible').prop('checked', artistData.lotteryEligible || false);
     $('#artist-lottery-guaranteed').prop('checked', artistData.lotteryGuaranteed || false);
-    $('#artist-seated-last').text(!!artistData.seatedLast ?
+    $('#artist-seated-last').text(artistData.seatedLast ?
       moment(artistData.seatedLast).calendar() : 'Never');
     $('#artist-seated-days').text(artistData.seatedDays || 'Never');
     $('#artist-standby-days').text(artistData.standbyDays || 'Never');
@@ -92,8 +98,9 @@
           .addClass('form-control-static')
           .text(a.tableNumber);
 
-        var inputBox = $('<input type="text">')
+        var inputBox = $('<input/>')
           .addClass('form-control')
+          .attr('type', 'text')
           .attr('id', 'bulk-artist-room-number-' + a.id)
           .attr('value', a.roomNumber)
           .attr('data-artist-id', a.id);
@@ -109,7 +116,7 @@
       $('#bulk-artist-room-table input[type=text]').last().keydown(function(e) {
         if (e.which === 13) {
           e.preventDefault();
-          window.setTimeout(function() {
+          scope.setTimeout(function() {
             $('[data-save=rooms]').focus();
           }, 10);
         }
@@ -152,6 +159,12 @@
     $('#reset-dialog').modal();
   }
 
+  // Show the Restore Database modal.
+  function restoreDatabase() {
+    $('#import-dialog-file').replaceWith($('#import-dialog-file').clone());
+    $('#import-dialog').modal();
+  }
+
   // Show the Run Lottery modal.
   function runLottery() {
     // Safeguard against wiping out the standby/checkin list.
@@ -174,9 +187,8 @@
   // Fill in the raw artist data text area.
   function setRawArtistId(selectedId) {
     var editor = $('[data-edit-raw=artist]');
-    if (!!selectedId) {
+    if (selectedId) {
       Artists.get(selectedId).then(function(artist) {
-        console.log(artist);
         if (artist) {
           delete artist.id;
           editor.val(JSON.stringify(artist, null, 2));
@@ -191,42 +203,77 @@
 
   // Show the alert modal.
   function showAlert(message, caption) {
-    if (message) {
-      $('#alert-title').text(caption || 'Notice');
-      $('#alert-body').text(message);
-      $('#alert-dialog').modal();
-    }
+    return new Promise(function(resolve, reject) {
+      if (message) {
+        $('#alert-title').text(caption || 'Notice');
+        $('#alert-body').text(message);
+        $('#alert-dialog').modal();
+        registerConfirm(resolve);
+      } else {
+        reject();
+      }
+    });
   }
 
   // Show the confirm modal.
-  function showConfirm(message, caption, callback) {
-    _promptConfirm = callback;
-    if (message) {
-      $('#confirm-title').text(caption || 'Confirmation Needed');
-      $('#confirm-body').text(message);
-      $('#confirm-dialog').modal();
-    }
+  function showConfirm(message, caption) {
+    return new Promise(function(resolve, reject) {
+      if (message) {
+        $('#confirm-title').text(caption || 'Confirmation Needed');
+        $('#confirm-body').text(message);
+        $('#confirm-dialog').modal();
+        registerConfirm(function(value) {
+          if (value === true) {
+            resolve(value);
+          } else {
+            reject();
+          }
+        });
+      } else {
+        reject();
+      }
+    });
   }
 
   // Show the prompt modal.
-  function showPrompt(message, caption, callback) {
-    _promptConfirm = callback;
-    if (message) {
-      $('#prompt-dialog input').val('');
-      $('#prompt-title').text(caption || 'Input Needed');
-      $('#prompt-body').text(message);
-      $('#prompt-dialog').modal();
-    }
+  function showPrompt(message, caption) {
+    return new Promise(function(resolve, reject) {
+      if (message) {
+        $('#prompt-dialog input').val('');
+        $('#prompt-title').text(caption || 'Input Needed');
+        $('#prompt-body').text(message);
+        $('#prompt-dialog').modal();
+        registerConfirm(function(value) {
+          if (value === null || value === (void 0)) {
+            reject();
+          } else {
+            resolve(value);
+          }
+        });
+      } else {
+        reject();
+      }
+    });
   }
 
   // Show the yes/no/cancel modal.
-  function showYesNoCancel(message, caption, callback) {
-    _promptConfirm = callback;
-    if (message) {
-      $('#yes-no-cancel-title').text(caption || 'Confirmation Needed');
-      $('#yes-no-cancel-body').text(message);
-      $('#yes-no-cancel-dialog').modal();
-    }
+  function showYesNoCancel(message, caption) {
+    return new Promise(function(resolve, reject) {
+      if (message) {
+        $('#yes-no-cancel-title').text(caption || 'Confirmation Needed');
+        $('#yes-no-cancel-body').text(message);
+        $('#yes-no-cancel-dialog').modal();
+        registerConfirm(function(value) {
+          if (value === true || value === false) {
+            resolve(value);
+          } else {
+            reject();
+          }
+        });
+      } else {
+        reject();
+      }
+    });
   }
 
   // Initialize modal actions.
@@ -260,7 +307,7 @@
       $('#bulk-artist-room-table input[type=text]').each(function() {
         var inputElement = $(this);
         var artistId = inputElement.attr('data-artist-id');
-        if (!!artistId) {
+        if (artistId) {
           artistRooms.push({
             id: artistId,
             roomNumber: inputElement.val()
@@ -279,7 +326,7 @@
         } else {
           saveEditedArtist();
           addArtist(_rapidEntry, true);
-          window.setTimeout(function() {
+          scope.setTimeout(function() {
             $('#artist-detail input').first().focus();
           }, 10);
         }
@@ -289,8 +336,8 @@
     $('[data-delete=artist]').click(function() {
       showConfirm(
         'Really delete this artist?',
-        'Delete Artist Confirmation',
-        function(confirmed) {
+        'Delete Artist Confirmation')
+        .then(function(confirmed) {
           if (confirmed) {
             Artists.delete(getArtistFormId());
           }
@@ -321,11 +368,11 @@
       var artistId = getArtistFormId();
       Artists.get(artistId).then(function(artist) {
         var caption = 'Add ' + artist.name + ' to Standby List';
-        if (!!artist.standbyOrder) {
-          showConfirm(
+        if (artist.standbyOrder) {
+          showYesNoCancel(
             'This artist is already on standby. Move them to the bottom of the list?',
-            caption,
-            function(confirmed) {
+            caption)
+            .then(function(confirmed) {
               if (confirmed) {
                 performAction(artist);
               }
@@ -340,8 +387,8 @@
       Artists.get(getArtistFormId()).then(function(artist) {
         showPrompt(
           'Enter a table number.',
-          'Sign In for ' + artist.name,
-          function(seat) {
+          'Sign In for ' + artist.name)
+          .then(function(seat) {
             if (seat) {
               Artists.setSeated(getArtistFormId(), seat);
             }
@@ -352,14 +399,12 @@
     $('[data-signout=artist]').click(function() {
       Artists.get(getArtistFormId()).then(function(artist) {
         var caption = 'Signing out ' + artist.name;
-        if (!!artist.tableNumber || !!artist.standbyOrder || !!artist.lotteryOrder) {
+        if (artist.tableNumber || artist.standbyOrder || artist.lotteryOrder) {
           showYesNoCancel(
             'Would this artist like to be included in tomorrow\'s lottery?',
-            caption,
-            function(eligible) {
-              if (eligible === true || eligible === false) {
-                Artists.setSignedOut(getArtistFormId(), !!eligible);
-              }
+            caption)
+            .then(function(eligible) {
+              Artists.setSignedOut(getArtistFormId(), !!eligible);
             });
         } else {
           showAlert(

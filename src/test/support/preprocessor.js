@@ -1,5 +1,7 @@
+/* global module */
+
 module.exports = {
-  process: function(src, path) {
+  process: function(src) {
     return src;
   }
 };

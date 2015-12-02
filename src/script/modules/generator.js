@@ -1,3 +1,5 @@
+/* globals exports */
+
 (function(scope) {
 
   // Interface.
@@ -43,4 +45,4 @@
       (random(9000) + 1000);
   }
 
-})(window);
+})((typeof window !== 'undefined') ? window : exports);

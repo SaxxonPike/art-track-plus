@@ -21,10 +21,12 @@ $(function() {
       var linkElement = $(e);
       var modalId = linkElement.attr('data-modal');
       linkElement
-        .attr('href', '#')
         .click(function() {
           Modal[modalId]();
         });
+      if (!linkElement.attr('href')) {
+        linkElement.attr('href', '#');
+      }
     });
   }
 
@@ -51,6 +53,9 @@ $(function() {
         .click(function() {
           SystemActions[action]();
         });
+      if (!linkElement.attr('href')) {
+        linkElement.attr('href', '#');
+      }
     });
   }
 

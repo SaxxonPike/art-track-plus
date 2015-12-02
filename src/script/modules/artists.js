@@ -1,4 +1,4 @@
-/* globals Database */
+/* globals exports */
 
 (function(scope) {
   // Interface.
@@ -15,6 +15,13 @@
     setStandby: setStandby,
     setSignedOut: setSignedOut
   };
+
+  // Constants.
+  var ARTISTS_TABLE_NAME = 'artists';
+
+  function getDatabase() {
+    return scope.Database;
+  }
 
   // Return a copy of the array with the element added, without duplications.
   function addArrayEntry(arrayData, elementToAdd) {
@@ -55,30 +62,32 @@
 
   // Set an artist's status to seated, with the specified table number.
   function setSeated(id, tableNumber) {
-    return getArtistById(id).then(function(artist) {
-      return setArtist({
-        id: id,
-        tableNumber: tableNumber,
-        seatedDays: appendToday(artist.seatedDays),
-        seatedLast: moment().format(),
-        standbyOrder: null,
-        lotteryOrder: null
+    return getArtistById(id).then(
+      function(artist) {
+        return setArtist({
+          id: id,
+          tableNumber: tableNumber,
+          seatedDays: appendToday(artist.seatedDays),
+          seatedLast: moment().format(),
+          standbyOrder: null,
+          lotteryOrder: null
+        });
       });
-    });
   }
 
   // Add an artist to the end of the standby list.
   function setStandby(id) {
-    return getAllArtists().then(function(artists) {
-      return setArtist({
-        id: id,
-        standbyOrder: getMaxFieldValue(artists, 'standbyOrder') + 1,
-        lotteryOrder: null,
-        tableNumber: null,
-        roomNumber: null,
-        standbyDays: appendToday(getArtistFromArray(artists, id).standbyDays)
+    return getAllArtists().then(
+      function(artists) {
+        return setArtist({
+          id: id,
+          standbyOrder: getMaxFieldValue(artists, 'standbyOrder') + 1,
+          lotteryOrder: null,
+          tableNumber: null,
+          roomNumber: null,
+          standbyDays: appendToday(getArtistFromArray(artists, id).standbyDays)
+        });
       });
-    });
   }
 
   // Set an artist to signed out.
@@ -95,53 +104,55 @@
 
   // Add an artist to the end of the lottery list.
   function addLottery(id) {
-    return getAllArtists().then(function(artists) {
-      return setArtist({
-        id: id,
-        lotteryOrder: getMaxFieldValue(artists, 'lotteryOrder') + 1,
-        standbyOrder: null,
-        tableNumber: null,
-        roomNumber: null
+    return getAllArtists().then(
+      function(artists) {
+        return setArtist({
+          id: id,
+          lotteryOrder: getMaxFieldValue(artists, 'lotteryOrder') + 1,
+          standbyOrder: null,
+          tableNumber: null,
+          roomNumber: null
+        });
       });
-    });
   }
 
   // Clear all artists from the database.
   function clearArtists() {
-    return Database.open().artists.clear()
+    return getDatabase().open().artists.clear()
       .then(incrementTableVersion);
   }
 
   // Delete an artist from the database by ID.
   function deleteArtistById(id) {
-    return Database.open().artists.delete(+id)
+    return getDatabase().open().artists.delete(+id)
       .then(incrementTableVersion);
   }
 
   // Get all artists.
   function getAllArtists() {
-    return Database.open().artists.toArray();
+    return getDatabase().open().artists.toArray();
   }
 
   // Get an artist by ID.
   function getArtistById(id) {
-    return Database.open().artists.get(+id);
+    return getDatabase().open().artists.get(+id);
   }
 
   // Set multiple artist data.
   function setAllArtists(artists) {
-    return Database.transaction(function() {
+    var database = getDatabase();
+    return database.transaction(function() {
       artists.forEach(function(artist) {
         var isNew = !artist.id;
         var data = Object.assign({}, artist);
         delete data.id;
         if (isNew) {
-          Database.open().artists.put(data);
+          database.open().artists.put(data);
         } else {
-          Database.open().artists.update(+artist.id, data);
+          database.open().artists.update(+artist.id, data);
         }
       });
-      Database.incrementTableVersion('artists');
+      incrementTableVersion();
     });
   }
 
@@ -151,6 +162,6 @@
   }
 
   function incrementTableVersion() {
-    return Database.incrementTableVersion('artists');
+    return getDatabase().incrementTableVersion(ARTISTS_TABLE_NAME);
   }
-})(window);
+})((typeof window !== 'undefined') ? window : exports);
