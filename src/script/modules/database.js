@@ -15,6 +15,9 @@
     transaction: performTransaction
   };
 
+  // If true, we're already in a transaction scope.
+  var _inTransactionScope = false;
+
   // (Lazily) initialize Dexie.
   function initialize() {
     if (!db) {
@@ -56,16 +59,11 @@
     return initialize()[tableName].schema;
   }
 
-  // Get stack trace.
-  function getStackTrace() {
-    var err = new Error();
-    return err.stack;
-  }
-
   // Error handler for Dexie.
   function handleError(error) {
+    var err = new Error();
     var errorMessage = 'Dexie has encountered an error: ' + error + '\n\n' +
-      getStackTrace();
+      err.stack;
     console.error(errorMessage);
   }
 
@@ -78,7 +76,19 @@
 
   // Perform a database transaction.
   function performTransaction(callback) {
-    return initialize().transaction('rw', ['artists', 'tableVersions'], callback);
+    var database = initialize();
+    if (_inTransactionScope) {
+      return callback();
+    } else {
+      return database.transaction('rw', database.tables.map(function(table) {
+        return table.name;
+      }), function() {
+        _inTransactionScope = true;
+        var result = callback();
+        _inTransactionScope = false;
+        return result;
+      });
+    }
   }
 
   // Get current table version.
@@ -114,12 +124,10 @@
           rows.forEach(function(row) {
             output[table.name].push(row);
           });
-          resolve();
+          resolve(output);
         });
       });
-    })).then(function() {
-      return Promise.resolve(output);
-    });
+    }));
   }
 
   // Restore the database

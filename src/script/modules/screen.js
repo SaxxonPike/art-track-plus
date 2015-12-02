@@ -7,7 +7,7 @@
   // Center the screen element horizontally. This isn't the most
   // elegant solution...
   function reposition() {
-    var width = $(window).width();
+    var width = $(scope).width();
     var leftMargin = 0;
     if (width > 960) {
       var containerWidth = $('.screen:visible').width();

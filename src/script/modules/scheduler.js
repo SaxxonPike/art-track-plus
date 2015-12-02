@@ -14,7 +14,7 @@
 
   // Initialize the timer event on load.
   $(function() {
-    window.setInterval(onTick, 500);
+    scope.setInterval(onTick, 500);
   });
 
   // Call all functions in an array.

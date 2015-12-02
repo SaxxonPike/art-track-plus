@@ -74,11 +74,11 @@
 
   // Build a name list for use in the DOM.
   function buildNames(container, nameData, options) {
-    options = $.extend({
+    options = Object.assign({
       disableClick: false,
       withSymbols: false,
       withOrder: false
-    }, options || {});
+    }, options);
 
     container.empty();
 

@@ -25,6 +25,11 @@
   var _promptConfirm = [];
   var _rapidEntry = false;
 
+  // Register a modal response handler.
+  function registerConfirm(handler) {
+    _promptConfirm.push(handler);
+  }
+
   // Execute confirm dialog confirmation events.
   function confirmConfirm(value) {
     if (_promptConfirm.length > 0) {
@@ -92,8 +97,9 @@
           .addClass('form-control-static')
           .text(a.tableNumber);
 
-        var inputBox = $('<input type="text">')
+        var inputBox = $('<input/>')
           .addClass('form-control')
+          .attr('type', 'text')
           .attr('id', 'bulk-artist-room-number-' + a.id)
           .attr('value', a.roomNumber)
           .attr('data-artist-id', a.id);
@@ -109,7 +115,7 @@
       $('#bulk-artist-room-table input[type=text]').last().keydown(function(e) {
         if (e.which === 13) {
           e.preventDefault();
-          window.setTimeout(function() {
+          scope.setTimeout(function() {
             $('[data-save=rooms]').focus();
           }, 10);
         }
@@ -176,7 +182,6 @@
     var editor = $('[data-edit-raw=artist]');
     if (!!selectedId) {
       Artists.get(selectedId).then(function(artist) {
-        console.log(artist);
         if (artist) {
           delete artist.id;
           editor.val(JSON.stringify(artist, null, 2));
@@ -196,7 +201,7 @@
         $('#alert-title').text(caption || 'Notice');
         $('#alert-body').text(message);
         $('#alert-dialog').modal();
-        _promptConfirm.push(resolve);
+        registerConfirm(resolve);
       } else {
         reject();
       }
@@ -210,7 +215,7 @@
         $('#confirm-title').text(caption || 'Confirmation Needed');
         $('#confirm-body').text(message);
         $('#confirm-dialog').modal();
-        _promptConfirm.push(function(value) {
+        registerConfirm(function(value) {
           if (value === true) {
             resolve(value);
           } else {
@@ -231,7 +236,7 @@
         $('#prompt-title').text(caption || 'Input Needed');
         $('#prompt-body').text(message);
         $('#prompt-dialog').modal();
-        _promptConfirm.push(function(value) {
+        registerConfirm(function(value) {
           if (value === null || value === (void 0)) {
             reject();
           } else {
@@ -251,7 +256,7 @@
         $('#yes-no-cancel-title').text(caption || 'Confirmation Needed');
         $('#yes-no-cancel-body').text(message);
         $('#yes-no-cancel-dialog').modal();
-        _promptConfirm.push(function(value) {
+        registerConfirm(function(value) {
           if (value === true || value === false) {
             resolve(value);
           } else {
@@ -314,7 +319,7 @@
         } else {
           saveEditedArtist();
           addArtist(_rapidEntry, true);
-          window.setTimeout(function() {
+          scope.setTimeout(function() {
             $('#artist-detail input').first().focus();
           }, 10);
         }
@@ -324,8 +329,8 @@
     $('[data-delete=artist]').click(function() {
       showConfirm(
         'Really delete this artist?',
-        'Delete Artist Confirmation',
-        function(confirmed) {
+        'Delete Artist Confirmation')
+        .then(function(confirmed) {
           if (confirmed) {
             Artists.delete(getArtistFormId());
           }
