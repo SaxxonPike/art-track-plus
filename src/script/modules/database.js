@@ -1,4 +1,4 @@
-/* globals Promise */
+/* globals exports, Promise */
 
 (function(scope) {
   var db;
@@ -12,6 +12,7 @@
     incrementTableVersion: incrementTableVersion,
     open: initialize,
     restore: restoreDatabase,
+    select: selectDatabase,
     transaction: performTransaction
   };
 
@@ -20,11 +21,12 @@
 
   // If true, we're already in a transaction scope.
   var _inTransactionScope = false;
+  var _databaseName = 'ArtTrackPlus2';
 
   // (Lazily) initialize Dexie.
   function initialize() {
     if (!db) {
-      var dexie = new Dexie('ArtTrackPlus2');
+      var dexie = new Dexie(_databaseName);
       dexie.version(1)
         .stores({
           artists: [
@@ -157,4 +159,13 @@
       }
     }));
   }
-})(window);
+
+  function selectDatabase(databaseName) {
+    _databaseName = databaseName;
+    if (db) {
+      db.close();
+      db = null;
+    }
+  }
+
+})((typeof window !== 'undefined') ? window : exports);

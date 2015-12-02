@@ -1,3 +1,5 @@
+/* globals exports */
+
 (function(scope) {
 
   // Interface.
@@ -92,4 +94,4 @@
       return fieldA > fieldB ? 1 : (fieldA < fieldB ? -1 : 0);
     });
   }
-})(window);
+})((typeof window !== 'undefined') ? window : exports);

@@ -1,4 +1,4 @@
-/* globals Artists, Filter */
+/* globals Artists, exports, Filter */
 
 (function(scope) {
 
@@ -65,4 +65,4 @@
       Artists.setAll(eligibleArtists);
     });
   }
-})(window);
+})((typeof window !== 'undefined') ? window : exports);

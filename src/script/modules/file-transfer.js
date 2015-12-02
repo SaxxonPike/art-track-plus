@@ -1,4 +1,4 @@
-/* global Promise */
+/* globals Promise */
 
 (function(scope, docScope) {
   scope.FileTransfer = {

@@ -1,3 +1,5 @@
+/* globals exports */
+
 (function(scope) {
   // Interface.
   scope.Artists = {
@@ -162,4 +164,4 @@
   function incrementTableVersion() {
     return getDatabase().incrementTableVersion(ARTISTS_TABLE_NAME);
   }
-})(window);
+})((typeof window !== 'undefined') ? window : exports);
