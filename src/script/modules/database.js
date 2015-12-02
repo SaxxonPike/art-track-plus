@@ -15,6 +15,9 @@
     transaction: performTransaction
   };
 
+  // Constants.
+  var TABLE_VERSIONS_NAME = 'tableversions';
+
   // If true, we're already in a transaction scope.
   var _inTransactionScope = false;
 
@@ -119,23 +122,32 @@
 
     return Promise.all(tables.map(function(table) {
       return new Promise(function(resolve) {
-        output[table.name] = [];
+        if (table.name.toLowerCase() === TABLE_VERSIONS_NAME) {
+          resolve();
+          return;
+        }
         table.toArray(function(rows) {
+          var tableRows = [];
           rows.forEach(function(row) {
-            output[table.name].push(row);
+            tableRows.push(row);
           });
-          resolve(output);
+          output[table.name] = tableRows;
+          resolve();
         });
       });
-    }));
+    })).then(function() {
+      return Promise.resolve(output);
+    });
   }
 
   // Restore the database
   function restoreDatabase(tables) {
     return Promise.all(Object.keys(tables).map(function(tableName) {
-      if (tableName.toLowerCase() !== 'tableversions') {
+      if (tableName.toLowerCase() !== TABLE_VERSIONS_NAME) {
         var table = initialize()[tableName];
-        return table.clear().then(function() {
+        console.log('clear table ' + tableName);
+        var clearTask = table.clear ? table.clear() : Promise.resolve();
+        return clearTask.then(function() {
           var rows = tables[tableName];
           Promise.all(rows.map(function(row) {
             return table.put(row);

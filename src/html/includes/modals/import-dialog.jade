@@ -1,0 +1,24 @@
+.modal.fade#import-dialog
+  .modal-dialog
+    .modal-content
+      form
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') &times;
+          h4.modal-title
+            span.fa.fa-database
+            |  Restore Database
+        .modal-body
+          p
+            | This will restore a saved database in JSON format. This can 
+            b not 
+            | be undone.
+          .form-group
+            label(for='import-dialog-file') File to Restore
+            input(type='file', id='import-dialog-file')
+        .modal-footer
+          .row
+            .col-xs-8
+              button.btn.btn-default.btn-block(type='button', data-dismiss='modal') Cancel
+            .col-xs-4
+              button.btn.btn-danger.btn-block(type='button', data-dismiss='modal', data-system-action="databaseRestore") Restore

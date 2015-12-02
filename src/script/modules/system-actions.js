@@ -43,9 +43,9 @@
         return Artists.getAll().then(function(artists) {
           return Database.transaction(function() {
             return Promise.all(artists.map(function(a) {
-              if (!!a.tableNumber) {
+              if (a.tableNumber) {
                 return Artists.setSignedOut(a.id, false);
-              } else if (!!a.standbyOrder || !!a.lotteryOrder) {
+              } else if (a.standbyOrder || a.lotteryOrder) {
                 return Artists.setSignedOut(a.id, true);
               }
             }));
@@ -132,18 +132,18 @@
   function findArtistBy(fieldName, value) {
     var valueString = '' + value;
     return findArtist(function(a) {
-      return !!a[fieldName] &&
+      return a[fieldName] &&
         ('' + a[fieldName]) === valueString;
     });
   }
 
   // Find an artist by badge number.
   function findArtistByBadge() {
-    Modal.prompt(
+    return Modal.prompt(
       'Enter badge number.',
       'Find Artist by Badge Number')
       .then(function(badgeNumber) {
-        if (!!badgeNumber) {
+        if (badgeNumber) {
           findArtistBy('badgeNumber', badgeNumber);
         }
       });
@@ -151,11 +151,11 @@
 
   // Find an artist by table number.
   function findArtistByTable() {
-    Modal.prompt(
+    return Modal.prompt(
       'Enter table number.',
       'Find Artist by Table Number')
       .then(function(tableNumber) {
-        if (!!tableNumber) {
+        if (tableNumber) {
           findArtistBy('tableNumber', tableNumber);
         }
       });
@@ -168,7 +168,7 @@
 
   // Clear out all artists.
   function resetDatabase() {
-    confirmAction(
+    return confirmAction(
       'reset',
       'Wipe Everything')
       .then(Artists.clear);
@@ -176,7 +176,7 @@
 
   // Run the lottery for a given number of slots.
   function runLottery() {
-    Modal.prompt(
+    return Modal.prompt(
       'How many seats?',
       'Run Lottery')
       .then(function(seats) {
@@ -207,7 +207,7 @@
 
   // Fill the database with mock data.
   function seedDatabase() {
-    confirmAction(
+    return confirmAction(
       'generate',
       'Generate Test Data')
       .then(function() {
@@ -223,15 +223,38 @@
 
   // Backup database to JSON
   function databaseBackup() {
-    Database.backup().then(function(data) {
+    return Database.backup().then(function(data) {
       var fileName = 'backup-' + moment().format('x') + '.json';
-      FileTransfer.download(fileName, JSON.stringify(data));
+      return FileTransfer.download(fileName, JSON.stringify(data));
     });
   }
 
   // Restore database from JSON
   function databaseRestore() {
-
+    var files = $('#import-dialog-file')[0].files;
+    if (files[0]) {
+      return FileTransfer.upload(files[0]).then(
+        function(fileData) {
+          var jsonData;
+          try {
+            jsonData = JSON.parse(fileData);
+          } catch (e) {
+            return Promise.reject(e);
+          }
+          return Promise.resolve(jsonData);
+        }
+      ).then(Database.restore).then(
+        Modal.alert(
+          'The database was restored successfully.',
+          'Database Restore')
+      )
+        .catch(function(e) {
+          Modal.alert(
+            'There was a problem restoring the database:\n' + e,
+            'Database Restore Failed');
+        });
+    }
+    return Promise.reject();
   }
 
 })(window);

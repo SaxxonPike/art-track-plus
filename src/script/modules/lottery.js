@@ -40,7 +40,7 @@
       // Populate the guaranteed artists first.
       var lotteryNumber = 1;
       eligibleArtists.forEach(function(a) {
-        if (slotsAvailable > 0 && !!a.lotteryGuaranteed) {
+        if (slotsAvailable > 0 && a.lotteryGuaranteed) {
           a.lotteryOrder = lotteryNumber++;
           slotsAvailable--;
         }

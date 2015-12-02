@@ -23,7 +23,16 @@
 
   // Retrieve file contents from a user.
   function upload(file) {
-    console.log(file);
+    return new Promise(function(resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function(response) {
+        resolve(response.target.result);
+      };
+      reader.onerror = function(error) {
+        reject(error);
+      };
+      reader.readAsText(file);
+    });
   }
 
 })(window, document);

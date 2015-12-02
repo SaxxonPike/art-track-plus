@@ -15,6 +15,7 @@
     prompt: showPrompt,
     promptConfirm: promptConfirm,
     resetDatabase: resetDatabase,
+    restoreDatabase: restoreDatabase,
     runLottery: runLottery,
     seedDatabase: seedDatabase,
     setRawArtistId: setRawArtistId,
@@ -55,7 +56,7 @@
     $('#artist-remarks').val(artistData.remarks || '');
     $('#artist-lottery-eligible').prop('checked', artistData.lotteryEligible || false);
     $('#artist-lottery-guaranteed').prop('checked', artistData.lotteryGuaranteed || false);
-    $('#artist-seated-last').text(!!artistData.seatedLast ?
+    $('#artist-seated-last').text(artistData.seatedLast ?
       moment(artistData.seatedLast).calendar() : 'Never');
     $('#artist-seated-days').text(artistData.seatedDays || 'Never');
     $('#artist-standby-days').text(artistData.standbyDays || 'Never');
@@ -158,6 +159,12 @@
     $('#reset-dialog').modal();
   }
 
+  // Show the Restore Database modal.
+  function restoreDatabase() {
+    $('#import-dialog-file').replaceWith($('#import-dialog-file').clone());
+    $('#import-dialog').modal();
+  }
+
   // Show the Run Lottery modal.
   function runLottery() {
     // Safeguard against wiping out the standby/checkin list.
@@ -180,7 +187,7 @@
   // Fill in the raw artist data text area.
   function setRawArtistId(selectedId) {
     var editor = $('[data-edit-raw=artist]');
-    if (!!selectedId) {
+    if (selectedId) {
       Artists.get(selectedId).then(function(artist) {
         if (artist) {
           delete artist.id;
@@ -300,7 +307,7 @@
       $('#bulk-artist-room-table input[type=text]').each(function() {
         var inputElement = $(this);
         var artistId = inputElement.attr('data-artist-id');
-        if (!!artistId) {
+        if (artistId) {
           artistRooms.push({
             id: artistId,
             roomNumber: inputElement.val()
@@ -361,7 +368,7 @@
       var artistId = getArtistFormId();
       Artists.get(artistId).then(function(artist) {
         var caption = 'Add ' + artist.name + ' to Standby List';
-        if (!!artist.standbyOrder) {
+        if (artist.standbyOrder) {
           showYesNoCancel(
             'This artist is already on standby. Move them to the bottom of the list?',
             caption)
@@ -392,7 +399,7 @@
     $('[data-signout=artist]').click(function() {
       Artists.get(getArtistFormId()).then(function(artist) {
         var caption = 'Signing out ' + artist.name;
-        if (!!artist.tableNumber || !!artist.standbyOrder || !!artist.lotteryOrder) {
+        if (artist.tableNumber || artist.standbyOrder || artist.lotteryOrder) {
           showYesNoCancel(
             'Would this artist like to be included in tomorrow\'s lottery?',
             caption)
