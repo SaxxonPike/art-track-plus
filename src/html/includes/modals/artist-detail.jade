@@ -1,4 +1,4 @@
-.modal.fade#artist-detail
+.modal#artist-detail
   .modal-dialog
     .modal-content
       form(data-plus-as-tab='true')
@@ -16,15 +16,15 @@
         .modal-body.artist-edit-only
           .row
             .col-xs-4
-              button.btn.btn-signout.btn-block(tabindex='-1', type='button', data-dismiss='modal', data-signout="artist", data-skip-enter)
+              button.btn.btn-signout.btn-block(tabindex='-1', type='button', data-signout="artist", data-skip-enter)
                 span.fa.fa-sign-out
                 |  Sign Out
             .col-xs-4
-              button.btn.btn-standby.btn-block(tabindex='-1', type='button', data-dismiss='modal', data-standby="artist", data-skip-enter)
+              button.btn.btn-standby.btn-block(tabindex='-1', type='button', data-standby="artist", data-skip-enter)
                 span.fa.fa-clock-o
                 |  Standby
             .col-xs-4
-              button.btn.btn-seated.btn-block(tabindex='-1', type='button', data-dismiss='modal', data-signin="artist", data-skip-enter)
+              button.btn.btn-seated.btn-block(tabindex='-1', type='button', data-signin="artist", data-skip-enter)
                 span.fa.fa-sign-in
                 |  Sign In
         .modal-body
@@ -74,7 +74,7 @@
         .modal-footer
           .row
             .col-xs-4.artist-edit-only
-              button.btn.btn-link.btn-block(tabindex='-1', type='button', data-dismiss='modal', data-delete="artist" data-skip-enter)
+              button.btn.btn-link.btn-block(tabindex='-1', type='button', data-delete="artist" data-skip-enter)
                 span.fa.fa-times-circle
                 |  Delete
             .col-xs-4
@@ -86,6 +86,6 @@
                 span.fa.fa-floppy-o
                 |  Save & Clear
             .col-xs-4
-              button.btn.btn-primary.btn-block(type='button', data-dismiss='modal', data-save="artist", data-confirm-enter)
+              button.btn.btn-primary.btn-block(type='button', data-save="artist", data-confirm-enter)
                 span.fa.fa-floppy-o
                 |  Save

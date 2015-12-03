@@ -207,7 +207,9 @@
       if (message) {
         $('#alert-title').text(caption || 'Notice');
         $('#alert-body').text(message);
-        $('#alert-dialog').modal();
+        $('#alert-dialog').modal({
+          backdrop: 'static'
+        });
         registerConfirm(resolve);
       } else {
         reject();
@@ -221,7 +223,9 @@
       if (message) {
         $('#confirm-title').text(caption || 'Confirmation Needed');
         $('#confirm-body').text(message);
-        $('#confirm-dialog').modal();
+        $('#confirm-dialog').modal({
+          backdrop: 'static'
+        });
         registerConfirm(function(value) {
           if (value === true) {
             resolve(value);
@@ -242,7 +246,9 @@
         $('#prompt-dialog input').val('');
         $('#prompt-title').text(caption || 'Input Needed');
         $('#prompt-body').text(message);
-        $('#prompt-dialog').modal();
+        $('#prompt-dialog').modal({
+          backdrop: 'static'
+        });
         registerConfirm(function(value) {
           if (value === null || value === (void 0)) {
             reject();
@@ -262,7 +268,9 @@
       if (message) {
         $('#yes-no-cancel-title').text(caption || 'Confirmation Needed');
         $('#yes-no-cancel-body').text(message);
-        $('#yes-no-cancel-dialog').modal();
+        $('#yes-no-cancel-dialog').modal({
+          backdrop: 'static'
+        });
         registerConfirm(function(value) {
           if (value === true || value === false) {
             resolve(value);
@@ -298,7 +306,7 @@
         artistData.lotteryOrder = 0;
         artistData.standbyOrder = 0;
       }
-      Artists.set(artistData);
+      return Artists.set(artistData);
     }
 
     function saveEditedRooms() {
@@ -316,6 +324,10 @@
       });
 
       Artists.setAll(artistRooms);
+    }
+
+    function toggleArtistModal() {
+      $('#artist-detail').modal('toggle');
     }
 
     $('#artist-detail input[type=text]').last().keydown(function(e) {
@@ -340,12 +352,21 @@
         .then(function(confirmed) {
           if (confirmed) {
             Artists.delete(getArtistFormId());
+            toggleArtistModal();
           }
         });
     });
 
-    $('[data-save=artist]').click(function() {
-      saveEditedArtist();
+    $('[data-save=artist]').click(function(e) {
+      if ($('#artist-name').val().trim()) {
+        saveEditedArtist();
+        toggleArtistModal();
+      } else {
+        showAlert(
+          'A name is required for this artist.',
+          'Save Artist Failed');
+        e.preventDefault();
+      }
     });
 
     $('[data-save=rooms]').click(function() {
@@ -360,7 +381,9 @@
             showAlert(
               'The artist is #' + index + ' in standby.',
               'Add ' + artist.name + ' to Standby List'
-            );
+            ).then(function() {
+              toggleArtistModal();
+            });
           });
         });
       };
@@ -369,8 +392,8 @@
       Artists.get(artistId).then(function(artist) {
         var caption = 'Add ' + artist.name + ' to Standby List';
         if (artist.standbyOrder) {
-          showYesNoCancel(
-            'This artist is already on standby. Move them to the bottom of the list?',
+          showConfirm(
+            'This artist is already on standby. Performing this action will move them to the bottom of the list.',
             caption)
             .then(function(confirmed) {
               if (confirmed) {
@@ -392,6 +415,7 @@
             if (seat) {
               Artists.setSeated(getArtistFormId(), seat);
             }
+            toggleArtistModal();
           });
       });
     });
@@ -405,12 +429,13 @@
             caption)
             .then(function(eligible) {
               Artists.setSignedOut(getArtistFormId(), !!eligible);
+              toggleArtistModal();
             });
         } else {
           showAlert(
             'This artist is already signed out.',
             caption
-          );
+          ).then(toggleArtistModal);
         }
       });
     });
