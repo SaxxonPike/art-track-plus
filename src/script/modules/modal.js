@@ -1,4 +1,4 @@
-/* globals Artists, Filter, Promise */
+/* globals Artists, Elements, Filter, Promise */
 
 (function(scope) {
 
@@ -47,6 +47,7 @@
 
   // Populate the Artist modal with data from the model.
   function mapArtistData(artistData) {
+    $('#artist-detail .artist-symbols').html(Elements.buildSymbols(artistData));
     $('#artist-id').text(artistData.id || '0');
     $('#artist-name').val(artistData.name || '');
     $('#artist-badge').val(artistData.badgeNumber || '');

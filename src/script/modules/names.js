@@ -1,21 +1,9 @@
-/* globals Artists, Filter, Modal */
+/* globals Artists, Elements, Filter, Modal */
 
 (function(scope) {
   scope.Names = {
     populate: populate
   };
-
-  // Create an icon to go on the name list.
-  function buildIcon(iconName) {
-    return $('<i/>')
-      .addClass('fa fa-' + iconName);
-  }
-
-  // Create a span element with the specified class.
-  function buildSpan(className) {
-    return $('<span/>')
-      .addClass(className);
-  }
 
   // Populate columns in all places in the app that contain artist lists.
   function populate() {
@@ -88,39 +76,22 @@
         .text(artist.name + ' ');
 
       if (options.withOrder) {
-        nameElement.prepend(buildSpan('artist-order')
-          .text('' + (index + 1) + '.'));
+        nameElement.prepend(Elements.buildSpan('artist-order')
+          .text('' + (index + 1) + '.'))
+          .attr('title', 'List Order');
       }
 
       if (artist.tableNumber) {
-        var tableElement = buildSpan('artist-seat');
-        tableElement.text('#' + artist.tableNumber);
+        var tableElement = Elements.buildSpan('artist-seat');
+        tableElement.text('#' + artist.tableNumber)
+          .attr('title', 'Table Number');
         nameElement.append(tableElement);
       }
 
       if (options.withSymbols) {
-        var symbolElement = buildSpan('artist-symbols');
-
-        var standbyFlag = !artist.seatedLast &&
-          (artist.standbyDays && artist.standbyDays.length >= 2);
-
-        if (artist.lotteryOrder > 0) {
-          symbolElement.append(buildIcon('check faded'));
-        }
-
-        if (artist.standbyOrder > 0) {
-          symbolElement.append(buildIcon('clock-o faded'));
-        }
-
-        if (artist.tableNumber) {
-          symbolElement.append(buildIcon('sign-in faded'));
-        }
-
-        if (standbyFlag) {
-          symbolElement.append(buildIcon('exclamation attention'));
-        }
-
+        var symbolElement = Elements.buildSymbols(artist);
         if (symbolElement.html().length > 0) {
+          symbolElement.addClass('faded');
           nameElement.append(symbolElement);
         }
       }
