@@ -2,6 +2,12 @@
 
 ##### Keep track of your Artist's Alley.
 
+### Version
+
+0.0.2
+
+### About
+
 *Art Track Plus* was originally created for Midwest Furfest in 2014. The
 original version of the software was a great success, so now we bring you the
 evolved version of the program.
@@ -31,7 +37,8 @@ evolved version of the program.
 
 ### Installation
 
-1. Download `art-track-plus-release.zip`, and extract it into a new folder.
+1. [Download the ZIP package](art-track-plus-release.zip) and extract it into a
+   new folder.
 1. Run `index`. It should automatically open your default browser.
 
 ### Using Art Track Plus
