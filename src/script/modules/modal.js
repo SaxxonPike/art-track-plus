@@ -63,15 +63,28 @@
     $('#artist-standby-days').text(artistData.standbyDays || 'Never');
   }
 
+  // Configure visibility on the artist detail modal.
+  function configureArtistDetail(isAddingArtist) {
+    isAddingArtist = !!isAddingArtist;
+    $('#artist-table').prop('disabled', isAddingArtist);
+    $('#artist-room').prop('disabled', isAddingArtist);
+    if (isAddingArtist) {
+      $('.artist-add-only').show();
+      $('.artist-edit-only').hide();
+    } else {
+      $('.artist-add-only').hide();
+      $('.artist-edit-only').show();
+    }
+  }
+
   // Show the Artist modal with empty fields.
   function addArtist(rapidEntry, doNotOpenModal) {
     _rapidEntry = !!rapidEntry;
     mapArtistData({
       lotteryEligible: true
     });
+    configureArtistDetail(true);
     $('#artist-detail-mode').text('New Artist ');
-    $('.artist-add-only').show();
-    $('.artist-edit-only').hide();
     if (!doNotOpenModal) {
       $('#artist-detail').modal();
     }
@@ -144,8 +157,7 @@
     Artists.get(id).then(function(artistData) {
       mapArtistData(artistData);
       $('#artist-detail-mode').text((artistData.name || 'Edit Artist') + ' ');
-      $('.artist-add-only').hide();
-      $('.artist-edit-only').show();
+      configureArtistDetail(false);
       $('#artist-detail').modal();
     });
   }
