@@ -1,6 +1,6 @@
 {
   "name": "art-track-plus",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Keep track of your Artist's Alley.",
   "main": "Gulpfile.js",
   "scripts": {
