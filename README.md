@@ -2,10 +2,6 @@
 
 ##### Keep track of your Artist's Alley.
 
-### Version
-
-0.0.2
-
 ### About
 
 *Art Track Plus* was originally created for Midwest Furfest in 2014. The
@@ -35,13 +31,34 @@ evolved version of the program.
   - Includes Internet Explorer, Firefox, and Chrome. Possibly others.
   - Responsive design helps things work on whatever size screen you've got.
 
+## Standalone Version
+
+*The standalone version is recommended if you don't have or need a server.*
+
 ### Installation
 
-1. [Download the ZIP package](art-track-plus-release.zip) and extract it into a
-   new folder.
-1. Run `index`. It should automatically open your default browser.
+1. [Download the latest release](https://github.com/SaxxonPike/art-track-plus/releases)
+1. Open `index.html`
+1. Enjoy!
 
-### Using Art Track Plus
+### Build from source
+
+```
+git clone https://github.com/SaxxonPike/art-track-plus.git art-track-plus
+cd art-track-plus
+npm install
+gulp build
+```
+
+Your files will be available in `build/`. Just open `index.html`.
+
+## Client/Server Version
+
+*The client/server version is recommended if you need access on multiple devices.*
+
+This is coming in a future release. Stay tuned!
+
+## Using Art Track Plus
 
 #### Menus
 
@@ -119,7 +136,7 @@ approached you to sign out. You can either sign them out yourself, or you can
 use **Actions > Close Out Day** to do this. It'll explain what will happen to
 artists listed in each column. This should set you up for the next day.
 
-### Developing Art Track Plus
+## Developing Art Track Plus
 
 Art Track Plus relies on you having *node.js* available. Once you clone this
 repo, just install dependencies:

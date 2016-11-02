@@ -252,12 +252,6 @@ gulp.task('build-dev', [
   'dev-js'
 ]);
 
-gulp.task('package', ['build'], function() {
-  gulp.src('build/**/*')
-    .pipe(zip('art-track-plus-release.zip'))
-    .pipe(gulp.dest('../'));
-});
-
 // base task
 
 gulp.task('default', ['build']);
