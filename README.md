@@ -45,7 +45,7 @@ evolved version of the program.
 
 ```
 git clone https://github.com/SaxxonPike/art-track-plus.git art-track-plus
-cd art-track-plus
+cd art-track-plus/standalone
 npm install
 gulp build
 ```
