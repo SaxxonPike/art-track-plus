@@ -86,7 +86,7 @@ gulp.task('copy-scripts', function() {
   return gulp.src([
     'node_modules/bootstrap-sass/assets/javascripts/bootstrap.min.js',
     'node_modules/jquery/dist/jquery.min.js',
-    'node_modules/dexie/dist/latest/Dexie.min.js',
+    'node_modules/dexie/dist/dexie.min.js',
     'node_modules/moment/min/moment.min.js',
     'node_modules/es5-shim/es5-shim.min.js',
     'node_modules/es6-shim/es6-shim.min.js'
