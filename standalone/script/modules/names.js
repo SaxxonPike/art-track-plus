@@ -13,7 +13,7 @@
       var seatedList = Filter.seated(artistData);
       var lotteryList = Filter.lotteryInOrder(artistData);
       var lotteryListByName = Filter.lottery(artistData);
-      var checkedOutList = Filter.checkedOutToday(artistData);
+      var checkedOutList = Filter.sorted(Filter.checkedOutToday(artistData));
 
       buildNames($('.artist-names'), allListByName, {
         withSymbols: true
@@ -25,7 +25,6 @@
         withOrder: true
       });
       buildNames($('.seated-names'), seatedList);
-      buildNames($('.checked-out-names'), checkedOutList);
 
       buildNames($('.lottery-sorted-names'), lotteryListByName, {
         disableClick: true
@@ -34,6 +33,9 @@
         disableClick: true
       });
       buildNames($('.seated-sorted-names'), seatedList, {
+        disableClick: true
+      });
+      buildNames($('.checkedout-sorted-names'), checkedOutList, {
         disableClick: true
       });
 

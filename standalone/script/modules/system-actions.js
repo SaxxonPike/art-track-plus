@@ -43,7 +43,7 @@
       .then(function() {
         return Artists.getAll().then(function(artists) {
           return Database.transaction(function() {
-            return Promise.all(artists.map(function(a) {
+            return Dexie.Promise.all(artists.map(function(a) {
               if (a.tableNumber) {
                 return Artists.setSignedOut(a.id, false);
               } else if (a.standbyOrder || a.lotteryOrder) {

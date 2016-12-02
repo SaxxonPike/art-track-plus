@@ -13,6 +13,11 @@
       | Seated (
       span.count-seated
       | )
+    .header.checkedout
+      .fa.fa-sign-out
+      | Checked Out (
+      span.count-checkedout
+      | )
   div(style='height:calc(100% - 1.5em)')
     .col-xs-3
       .content
@@ -20,6 +25,9 @@
     .col-xs-3
       .content
         .standby.height-full.standby-sorted-names
-    .col-xs-6
+    .col-xs-3
       .content
         .seated.height-full.seated-sorted-names
+    .col-xs-3
+      .content
+        .checkedout.height-full.checkedout-sorted-names
