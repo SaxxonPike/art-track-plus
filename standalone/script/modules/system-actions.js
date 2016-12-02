@@ -10,6 +10,7 @@
     exportCsv: exportCsv,
     findArtistByBadge: findArtistByBadge,
     findArtistByTable: findArtistByTable,
+    findCheckedOutArtists: findCheckedOutArtists,
     newArtistRapidEntry: newArtistRapidEntry,
     resetDatabase: resetDatabase,
     runLottery: runLottery,
@@ -159,6 +160,11 @@
           findArtistBy('tableNumber', tableNumber);
         }
       });
+  }
+
+  // Find all checked out artists for today.
+  function findCheckedOutArtists() {
+    Modal.showCheckedOutArtists();
   }
 
   // Create new artists with rapid entry capability.

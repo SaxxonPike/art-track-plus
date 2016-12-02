@@ -19,6 +19,7 @@
     runLottery: runLottery,
     seedDatabase: seedDatabase,
     setRawArtistId: setRawArtistId,
+    showCheckedOutArtists: showCheckedOutArtists,
     showYesNoCancel: showYesNoCancel
   };
 
@@ -227,6 +228,20 @@
       } else {
         reject();
       }
+    });
+  }
+
+  // Show checked out artists modal.
+  function showCheckedOutArtists() {
+    Artists.getAll().then(function(artists) {
+      var names = Filter.checkedOutToday(artists)
+        .map(function(a) { return a.name; });
+      names.sort();
+      var elements = names.map(function(a) {
+        return $('<div/>').text(a);
+      });
+      $('#checked-out-artists-body').html(elements);
+      $('#checked-out-artists').modal();
     });
   }
 

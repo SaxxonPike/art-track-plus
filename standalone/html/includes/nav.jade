@@ -11,7 +11,7 @@ nav.navbar.navbar-inverse.navbar-fixed-top
       ul.nav.navbar-nav.navbar-right
         li.dropdown
           a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false')
-            | System 
+            | System
             span.caret
           ul.dropdown-menu
             li
@@ -39,11 +39,11 @@ nav.navbar.navbar-inverse.navbar-fixed-top
             li
               a(data-screen='about' title='Read more about this application.')
                 span.fa.fa-question-circle
-                |  About 
+                |  About
                 = AppName
         li.dropdown
           a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false')
-            | Reports 
+            | Reports
             span.caret
           ul.dropdown-menu
             li
@@ -52,7 +52,7 @@ nav.navbar.navbar-inverse.navbar-fixed-top
                 |  Export to CSV
         li.dropdown
           a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false')
-            | Find 
+            | Find
             span.caret
           ul.dropdown-menu
             li
@@ -62,9 +62,12 @@ nav.navbar.navbar-inverse.navbar-fixed-top
               a(data-system-action='findArtistByBadge' title='Find an artist with a specific badge number.')
                 span.fa.fa-search
                 |  Artist by Badge Number
+              a(data-system-action='findCheckedOutArtists' title='Find checked out artists')
+                span.fa.fa-sign-out
+                |  Checked Out Artists
         li.dropdown
           a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false')
-            | Actions 
+            | Actions
             span.caret
           ul.dropdown-menu
             li
