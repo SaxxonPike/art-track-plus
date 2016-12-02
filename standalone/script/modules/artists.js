@@ -48,7 +48,7 @@
 
   // Get today's day string.
   function getTodayString() {
-    return moment().format('dddd');
+    return scope.Time.getTodayString();
   }
 
   // Get an artist by ID from a collection.
@@ -161,6 +161,7 @@
     return setAllArtists([artist]);
   }
 
+  // Indicate that the table has changed.
   function incrementTableVersion() {
     return getDatabase().incrementTableVersion(ARTISTS_TABLE_NAME);
   }

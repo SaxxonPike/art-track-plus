@@ -1,0 +1,18 @@
+.modal#checked-out-artists
+  .modal-dialog
+    .modal-content
+      form
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') &times;
+          h4.modal-title
+            i.fa.fa-sign-out
+            |  Checked Out Artists
+        .modal-body
+          p#checked-out-artists-body
+        .modal-footer
+          .row
+            .col-xs-3
+            .col-xs-6
+              button.btn.btn-warning.btn-block(type='button', data-confirm-confirm, data-dismiss='modal' autofocus) OK
+            .col-xs-3

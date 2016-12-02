@@ -10,6 +10,7 @@
     exportCsv: exportCsv,
     findArtistByBadge: findArtistByBadge,
     findArtistByTable: findArtistByTable,
+    findCheckedOutArtists: findCheckedOutArtists,
     newArtistRapidEntry: newArtistRapidEntry,
     resetDatabase: resetDatabase,
     runLottery: runLottery,
@@ -42,7 +43,7 @@
       .then(function() {
         return Artists.getAll().then(function(artists) {
           return Database.transaction(function() {
-            return Promise.all(artists.map(function(a) {
+            return Dexie.Promise.all(artists.map(function(a) {
               if (a.tableNumber) {
                 return Artists.setSignedOut(a.id, false);
               } else if (a.standbyOrder || a.lotteryOrder) {
@@ -159,6 +160,11 @@
           findArtistBy('tableNumber', tableNumber);
         }
       });
+  }
+
+  // Find all checked out artists for today.
+  function findCheckedOutArtists() {
+    Modal.showCheckedOutArtists();
   }
 
   // Create new artists with rapid entry capability.
