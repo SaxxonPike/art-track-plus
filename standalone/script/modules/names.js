@@ -41,6 +41,7 @@
       $('.count-lottery').text(lotteryList.length);
       $('.count-standby').text(standbyList.length);
       $('.count-seated').text(seatedList.length);
+      $('.count-checkedout').text(checkedOutList.length);
     });
   }
 
