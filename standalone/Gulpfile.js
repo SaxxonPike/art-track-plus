@@ -3,12 +3,10 @@
 // imports
 
 var gulp = require('gulp');
-
 var babel = require('gulp-babel');
 var concat = require('gulp-concat-util');
 var del = require('del');
 var jade = require('gulp-jade');
-var jest = require('gulp-jest-iojs');
 var jshint = require('gulp-jshint');
 var minifyCss = require('gulp-minify-css');
 var moment = require('moment');
@@ -46,25 +44,6 @@ gulp.task('clean-css', function() {
 
 gulp.task('clean-js', function() {
   return del(['tmp/**/*.js']);
-});
-
-// test tasks
-
-gulp.task('test-js', ['clean-js'], function() {
-  return gulp.src('__tests__')
-    .pipe(jshint())
-    .pipe(jest({
-      scriptPreprocessor: 'test/support/preprocessor.js',
-      testDirectoryName: 'test',
-      testPathIgnorePatterns: [
-        'node_modules',
-        'test/support'
-      ],
-      moduleFileExtensions: [
-        'js',
-        'json'
-      ]
-    }));
 });
 
 // asset tasks
@@ -126,7 +105,7 @@ gulp.task('compile-html', function() {
     .pipe(gulp.dest('build'));
 });
 
-gulp.task('compile-js', ['test-js'], function() {
+gulp.task('compile-js', function() {
   return gulp.src([
     // order is important here
     'script/modules/**/*.js',
@@ -194,7 +173,6 @@ gulp.task('watch-html', ['compile-html'], function() {
 
 gulp.task('watch-js', ['dev-js'], function() {
   gulp.watch('script/**/*.js', ['dev-js']);
-  gulp.watch('test/**/*.js', ['dev-js']);
 });
 
 gulp.task('watch-include', ['copy-include'], function() {

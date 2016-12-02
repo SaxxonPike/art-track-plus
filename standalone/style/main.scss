@@ -57,6 +57,11 @@ body {
       background: #020;
       color: #6f6;
     }
+
+    .checkedout {
+      background: #080808;
+      color: #888;
+    }
   }
 
   .header {
@@ -101,6 +106,13 @@ body {
       }
     }
 
+    .checkedout {
+      &, a {
+        color: #aaa;
+        background: #282828;
+      }
+    }
+
     a {
       color: inherit;
       text-decoration: none;
@@ -131,14 +143,6 @@ body {
     -webkit-column-count: 3;
     -moz-column-count: 3;
     column-count: 3;
-  }
-  .seated.header {
-    width: 50%;
-  }
-  .seated.height-full {
-    -webkit-column-count: 5;
-    -moz-column-count: 5;
-    column-count: 5;
   }
 }
 

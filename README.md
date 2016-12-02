@@ -19,6 +19,7 @@ evolved version of the program.
   - Show who's seated to guests looking for their favorite artists.
 - Searching
   - Find an artist by table number or badge number quickly.
+  - Show who's been checked in, but has now left for the day.
 - Reporting
   - Artist lists can be exported to CSV which can be loaded in Excel.
 - Non-volatile Database (using IndexedDB)

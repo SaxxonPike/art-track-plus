@@ -4,6 +4,7 @@
 
   // Interface.
   scope.Filter = {
+    checkedOutToday: checkedOutToday,
     lottery: lottery,
     lotteryEligible: lotteryEligible,
     lotteryGuaranteed: lotteryGuaranteed,
@@ -14,6 +15,16 @@
     standby: standby,
     standbyInOrder: standbyInOrder
   };
+
+  // Filter artists that have checked out today.
+  function checkedOutToday(artists) {
+    var todayString = scope.Time.getTodayString();
+    return artists.filter(function(a) {
+      return !!a.seatedDays &&
+        !a.tableNumber &&
+        a.seatedDays.indexOf(todayString) >= 0;
+    });
+  }
 
   // Filter artists that are in the lottery, then return them in ABC order.
   function lottery(artists) {
