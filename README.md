@@ -32,6 +32,13 @@ evolved version of the program.
   - Includes Internet Explorer, Firefox, and Chrome. Possibly others.
   - Responsive design helps things work on whatever size screen you've got.
 
+## Live Version
+
+If you don't want to deploy it anywhere, this is a fast option to get up and running. It uses local
+storage, so data will only persist on a single machine.
+
+[Live Version](https://saxxonpike.github.io/art-track-plus-live/)
+
 ## Standalone Version
 
 *The standalone version is recommended if you don't have or need a server.*
