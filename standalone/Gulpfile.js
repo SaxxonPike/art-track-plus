@@ -7,7 +7,8 @@ var gulp = require('gulp'), babel = require('gulp-babel'), concat = require('gul
     sass = require('gulp-sass')(require('sass')), sourceMaps = require('gulp-sourcemaps'),
     webserver = require('gulp-webserver');
 
-var task = gulp.task, series = gulp.series, parallel = gulp.parallel;
+var task = gulp.task, series = gulp.series, parallel = gulp.parallel, src = gulp.src, dest = gulp.dest,
+    watch = gulp.watch;
 
 // reloadable configuration
 
@@ -42,41 +43,44 @@ task('clean-js', function postCleanJs() {
 
 task('copy-fonts', function postCopyFonts() {
     var config = getConfig();
-    return gulp.src([
+    return src([
         'node_modules/font-awesome/fonts/**/*',
         'node_modules/bootstrap-sass/assets/fonts/**/*'
     ])
         .pipe(rename({
             dirname: ''
         }))
-        .pipe(gulp.dest('build/' + config.FontPath));
+        .pipe(dest('build/' + config.FontPath));
 });
 
 task('copy-scripts', function postCopyScripts() {
     var config = getConfig();
-    return gulp.src([
+    return src([
         'node_modules/bootstrap-sass/assets/javascripts/bootstrap.min.js',
         'node_modules/jquery/dist/jquery.min.js',
         'node_modules/dexie/dist/dexie.min.js',
         'node_modules/moment/min/moment.min.js',
-        'node_modules/es5-shim/es5-shim.min.js',
-        'node_modules/es6-shim/es6-shim.min.js'
+        'node_modules/jquery-slimscroll/jquery.slimscroll.js',
+        'node_modules/plusastab/src/plusastab.joelpurra.js',
+        'node_modules/jquery-emulatetab/src/emulatetab.joelpurra.js',
+        // 'node_modules/es5-shim/es5-shim.min.js',
+        // 'node_modules/es6-shim/es6-shim.min.js'
     ])
         .pipe(rename({
             dirname: ''
         }))
-        .pipe(gulp.dest('build/' + config.ScriptPath));
+        .pipe(dest('build/' + config.ScriptPath));
 });
 
 task('copy-include', function postCopyInclude() {
-    return gulp.src('include/**/*')
-        .pipe(gulp.dest('build'));
+    return src('include/**/*')
+        .pipe(dest('build'));
 });
 
 // compilation tasks
 
 task('compile-css', series('clean-css', function postCompileCss() {
-    return gulp.src([
+    return src([
         // order is important here
         'style/**/main.scss',
         'style/**/*.scss'
@@ -84,21 +88,21 @@ task('compile-css', series('clean-css', function postCompileCss() {
         .pipe(concat('app.scss'))
         .pipe(plumber())
         .pipe(sass())
-        .pipe(gulp.dest('tmp'));
+        .pipe(dest('tmp'));
 }));
 
 task('compile-html', function postCompileHtml() {
     var config = getConfig();
-    return gulp.src(['html/**/*.pug', '!html/includes/**/*'])
+    return src(['html/**/*.pug', '!html/includes/**/*'])
         .pipe(plumber())
         .pipe(pug({
             locals: config
         }))
-        .pipe(gulp.dest('build'));
+        .pipe(dest('build'));
 });
 
 task('compile-js', function postCompileJs() {
-    return gulp.src([
+    return src([
         // order is important here
         'script/modules/**/*.js',
         'script/main.js',
@@ -108,77 +112,83 @@ task('compile-js', function postCompileJs() {
         .pipe(jshint())
         .pipe(jshint.reporter('default'))
         .pipe(babel({
-            presets: ['es2015']
+            presets: [[
+                '@babel/preset-env',
+                {
+                    'useBuiltIns': 'entry',
+                    'corejs': 3.23
+                }
+            ]]
         }))
         .pipe(concat('app.js'))
         .pipe(sourceMaps.write('.'))
-        .pipe(gulp.dest('tmp'));
+        .pipe(dest('tmp'));
 });
 
 // minification tasks
 
 task('minify-css', series('compile-css', function postMinifyCss() {
     var config = getConfig();
-    return gulp.src('tmp/app.css')
+    return src('tmp/app.css')
         .pipe(plumber())
         .pipe(minifyCss())
-        .pipe(gulp.dest('build/' + config.StylePath));
+        .pipe(dest('build/' + config.StylePath));
 }));
 
 task('minify-js', series('compile-js', function postMinifyJs() {
     var config = getConfig();
-    return gulp.src('tmp/app.js')
+    return src('tmp/app.js')
         .pipe(plumber())
         // .pipe(uglify())
-        .pipe(gulp.dest('build/' + config.ScriptPath));
+        .pipe(dest('build/' + config.ScriptPath));
 }));
 
 // development tasks
 
 task('dev-css', series('compile-css', function postDevCss() {
     var config = getConfig();
-    return gulp.src('tmp/app.css')
-        .pipe(gulp.dest('build/' + config.StylePath));
+    return src('tmp/app.css')
+        .pipe(dest('build/' + config.StylePath));
 }));
 
 task('dev-js-map', series('compile-js', function postDevJsMap() {
     var config = getConfig();
-    return gulp.src('tmp/app.js.map')
-        .pipe(gulp.dest('build/' + config.ScriptPath));
+    return src('tmp/app.js.map')
+        .pipe(dest('build/' + config.ScriptPath));
 }));
 
 task('dev-js', series('dev-js-map', function postDevJs() {
     var config = getConfig();
-    return gulp.src('tmp/app.js')
-        .pipe(gulp.dest('build/' + config.ScriptPath));
+    return src('tmp/app.js')
+        .pipe(dest('build/' + config.ScriptPath));
 }));
 
 // watch tasks
 
 task('watch-css', series('dev-css', function postWatchCss() {
-    gulp.watch('style/**/*.scss', parallel('dev-css'));
+    watch('style/**/*.scss', parallel('dev-css'));
 }));
 
 task('watch-html', series('compile-html', function postWatchHtml() {
-    gulp.watch('html/**/*.pug', parallel('compile-html'));
+    watch('html/**/*.pug', parallel('compile-html'));
 }));
 
 task('watch-js', series('dev-js', function postWatchJs() {
-    gulp.watch('script/**/*.js', parallel('dev-js'));
+    watch('script/**/*.js', parallel('dev-js'));
 }));
 
 task('watch-include', series('copy-include', function postWatchInclude() {
-    gulp.watch('include/**/*', parallel('copy-include'));
+    watch('include/**/*', parallel('copy-include'));
 }));
 
 task('watch-config', function postWatchConfig() {
-    gulp.watch('config.json', parallel('build-dev'));
+    watch('config.json', parallel('build-dev'));
 });
 
 // server tasks
 
 task('serve-dev', function postServeDev() {
-    gulp.src('build')
+    src('build')
         .pipe(webserver({
             open: true
         }));
