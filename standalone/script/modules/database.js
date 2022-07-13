@@ -51,7 +51,6 @@
           ].join()
         });
       dexie.open().catch(handleError);
-      Dexie.Promise.on('error', handleError);
 
       db = dexie;
     }
