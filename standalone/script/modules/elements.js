@@ -20,10 +20,10 @@
 
   // Build Font Awesome symbols.
   function buildSymbols(artist) {
-    var symbolElement = buildSpan('artist-symbols');
+    const symbolElement = buildSpan('artist-symbols');
 
-    var standbyFlag = !artist.seatedLast &&
-      (artist.standbyDays && artist.standbyDays.length >= 2);
+    const standbyFlag = !artist.seatedLast &&
+        (artist.standbyDays && artist.standbyDays.length >= 2);
 
     if (artist.lotteryOrder > 0) {
       symbolElement.append(buildIcon('check').attr('title', 'Picked For Lottery'));

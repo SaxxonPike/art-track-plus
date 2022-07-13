@@ -7,10 +7,10 @@
   // Center the screen element horizontally. This isn't the most
   // elegant solution...
   function reposition() {
-    var width = $(scope).width();
-    var leftMargin = 0;
+    const width = $(scope).width();
+    let leftMargin = 0;
     if (width > 960) {
-      var containerWidth = $('.screen:visible').width();
+      const containerWidth = $('.screen:visible').width();
       leftMargin = (width - containerWidth) / 2;
     }
     $('.screen').css('marginLeft', leftMargin);
@@ -21,7 +21,7 @@
     // Hide other screens.
     $('.screen[id!="' + screenId + '"]').hide();
 
-    var desiredScreen = $('.screen#' + screenId);
+    const desiredScreen = $('.screen#' + screenId);
     if (desiredScreen.length > 0) {
 
       // Hide the nav if the screen calls for it.
@@ -35,7 +35,7 @@
       reposition();
 
       // Apply SlimScroll if it hasn't already been added.
-      var content = desiredScreen.find('.content');
+      const content = desiredScreen.find('.content');
       if (!content.hasClass('scroll-added')) {
         content.addClass('scroll-added');
         content.slimScroll({

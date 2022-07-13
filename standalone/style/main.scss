@@ -11,9 +11,9 @@ html, body {
 }
 
 body {
-  font-family: 'Open Sans';
+  font-family: 'Open Sans', sans-serif;
   background-color: $background;
-  text-color: $foreground;
+  color: $foreground;
   overflow: hidden;
 }
 
@@ -118,7 +118,7 @@ body {
       text-decoration: none;
       &:hover {
         font-weight: bolder;
-        box-shadow:0px 0px 0px 1.5em rgba(1,1,1,0.2) inset;
+        box-shadow:0 0 0 1.5em rgba(1,1,1,0.2) inset;
       }
       text-align: left;
     }

@@ -1,19 +1,19 @@
 /* globals require */
 // imports
-// var uglify = require('gulp-uglify');
-var gulp = require('gulp'), babel = require('gulp-babel'), concat = require('gulp-concat-util'), del = require('del'),
+var uglify = require('gulp-uglify');
+const gulp = require('gulp'), babel = require('gulp-babel'), concat = require('gulp-concat-util'), del = require('del'),
     pug = require('gulp-pug'), jshint = require('gulp-jshint'), minifyCss = require('gulp-minify-css'),
     moment = require('moment'), plumber = require('gulp-plumber'), rename = require('gulp-rename'),
     sass = require('gulp-sass')(require('sass')), sourceMaps = require('gulp-sourcemaps'),
     webserver = require('gulp-webserver');
 
-var task = gulp.task, series = gulp.series, parallel = gulp.parallel, src = gulp.src, dest = gulp.dest,
+const task = gulp.task, series = gulp.series, parallel = gulp.parallel, src = gulp.src, dest = gulp.dest,
     watch = gulp.watch;
 
 // reloadable configuration
 
 function getConfig() {
-    var config = require('./config.json');
+    const config = require('./config.json');
 
     // dynamically generated config items
     config.CopyrightYear = moment().year();
@@ -42,7 +42,7 @@ task('clean-js', function postCleanJs() {
 // asset tasks
 
 task('copy-fonts', function postCopyFonts() {
-    var config = getConfig();
+    const config = getConfig();
     return src([
         'node_modules/font-awesome/fonts/**/*',
         'node_modules/bootstrap-sass/assets/fonts/**/*'
@@ -54,7 +54,7 @@ task('copy-fonts', function postCopyFonts() {
 });
 
 task('copy-scripts', function postCopyScripts() {
-    var config = getConfig();
+    const config = getConfig();
     return src([
         'node_modules/bootstrap-sass/assets/javascripts/bootstrap.min.js',
         'node_modules/jquery/dist/jquery.min.js',
@@ -92,7 +92,7 @@ task('compile-css', series('clean-css', function postCompileCss() {
 }));
 
 task('compile-html', function postCompileHtml() {
-    var config = getConfig();
+    const config = getConfig();
     return src(['html/**/*.pug', '!html/includes/**/*'])
         .pipe(plumber())
         .pipe(pug({
@@ -128,7 +128,7 @@ task('compile-js', function postCompileJs() {
 // minification tasks
 
 task('minify-css', series('compile-css', function postMinifyCss() {
-    var config = getConfig();
+    const config = getConfig();
     return src('tmp/app.css')
         .pipe(plumber())
         .pipe(minifyCss())
@@ -136,29 +136,29 @@ task('minify-css', series('compile-css', function postMinifyCss() {
 }));
 
 task('minify-js', series('compile-js', function postMinifyJs() {
-    var config = getConfig();
+    const config = getConfig();
     return src('tmp/app.js')
         .pipe(plumber())
-        // .pipe(uglify())
+        .pipe(uglify())
         .pipe(dest('build/' + config.ScriptPath));
 }));
 
 // development tasks
 
 task('dev-css', series('compile-css', function postDevCss() {
-    var config = getConfig();
+    const config = getConfig();
     return src('tmp/app.css')
         .pipe(dest('build/' + config.StylePath));
 }));
 
 task('dev-js-map', series('compile-js', function postDevJsMap() {
-    var config = getConfig();
+    const config = getConfig();
     return src('tmp/app.js.map')
         .pipe(dest('build/' + config.ScriptPath));
 }));
 
 task('dev-js', series('dev-js-map', function postDevJs() {
-    var config = getConfig();
+    const config = getConfig();
     return src('tmp/app.js')
         .pipe(dest('build/' + config.ScriptPath));
 }));
@@ -187,7 +187,7 @@ task('watch-config', function postWatchConfig() {
 
 // server tasks
 
-task('serve-dev', function postServeDev() {
+task('serve', function postServe() {
     src('build')
         .pipe(webserver({
             open: true
@@ -219,7 +219,7 @@ task('clean', parallel(
 task('dev', series(
     'assets',
     parallel(
-        'serve-dev',
+        'serve',
         'watch-css',
         'watch-js',
         'watch-html',

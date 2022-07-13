@@ -18,7 +18,7 @@
 
   // Filter artists that have checked out today.
   function checkedOutToday(artists) {
-    var todayString = scope.Time.getTodayString();
+    const todayString = scope.Time.getTodayString();
     return artists.filter(function(a) {
       return !!a.seatedDays &&
         !a.tableNumber &&
@@ -82,8 +82,8 @@
   // Sort an artist list.
   function sortArtists(artists, sortField) {
     return artists.slice().sort(function(a, b) {
-      var fieldA = a[sortField];
-      var fieldB = b[sortField];
+      const fieldA = a[sortField];
+      const fieldB = b[sortField];
       return fieldA > fieldB ? 1 : (fieldA < fieldB ? -1 : 0);
     });
   }
@@ -91,8 +91,8 @@
   // Sort an artist list, with numeric values.
   function sortArtistsNumerically(artists, sortField) {
     return artists.slice().sort(function(a, b) {
-      var fieldA = +a[sortField];
-      var fieldB = +b[sortField];
+      const fieldA = +a[sortField];
+      const fieldB = +b[sortField];
       return fieldA > fieldB ? 1 : (fieldA < fieldB ? -1 : 0);
     });
   }
@@ -100,8 +100,8 @@
   // Sort names without case sensitivity.
   function sortArtistsByName(artists) {
     return artists.slice().sort(function(a, b) {
-      var fieldA = (a.name || '').toLocaleLowerCase();
-      var fieldB = (b.name || '').toLocaleLowerCase();
+      const fieldA = (a.name || '').toLocaleLowerCase();
+      const fieldB = (b.name || '').toLocaleLowerCase();
       return fieldA > fieldB ? 1 : (fieldA < fieldB ? -1 : 0);
     });
   }
