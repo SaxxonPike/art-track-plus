@@ -16,6 +16,7 @@ function getConfig() {
 
     // dynamically generated config items
     config.CopyrightYear = moment().year();
+    config.BuildTime = moment().utc().format();
     return config;
 }
 
