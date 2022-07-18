@@ -1,0 +1,11 @@
+nav {
+  a.text-warning {
+    color: lighten($brand-warning, 15%);
+  }
+  a.text-danger {
+    color: lighten($brand-danger, 25%);
+  }
+  a.text-lottery {
+    color: #66f;
+  }
+}

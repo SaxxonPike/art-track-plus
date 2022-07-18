@@ -1,0 +1,78 @@
+// Bootstrap variables
+
+$icon-font-path: "../fonts/";
+
+$body-bg: $background;
+$body-color: $foreground;
+
+$brand-danger: darken(#d9534f, 20%);
+$brand-info: darken(#5bc0de, 20%);
+$brand-primary: darken(#428bca, 30%);
+$brand-success: darken(#5cb85c, 20%);
+$brand-warning: darken(#f0ad4e, 20%);
+
+$btn-default-bg: darken($background, 10%);
+$btn-default-border: #111;
+$btn-default-color: $foreground;
+
+$btn-danger-border: lighten($brand-danger, 5%);
+$btn-info-border: lighten($brand-info, 5%);
+$btn-primary-border: lighten($brand-primary, 10%);
+$btn-success-border: lighten($brand-success, 5%);
+$btn-warning-border: lighten($brand-warning, 5%);
+
+$border-radius-base: 1px;
+
+$dropdown-bg: #080808;
+$dropdown-border: #111;
+$dropdown-link-color: $foreground;
+$dropdown-link-hover-color: #fff;
+$dropdown-link-hover-bg: #222;
+$dropdown-divider-bg: #333;
+
+$font-family-base: "Open Sans Condensed";
+$font-size-base: 1.25rem;
+$form-group-margin-bottom: 10px;
+
+$headings-color: $foreground;
+
+$hr-border: #333;
+
+$input-bg: #000;
+$input-bg-disabled: #222;
+$input-color: #ddd;
+$input-border: #444;
+$input-border-focus: #06c;
+
+$link-color: #eee;
+
+$modal-content-bg: #333;
+$modal-content-fallback-border-color: #111;
+$modal-header-border-color: #111;
+$modal-backdrop-opacity: 0.7;
+
+$table-bg-hover: #444;
+$table-border-color: #333;
+$table-cell-padding: 0px;
+$table-condensed-cell-padding: 0px;
+
+$text-color: $foreground;
+
+.btn {
+  &.btn-wide {
+    min-width: 8em;
+  }
+}
+
+form {
+  label {
+    padding-top: 0.3em;
+    input[type='checkbox'] {
+      margin-top:0.4em;
+    }
+  }
+}
+
+.modal-title {
+  font-weight: bold;
+}
