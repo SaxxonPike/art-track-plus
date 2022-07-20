@@ -1,9 +1,11 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faQuestionCircle} from "@fortawesome/free-solid-svg-icons";
-import React from "react";
+import React, {memo} from "react";
 
-export default function AboutIcon() {
+function AboutIcon() {
     return (
         <FontAwesomeIcon icon={faQuestionCircle}/>
     );
 }
+
+export default memo(AboutIcon);

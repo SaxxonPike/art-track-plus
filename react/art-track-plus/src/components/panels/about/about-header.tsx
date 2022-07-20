@@ -1,8 +1,8 @@
-import React from "react";
+import React, {memo} from "react";
 import "./about-header.scss";
 import {appName} from "../../../facts";
 
-export default function AboutHeader() {
+function AboutHeader() {
     return (
         <div className={"about-header"}>
             <h1 className={"text-center"}>
@@ -11,3 +11,5 @@ export default function AboutHeader() {
         </div>
     )
 }
+
+export default memo(AboutHeader);

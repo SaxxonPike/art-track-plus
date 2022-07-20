@@ -1,9 +1,11 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFileCsv} from "@fortawesome/free-solid-svg-icons";
-import React from "react";
+import React, {memo} from "react";
 
-export default function ExportCsvIcon() {
+function ExportCsvIcon() {
     return (
         <FontAwesomeIcon icon={faFileCsv}/>
-    )
+    );
 }
+
+export default memo(ExportCsvIcon);

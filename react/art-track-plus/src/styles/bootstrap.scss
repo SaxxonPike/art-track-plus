@@ -26,6 +26,7 @@ $border-radius-base: 1px;
 $dropdown-bg: #080808;
 $dropdown-border: #111;
 $dropdown-link-color: $foreground;
+$dropdown-link-active-color: #fff;
 $dropdown-link-hover-color: #fff;
 $dropdown-link-hover-bg: #222;
 $dropdown-divider-bg: #333;
@@ -34,7 +35,7 @@ $font-family-base: "Open Sans Condensed";
 $font-size-base: 1.25rem;
 $form-group-margin-bottom: 10px;
 
-$headings-color: $foreground;
+$headings-color: lighten($foreground, 30%);
 
 $hr-border: #333;
 
@@ -50,6 +51,15 @@ $modal-content-bg: #333;
 $modal-content-fallback-border-color: #111;
 $modal-header-border-color: #111;
 $modal-backdrop-opacity: 0.7;
+
+$nav-link-color: $dropdown-link-color;
+$nav-link-hover-color: $dropdown-link-hover-color;
+
+$navbar-light-active-color: $dropdown-link-active-color;
+$navbar-light-color: $dropdown-link-color;
+$navbar-light-hover-color: $dropdown-link-hover-color;
+$navbar-light-brand-color: $dropdown-link-color;
+$navbar-light-brand-hover-color: $dropdown-link-hover-color;
 
 $table-bg-hover: #444;
 $table-border-color: #333;
@@ -75,4 +85,8 @@ form {
 
 .modal-title {
   font-weight: bold;
+}
+
+.navbar {
+  background: #333;
 }

@@ -1,9 +1,11 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
-import React from "react";
+import React, {memo} from "react";
 
-export default function UserIcon() {
+function UserIcon() {
     return (
         <FontAwesomeIcon icon={faUser}/>
     );
 }
+
+export default memo(UserIcon);

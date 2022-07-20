@@ -1,8 +1,10 @@
-import React from "react";
+import React, {memo} from "react";
 import "./columns-column.scss";
 
-export default function ColumnsColumn() {
+function ColumnsColumn() {
     return (
         <div className={"columns-column"}/>
     )
 }
+
+export default memo(ColumnsColumn);

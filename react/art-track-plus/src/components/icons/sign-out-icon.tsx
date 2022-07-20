@@ -1,9 +1,11 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
-import React from "react";
+import React, {memo} from "react";
 
-export default function SignOutIcon() {
+function SignOutIcon() {
     return (
         <FontAwesomeIcon icon={faRightFromBracket}/>
     );
 }
+
+export default memo(SignOutIcon);

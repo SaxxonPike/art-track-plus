@@ -1,7 +1,7 @@
-import React from "react";
+import React, {memo} from "react";
 import "./about-license.scss";
 
-export default function AboutLicense() {
+function AboutLicense() {
     const thisYear = new Date().getFullYear();
 
     return (
@@ -18,7 +18,7 @@ export default function AboutLicense() {
                 copies.
             </p>
             <p>
-                THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
+                THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
                 SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
                 AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
                 WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
@@ -28,3 +28,5 @@ export default function AboutLicense() {
         </div>
     )
 }
+
+export default memo(AboutLicense);

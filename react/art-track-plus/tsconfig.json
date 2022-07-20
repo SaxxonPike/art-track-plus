@@ -2,7 +2,9 @@
   "compilerOptions": {
     "preserveConstEnums": true,
     "jsx": "react",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "target": "ES2016",
+    "moduleResolution": "node"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts"]

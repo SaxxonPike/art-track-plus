@@ -1,9 +1,11 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDesktop} from "@fortawesome/free-solid-svg-icons";
-import React from "react";
+import React, {memo} from "react";
 
-export default function ScreenIcon() {
+function ScreenIcon() {
     return (
         <FontAwesomeIcon icon={faDesktop}/>
     );
 }
+
+export default memo(ScreenIcon);

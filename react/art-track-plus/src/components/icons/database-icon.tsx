@@ -1,9 +1,11 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDatabase} from "@fortawesome/free-solid-svg-icons";
-import React from "react";
+import React, {memo} from "react";
 
-export default function DatabaseIcon() {
+function DatabaseIcon() {
     return (
         <FontAwesomeIcon icon={faDatabase}/>
     );
 }
+
+export default memo(DatabaseIcon);

@@ -1,13 +1,18 @@
-import React from "react";
+import React, {memo} from "react";
 import "./columns-page.scss";
 import UserNav from "../navs/user-nav";
 import ColumnsPanel from "../panels/columns/columns-panel";
+import {Container} from "react-bootstrap";
 
-export default function ColumnsPage() {
+function ColumnsPage(props) {
     return (
         <div className={"columns-page"}>
-            <UserNav/>
-            <ColumnsPanel/>
+            <UserNav {...props}/>
+            <Container fluid={true}>
+                <ColumnsPanel {...props}/>
+            </Container>
         </div>
     )
 }
+
+export default memo(ColumnsPage);

@@ -1,13 +1,13 @@
-import React from "react";
+import React, {memo} from "react";
 import "./about-panel.scss";
 import AboutHeader from "./about-header";
 import AboutLicense from "./about-license";
 import AboutFooter from "./about-footer";
 import AboutSource from "./about-source";
 
-export default function AboutPanel() {
+function AboutPanel() {
     return (
-        <div className={"about-panel"}>
+        <div className={"about-panel my-3"}>
             <div className={"screen limited-width"}>
                 <div className={"content"}>
                     <AboutHeader/>
@@ -22,3 +22,5 @@ export default function AboutPanel() {
         </div>
     )
 }
+
+export default memo(AboutPanel);

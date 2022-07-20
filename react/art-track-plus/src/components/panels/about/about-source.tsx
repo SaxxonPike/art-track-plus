@@ -1,11 +1,12 @@
-import React from "react";
+import React, {memo} from "react";
 import "./about-source.scss";
 import {appName} from "../../../facts";
 import {Button} from "react-bootstrap";
 import {faCodeFork} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import BlockButtonGroup from "../../buttons/block-button-group";
 
-export default function AboutSource() {
+function AboutSource() {
     return (
         <div className={"about-source"}>
             <h3 className={"text-center"}>
@@ -15,11 +16,13 @@ export default function AboutSource() {
                 The source code for {appName} is available on GitHub. There, you can check out the code, report issues,
                 get the latest updates and submit pull requests if you have useful modifications.
             </p>
-            <p className={"text-center"}>
+            <BlockButtonGroup>
                 <Button variant={"secondary"} href={"https://github.com/saxxonpike/art-track-plus/"}>
                     <FontAwesomeIcon icon={faCodeFork}/> saxxonpike/art-track-plus
                 </Button>
-            </p>
+            </BlockButtonGroup>
         </div>
     )
 }
+
+export default memo(AboutSource);

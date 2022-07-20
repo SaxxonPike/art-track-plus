@@ -1,20 +1,35 @@
 import './app.scss';
-import {Component} from "react";
 import React from 'react';
-import {Route, Routes} from "react-router-dom";
-import ColumnsPage from "./components/pages/columns-page";
-import AboutPage from "./components/pages/about-page";
-import {aboutPath, columnsPath} from "./paths";
+import AppRoutes from "./app-routes";
+import AlertModal from "./components/modals/alert-modal";
+import InputModal from "./components/modals/input-modal";
+import OkCancelModal from "./components/modals/ok-cancel-modal";
+import YesNoCancelModal from "./components/modals/yes-no-cancel-modal";
+import {AppContext} from "./app-context";
+import {AppState} from "./app-state";
 
-class App extends Component {
+export default class App extends React.Component<unknown, AppState> {
+    appContext: AppContext;
+
+    constructor(props) {
+        super(props);
+
+        const getAppState = () => this.state;
+        const setAppState = newState => this.setState(newState);
+        this.appContext = new AppContext(getAppState, setAppState);
+        this.state = {};
+    }
+
     render() {
         return (
-            <Routes>
-                <Route path={columnsPath} element={<ColumnsPage/>}/>
-                <Route path={aboutPath} element={<AboutPage/>}/>
-            </Routes>
+            <>
+                <AlertModal appContext={this.appContext}/>
+                <InputModal appContext={this.appContext}/>
+                <OkCancelModal appContext={this.appContext}/>
+                <YesNoCancelModal appContext={this.appContext}/>
+                <AppRoutes appContext={this.appContext}/>
+            </>
         );
     }
 }
 
-export default App;
