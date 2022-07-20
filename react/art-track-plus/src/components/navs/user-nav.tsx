@@ -11,6 +11,7 @@ import UserNavSystemDropdown from "./user-nav-system-dropdown";
 import UserNavReportsDropdown from "./user-nav-reports-dropdown";
 import UserNavSearchDropdown from "./user-nav-search-dropdown";
 import UserNavActionsDropdown from "./user-nav-actions-dropdown";
+import ReportIcon from "../icons/report-icon";
 
 function UserNav() {
     return (
@@ -23,7 +24,15 @@ function UserNav() {
                     </span>
                 </NavPageLink>
                 <UserNavSystemDropdown/>
-                <UserNavReportsDropdown/>
+                <NavPageLink href={paths.reports}
+                             title={"Generate reports."}>
+                    <ReportIcon/>
+                    <span className={"d-none d-md-inline"}>
+                        {" Reports"}
+                    </span>
+                </NavPageLink>
+
+                {/*<UserNavReportsDropdown/>*/}
                 <UserNavSearchDropdown/>
                 <UserNavActionsDropdown/>
                 <NavPageLink href={paths.addArtist}

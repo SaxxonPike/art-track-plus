@@ -1,11 +1,8 @@
 export const columnsPath = "/";
 export const aboutPath = "/about";
-export const createBackupPath = "/create-backup";
-export const restoreBackupPath = "/restore-backup";
+export const databasePath = "/database";
 export const rawDataPath = "/raw-data";
-export const wipePath = "/wipe";
-export const testDataPath = "/test-data";
-export const exportCsvPath = "/export-csv";
+export const reportsPath = "/reports";
 export const findArtistByTablePath = "/find-artist-by-table";
 export const findArtistByBadgePath = "/find-artist-by-badge";
 export const findCheckedOutArtistsPath = "/find-checked-out-artists";
@@ -19,12 +16,8 @@ export const secondScreenPath = "/view-2";
 export const paths = {
     about: aboutPath,
     columns: columnsPath,
-    createBackup: createBackupPath,
-    restoreBackup: restoreBackupPath,
+    database: databasePath,
     rawData: rawDataPath,
-    wipe: wipePath,
-    testData: testDataPath,
-    exportCsv: exportCsvPath,
     findArtistByTable: findArtistByTablePath,
     findArtistByBadge: findArtistByBadgePath,
     findCheckedOutArtists: findCheckedOutArtistsPath,
@@ -33,7 +26,8 @@ export const paths = {
     runLottery: runLotteryPath,
     closeOutDay: closeOutDayPath,
     addArtist: addArtistPath,
-    secondScreen: secondScreenPath
+    secondScreen: secondScreenPath,
+    reports: reportsPath
 };
 
 export default paths;

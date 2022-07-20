@@ -15,7 +15,7 @@ function UserNavReportsDropdown() {
                 </span>
             </>
         }>
-            <NavDropdownPageLink href={paths.exportCsv}
+            <NavDropdownPageLink href={paths.reports}
                                  title={"Export artist lists to a CSV file."}>
                 <ExportCsvIcon/>
                 {" Export to CSV"}
