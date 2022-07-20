@@ -7,7 +7,7 @@ import {Container} from "react-bootstrap";
 function DatabasePage(props) {
     return (
         <div className={"create-backup-page"}>
-            <UserNav {...props}/>
+            <UserNav activeTab={"reports"} {...props}/>
             <Container>
                 <CreateBackupPanel {...props}/>
             </Container>

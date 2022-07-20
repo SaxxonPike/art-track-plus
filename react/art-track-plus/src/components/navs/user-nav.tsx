@@ -12,6 +12,7 @@ import UserNavReportsDropdown from "./user-nav-reports-dropdown";
 import UserNavSearchDropdown from "./user-nav-search-dropdown";
 import UserNavActionsDropdown from "./user-nav-actions-dropdown";
 import ReportIcon from "../icons/report-icon";
+import names from "../../names";
 
 function UserNav() {
     return (
@@ -36,10 +37,10 @@ function UserNav() {
                 <UserNavSearchDropdown/>
                 <UserNavActionsDropdown/>
                 <NavPageLink href={paths.addArtist}
-                             title={"Add a new artist."}>
+                             title={"Add a new " + names.vendor + "."}>
                     <PlusIcon/>
                     <span className={"d-none d-md-inline"}>
-                        {" New Artist"}
+                        {" New " + names.vendorCap}
                     </span>
                 </NavPageLink>
                 <NavPageLink href={paths.secondScreen}

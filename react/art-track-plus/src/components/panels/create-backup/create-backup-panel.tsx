@@ -7,6 +7,7 @@ import RestoreIcon from "../../icons/restore-icon";
 import ExportJsonIcon from "../../icons/export-json-icon";
 import RawEditIcon from "../../icons/raw-edit-icon";
 import ConfirmRevealButton from "../../buttons/confirm-reveal-button";
+import names from "../../../names";
 
 function CreateBackupPanel() {
     return (
@@ -46,7 +47,7 @@ function CreateBackupPanel() {
             <Row>
                 <Col sm={12} md={6}>
                     <h3><RawEditIcon/> Raw Data Editor</h3>
-                    <p>Modify raw artist data for otherwise unsupported on-the-fly situations.</p>
+                    <p>Modify raw {names.vendor} data for otherwise unsupported on-the-fly situations.</p>
                     <BlockButtonGroup>
                         <Button variant={"warning"}>Open</Button>
                     </BlockButtonGroup>

@@ -3,6 +3,7 @@ import SearchIcon from "../icons/search-icon";
 import NavDropdownPageLink from "./nav-dropdown-page-link";
 import paths from "../../paths";
 import React, {memo} from "react";
+import names from "../../names";
 
 function UserNavSearchDropdown() {
     return (
@@ -15,19 +16,19 @@ function UserNavSearchDropdown() {
             </>
         }>
             <NavDropdownPageLink href={paths.findArtistByTable}
-                                 title={"Find an artist with a specific table number."}>
+                                 title={"Find " + names.aVendor + " with a specific table number."}>
                 <SearchIcon/>
-                {" Artist by Table Number"}
+                {" " + names.vendorCap + " by Table Number"}
             </NavDropdownPageLink>
             <NavDropdownPageLink href={paths.findArtistByBadge}
-                                 title={"Find an artist with a specific badge number."}>
+                                 title={"Find " + names.aVendor + " with a specific badge number."}>
                 <SearchIcon/>
-                {" Artist by Badge Number"}
+                {" " + names.vendorCap + " by Badge Number"}
             </NavDropdownPageLink>
             <NavDropdownPageLink href={paths.findCheckedOutArtists}
-                                 title={"Find artists who were in today and have checked out."}>
+                                 title={"Find " + names.vendors + " who were in today and have checked out."}>
                 <SearchIcon/>
-                {" Checked Out Artists"}
+                {" Checked Out " + names.vendorsCap}
             </NavDropdownPageLink>
         </NavDropdown>
     );

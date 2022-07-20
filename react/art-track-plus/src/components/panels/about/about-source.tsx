@@ -1,10 +1,10 @@
 import React, {memo} from "react";
 import "./about-source.scss";
-import {appName} from "../../../facts";
 import {Button} from "react-bootstrap";
 import {faCodeFork} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import BlockButtonGroup from "../../buttons/block-button-group";
+import names from "../../../names";
 
 function AboutSource() {
     return (
@@ -13,7 +13,7 @@ function AboutSource() {
                 Open Source
             </h3>
             <p>
-                The source code for {appName} is available on GitHub. There, you can check out the code, report issues,
+                The source code for {names.app} is available on GitHub. There, you can check out the code, report issues,
                 get the latest updates and submit pull requests if you have useful modifications.
             </p>
             <BlockButtonGroup>

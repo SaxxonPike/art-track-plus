@@ -6,7 +6,7 @@ import {Container} from "react-bootstrap";
 function ReportsPage(props) {
     return (
         <div className={"reports-page"}>
-            <UserNav {...props}/>
+            <UserNav activeTab={"reports"} {...props}/>
             <Container>
                 <ReportsPanel {...props}/>
             </Container>

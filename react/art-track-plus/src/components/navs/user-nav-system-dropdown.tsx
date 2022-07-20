@@ -4,8 +4,8 @@ import NavDropdownPageLink from "./nav-dropdown-page-link";
 import paths from "../../paths";
 import DatabaseIcon from "../icons/database-icon";
 import AboutIcon from "../icons/about-icon";
-import {appName} from "../../facts";
 import React, {memo} from "react";
+import names from "../../names";
 
 function UserNavSystemDropdown() {
     return (
@@ -26,7 +26,7 @@ function UserNavSystemDropdown() {
         <NavDropdownPageLink href={paths.about}
                              title={"Read more about this application."}>
             <AboutIcon/>
-            {" About " + appName}
+            {" About " + names.app}
         </NavDropdownPageLink>
     </NavDropdown>
     );

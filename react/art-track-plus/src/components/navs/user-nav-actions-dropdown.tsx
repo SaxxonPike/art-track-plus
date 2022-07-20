@@ -7,6 +7,7 @@ import ListIcon from "../icons/list-icon";
 import RunIcon from "../icons/run-icon";
 import SignOutIcon from "../icons/sign-out-icon";
 import React, {memo} from "react";
+import names from "../../names";
 
 function UserNavActionsDropdown() {
     return (
@@ -19,12 +20,12 @@ function UserNavActionsDropdown() {
             </>
         }>
             <NavDropdownPageLink href={paths.artistRapidEntry}
-                                 title={"Quickly add new artists to the list."}>
+                                 title={"Quickly add new " + names.vendors + " to the list."}>
                 <PlusIcon/>
-                {" Rapid New Artist Entry"}
+                {" Rapid New " + names.vendorCap + " Entry"}
             </NavDropdownPageLink>
             <NavDropdownPageLink href={paths.roomRapidEntry}
-                                 title={"Quickly enter room numbers for artists."}>
+                                 title={"Quickly enter room numbers for " + names.vendors + "."}>
                 <ListIcon/>
                 {" Rapid Room Entry"}
             </NavDropdownPageLink>

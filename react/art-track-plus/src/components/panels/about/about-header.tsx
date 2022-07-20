@@ -1,12 +1,12 @@
 import React, {memo} from "react";
 import "./about-header.scss";
-import {appName} from "../../../facts";
+import names from "../../../names";
 
 function AboutHeader() {
     return (
         <div className={"about-header"}>
             <h1 className={"text-center"}>
-                {appName}
+                {names.app}
             </h1>
         </div>
     )

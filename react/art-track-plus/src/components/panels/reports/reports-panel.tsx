@@ -1,12 +1,6 @@
 import React, {memo} from "react";
 import {Button, Col, Row} from "react-bootstrap";
 import BlockButtonGroup from "../../buttons/block-button-group";
-import DatabaseIcon from "../../icons/database-icon";
-import TrashIcon from "../../icons/trash-icon";
-import RestoreIcon from "../../icons/restore-icon";
-import ExportJsonIcon from "../../icons/export-json-icon";
-import RawEditIcon from "../../icons/raw-edit-icon";
-import ConfirmRevealButton from "../../buttons/confirm-reveal-button";
 import ExportCsvIcon from "../../icons/export-csv-icon";
 
 function ReportsPanel() {

@@ -4,6 +4,7 @@ import NavDropdownPageLink from "./nav-dropdown-page-link";
 import paths from "../../paths";
 import ExportCsvIcon from "../icons/export-csv-icon";
 import React, {memo} from "react";
+import names from "../../names";
 
 function UserNavReportsDropdown() {
     return (
@@ -16,7 +17,7 @@ function UserNavReportsDropdown() {
             </>
         }>
             <NavDropdownPageLink href={paths.reports}
-                                 title={"Export artist lists to a CSV file."}>
+                                 title={"Export " + names.vendor + " lists to a CSV file."}>
                 <ExportCsvIcon/>
                 {" Export to CSV"}
             </NavDropdownPageLink>
