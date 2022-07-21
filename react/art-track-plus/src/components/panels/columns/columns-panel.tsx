@@ -1,24 +1,48 @@
 import React, {memo} from "react";
 import "./columns-panel.scss";
 import {Button} from "react-bootstrap";
-import {AppContext} from "../../../app-context";
+import {AppActions} from "../../../app-actions";
 
 interface Props {
-    appContext: AppContext;
+    actions: AppActions
+    partial: boolean
 }
 
-function ColumnsPanel({appContext}: Props) {
+function ColumnsPanel({actions, partial}: Props) {
     const testClick = () => {
-        appContext.setState({showAlert: true});
+        actions.openModal({
+            header: "test header!",
+            body: "test body!",
+            footer: "test footer!"
+        });
     };
 
-    return (
-        <div className={"columns-panel"}>
-            <Button type={"button"} variant={"primary"} onClick={testClick}>
-                Test Modal
-            </Button>
-        </div>
-    );
+    const testToast = () => {
+        actions.openToast({
+            header: "test header!",
+            body: "test body!"
+        });
+    }
+
+    if (partial) {
+        return (
+            <>
+                We would ordinarily show an alternate column view meant for visitors here
+            </>
+        );
+    } else {
+        return (
+            <div className={"columns-panel"}>
+                <Button type={"button"} variant={"primary"} onClick={testClick}>
+                    Test Modal
+                </Button>
+                <Button type={"button"} onClick={testToast}>
+                    Test Toast
+                </Button>
+            </div>
+        );
+    }
+
 }
 
 export default memo(ColumnsPanel);

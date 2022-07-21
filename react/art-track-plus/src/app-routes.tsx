@@ -5,6 +5,7 @@ import AboutPage from "./components/pages/about-page";
 import React from "react";
 import DatabasePage from "./components/pages/database-page";
 import ReportsPage from "./components/pages/reports-page";
+import ScreenTwoPage from "./components/pages/screen-two-page";
 
 export default function AppRoutes(props) {
     return (
@@ -13,6 +14,7 @@ export default function AppRoutes(props) {
             <Route path={paths.about} element={<AboutPage {...props}/>}/>
             <Route path={paths.database} element={<DatabasePage {...props}/>}/>
             <Route path={paths.reports} element={<ReportsPage {...props}/>}/>
+            <Route path={paths.secondScreen} element={<ScreenTwoPage {...props}/>}/>
         </Routes>
     );
 }
