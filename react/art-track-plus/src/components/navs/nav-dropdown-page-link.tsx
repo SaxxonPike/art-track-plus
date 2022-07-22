@@ -1,9 +1,13 @@
 import React, {memo} from "react";
 import {NavDropdown} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
-import PropTypes from "prop-types";
+import {DropdownItemProps} from "react-bootstrap/DropdownItem";
 
-function NavDropdownPageLink({href, ...others}) {
+export interface Props extends DropdownItemProps {
+    href: string
+}
+
+function NavDropdownPageLink({href, ...others}: Props) {
     const navigate = useNavigate();
     const handler = e => {
         e.preventDefault();
@@ -11,9 +15,5 @@ function NavDropdownPageLink({href, ...others}) {
     };
     return <NavDropdown.Item href={href} onClick={handler} {...others}></NavDropdown.Item>
 }
-
-NavDropdownPageLink.propTypes = {
-    href: PropTypes.string
-};
 
 export default memo(NavDropdownPageLink);

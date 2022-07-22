@@ -1,5 +1,6 @@
 import Toast from "./models/toast";
 import Modal from "./models/modal";
+import Artist from "./models/artist";
 
 export interface AppState {
     showAlert?: boolean
@@ -7,7 +8,8 @@ export interface AppState {
     toasts?: Toast[]
     toastId?: number,
     modals?: Modal[],
-    modalId?: number
+    modalId?: number,
+    artists?: Artist[]
 }
 
 export const DefaultAppState = (): AppState => ({
@@ -16,5 +18,6 @@ export const DefaultAppState = (): AppState => ({
     toasts: [],
     toastId: 0,
     modals: [],
-    modalId: 0
+    modalId: 0,
+    artists: []
 });

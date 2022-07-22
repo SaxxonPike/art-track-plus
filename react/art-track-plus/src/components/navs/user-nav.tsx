@@ -8,11 +8,10 @@ import NavPageLink from "./nav-page-link";
 import ScreenIcon from "../icons/screen-icon";
 import HomeIcon from "../icons/home-icon";
 import UserNavSystemDropdown from "./user-nav-system-dropdown";
-import UserNavReportsDropdown from "./user-nav-reports-dropdown";
-import UserNavSearchDropdown from "./user-nav-search-dropdown";
 import UserNavActionsDropdown from "./user-nav-actions-dropdown";
 import ReportIcon from "../icons/report-icon";
 import names from "../../names";
+import SearchIcon from "../icons/search-icon";
 
 function UserNav() {
     return (
@@ -32,9 +31,13 @@ function UserNav() {
                         {" Reports"}
                     </span>
                 </NavPageLink>
-
-                {/*<UserNavReportsDropdown/>*/}
-                <UserNavSearchDropdown/>
+                <NavPageLink href={paths.find}
+                             title={"Find anything."}>
+                    <SearchIcon/>
+                    <span className={"d-none d-md-inline"}>
+                        {" Find"}
+                    </span>
+                </NavPageLink>
                 <UserNavActionsDropdown/>
                 <NavPageLink href={paths.addArtist}
                              title={"Add a new " + names.vendor + "."}>

@@ -12,6 +12,7 @@ export const runLotteryPath = "/run-lottery";
 export const closeOutDayPath = "/close-out-day";
 export const addArtistPath = "/add-artist";
 export const secondScreenPath = "/view-2";
+export const findPath = "/find";
 
 export const paths = {
     about: aboutPath,
@@ -27,7 +28,8 @@ export const paths = {
     closeOutDay: closeOutDayPath,
     addArtist: addArtistPath,
     secondScreen: secondScreenPath,
-    reports: reportsPath
+    reports: reportsPath,
+    find: findPath
 };
 
 export default paths;

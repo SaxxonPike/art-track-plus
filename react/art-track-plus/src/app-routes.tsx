@@ -6,6 +6,8 @@ import React from "react";
 import DatabasePage from "./components/pages/database-page";
 import ReportsPage from "./components/pages/reports-page";
 import ScreenTwoPage from "./components/pages/screen-two-page";
+import FindPage from "./components/pages/find-page";
+import ArtistPage from "./components/pages/artist-page";
 
 export default function AppRoutes(props) {
     return (
@@ -15,6 +17,8 @@ export default function AppRoutes(props) {
             <Route path={paths.database} element={<DatabasePage {...props}/>}/>
             <Route path={paths.reports} element={<ReportsPage {...props}/>}/>
             <Route path={paths.secondScreen} element={<ScreenTwoPage {...props}/>}/>
+            <Route path={paths.find} element={<FindPage {...props}/>}/>
+            <Route path={paths.addArtist} element={<ArtistPage {...props} artistId={0} rapidEntry={false}/>}/>
         </Routes>
     );
 }

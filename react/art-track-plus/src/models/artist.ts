@@ -10,7 +10,7 @@ export default interface Artist {
     lotteryGuaranteed?: boolean
     lotteryOrder?: number
     seatedLast?: string
-    seatedDays?: string[]
-    standbyDays?: string[]
+    seatedDays?: string
+    standbyDays?: string
     standbyOrder?: number
 }
