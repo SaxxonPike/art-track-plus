@@ -2,12 +2,14 @@ import React, {memo} from "react";
 import {Button, Col, Row} from "react-bootstrap";
 import BlockButtonGroup from "../../buttons/block-button-group";
 import ExportCsvIcon from "../../icons/export-csv-icon";
+import ReportIcon from "../../icons/report-icon";
 
 function ReportsPanel() {
     return (
         <div className={"create-backup-panel my-3"}>
             <h1 className={"text-center"}>
-                Reports
+                <ReportIcon/>
+                {" Reports"}
             </h1>
             <hr/>
             <Row>

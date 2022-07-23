@@ -13,6 +13,8 @@ import SaveIcon from "../../icons/save-icon";
 import "./artist-panel.scss";
 import CancelIcon from "../../icons/cancel-icon";
 import DeleteIcon from "../../icons/delete-icon";
+import UserIcon from "../../icons/user-icon";
+import UserAddIcon from "../../icons/user-add-icon";
 
 export interface Props {
     actions: AppActions
@@ -118,7 +120,8 @@ export default function ArtistPanel({actions, artistId, rapidEntry}: Props) {
         lotteryGuaranteedCheckBox
     ]);
 
-    const title = (state.artistId ? "Edit " : "Add ") + names.vendorCap;
+    const title = (state.artistId ? " Edit " : " Add ") + names.vendorCap;
+    const titleIcon = (state.artistId ? <UserIcon/> : <UserAddIcon/>);
 
     // Artist actions available only for existing records.
     const artistActions = state.artistId ? (
@@ -228,7 +231,7 @@ export default function ArtistPanel({actions, artistId, rapidEntry}: Props) {
 
     return (
         <div className={"artist-panel my-3"}>
-            <h1 className={"text-center"}>{title}</h1>
+            <h1 className={"text-center"}>{titleIcon}{title}</h1>
             <hr/>
             {artistActions}
             <Form>

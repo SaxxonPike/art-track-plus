@@ -2,9 +2,9 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDatabase} from "@fortawesome/free-solid-svg-icons";
 import React, {memo} from "react";
 
-function DatabaseIcon() {
+function DatabaseIcon(props) {
     return (
-        <FontAwesomeIcon icon={faDatabase}/>
+        <FontAwesomeIcon{...props}  icon={faDatabase}/>
     );
 }
 

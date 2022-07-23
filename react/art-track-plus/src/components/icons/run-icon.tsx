@@ -2,9 +2,9 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCirclePlay} from "@fortawesome/free-solid-svg-icons";
 import React, {memo} from "react";
 
-function RunIcon() {
+function RunIcon(props) {
     return (
-        <FontAwesomeIcon icon={faCirclePlay}/>
+        <FontAwesomeIcon {...props} icon={faCirclePlay}/>
     );
 }
 

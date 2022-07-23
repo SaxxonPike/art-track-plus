@@ -1,26 +1,24 @@
 export const columnsPath = "/";
 export const aboutPath = "/about";
-export const databasePath = "/database";
-export const rawDataPath = "/raw-data";
+export const databasePath = "/system/database";
+export const rawDataPath = "/system/testing/editor";
 export const reportsPath = "/reports";
-export const findArtistByTablePath = "/find-artist-by-table";
-export const findArtistByBadgePath = "/find-artist-by-badge";
-export const findCheckedOutArtistsPath = "/find-checked-out-artists";
-export const artistRapidEntryPath = "/new-artist-rapid-entry";
-export const roomRapidEntryPath = "/room-rapid-entry";
-export const runLotteryPath = "/run-lottery";
-export const closeOutDayPath = "/close-out-day";
-export const addArtistPath = "/add-artist";
+export const findCheckedOutArtistsPath = "/tools/checked-out";
+export const artistRapidEntryPath = "/tools/rapid-artist-entry";
+export const roomRapidEntryPath = "/tools/rapid-room-entry";
+export const runLotteryPath = "/tools/lottery";
+export const closeOutDayPath = "/tools/close-out";
+export const addArtistPath = "/artists/add";
 export const secondScreenPath = "/view-2";
 export const findPath = "/find";
+export const actionsPath = "/tools";
+export const systemPath = "/system";
 
 export const paths = {
     about: aboutPath,
     columns: columnsPath,
     database: databasePath,
     rawData: rawDataPath,
-    findArtistByTable: findArtistByTablePath,
-    findArtistByBadge: findArtistByBadgePath,
     findCheckedOutArtists: findCheckedOutArtistsPath,
     artistRapidEntry: artistRapidEntryPath,
     roomRapidEntry: roomRapidEntryPath,
@@ -29,7 +27,9 @@ export const paths = {
     addArtist: addArtistPath,
     secondScreen: secondScreenPath,
     reports: reportsPath,
-    find: findPath
+    find: findPath,
+    actions: actionsPath,
+    system: systemPath
 };
 
 export default paths;

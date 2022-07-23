@@ -2,9 +2,9 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFileCode} from "@fortawesome/free-solid-svg-icons";
 import React, {memo} from "react";
 
-function ExportJsonIcon() {
+function ExportJsonIcon(props) {
     return (
-        <FontAwesomeIcon icon={faFileCode}/>
+        <FontAwesomeIcon {...props} icon={faFileCode}/>
     );
 }
 

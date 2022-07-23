@@ -2,9 +2,9 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faRightToBracket} from "@fortawesome/free-solid-svg-icons";
 import React, {memo} from "react";
 
-function SignInIcon() {
+function SignInIcon(props) {
     return (
-        <FontAwesomeIcon icon={faRightToBracket}/>
+        <FontAwesomeIcon {...props} icon={faRightToBracket}/>
     );
 }
 

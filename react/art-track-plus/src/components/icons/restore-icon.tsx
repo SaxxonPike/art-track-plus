@@ -2,9 +2,9 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRotateLeft} from "@fortawesome/free-solid-svg-icons";
 import React, {memo} from "react";
 
-function RestoreIcon() {
+function RestoreIcon(props) {
     return (
-        <FontAwesomeIcon icon={faArrowRotateLeft}/>
+        <FontAwesomeIcon {...props} icon={faArrowRotateLeft}/>
     );
 }
 

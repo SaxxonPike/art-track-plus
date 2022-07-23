@@ -2,9 +2,9 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHome} from "@fortawesome/free-solid-svg-icons";
 import React, {memo} from "react";
 
-function HomeIcon() {
+function HomeIcon(props) {
     return (
-        <FontAwesomeIcon icon={faHome}/>
+        <FontAwesomeIcon {...props} icon={faHome}/>
     );
 }
 

@@ -1,19 +1,18 @@
 import React, {memo} from "react";
-import "./about-page.scss";
 import UserNav from "../navs/user-nav";
-import AboutPanel from "../panels/about/about-panel";
 import {Container} from "react-bootstrap";
+import SystemPanel from "../panels/system/system-panel";
 import tabs from "./tabs";
 
-function AboutPage(props) {
+function SystemPage(props) {
     return (
-        <div className={"about-page"}>
+        <div className={"reports-page"}>
             <UserNav activeTab={tabs.system} {...props}/>
             <Container>
-                <AboutPanel {...props}/>
+                <SystemPanel {...props}/>
             </Container>
         </div>
     )
 }
 
-export default memo(AboutPage);
+export default memo(SystemPage);

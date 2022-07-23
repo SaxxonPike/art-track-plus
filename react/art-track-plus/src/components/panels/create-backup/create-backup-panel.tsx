@@ -8,12 +8,19 @@ import ExportJsonIcon from "../../icons/export-json-icon";
 import RawEditIcon from "../../icons/raw-edit-icon";
 import ConfirmRevealButton from "../../buttons/confirm-reveal-button";
 import names from "../../../names";
+import SettingsIcon from "../../icons/settings-icon";
+import CrumbIcon from "../../icons/crumb-icon";
 
 function CreateBackupPanel() {
     return (
         <div className={"create-backup-panel my-3"}>
             <h1 className={"text-center"}>
-                Database
+                <SettingsIcon/>
+                {" "}
+                <CrumbIcon/>
+                {" "}
+                <DatabaseIcon/>
+                {" Database"}
             </h1>
             <hr/>
             <Row>

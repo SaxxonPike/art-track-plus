@@ -2,9 +2,9 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAngleLeft} from "@fortawesome/free-solid-svg-icons";
 import React, {memo} from "react";
 
-function CancelIcon() {
+function CancelIcon(props) {
     return (
-        <FontAwesomeIcon icon={faAngleLeft}/>
+        <FontAwesomeIcon{...props}  icon={faAngleLeft}/>
     );
 }
 

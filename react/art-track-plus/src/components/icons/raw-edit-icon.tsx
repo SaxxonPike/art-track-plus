@@ -2,9 +2,9 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFilePen} from "@fortawesome/free-solid-svg-icons";
 import React, {memo} from "react";
 
-function RawEditIcon() {
+function RawEditIcon(props) {
     return (
-        <FontAwesomeIcon icon={faFilePen}/>
+        <FontAwesomeIcon {...props} icon={faFilePen}/>
     );
 }
 

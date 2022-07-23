@@ -2,9 +2,9 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
 import React, {memo} from "react";
 
-function UserIcon() {
+function UserIcon(props) {
     return (
-        <FontAwesomeIcon icon={faUser}/>
+        <FontAwesomeIcon {...props} icon={faUser}/>
     );
 }
 

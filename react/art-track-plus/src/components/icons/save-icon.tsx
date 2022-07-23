@@ -2,9 +2,9 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFloppyDisk} from "@fortawesome/free-solid-svg-icons";
 import React, {memo} from "react";
 
-function SaveIcon() {
+function SaveIcon(props) {
     return (
-        <FontAwesomeIcon icon={faFloppyDisk}/>
+        <FontAwesomeIcon {...props} icon={faFloppyDisk}/>
     );
 }
 

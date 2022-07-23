@@ -2,9 +2,9 @@ import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React, {memo} from "react";
 
-function MenuMoreIcon() {
+function MenuMoreIcon(props) {
     return (
-        <FontAwesomeIcon className={"text-muted"} icon={faArrowRight}/>
+        <FontAwesomeIcon {...props} className={"text-muted"} icon={faArrowRight}/>
     );
 }
 

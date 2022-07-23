@@ -2,9 +2,9 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faList} from "@fortawesome/free-solid-svg-icons";
 import React, {memo} from "react";
 
-function ListIcon() {
+function ListIcon(props) {
     return (
-        <FontAwesomeIcon icon={faList}/>
+        <FontAwesomeIcon {...props} icon={faList}/>
     );
 }
 

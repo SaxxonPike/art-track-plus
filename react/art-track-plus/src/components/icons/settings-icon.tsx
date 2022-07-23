@@ -2,9 +2,9 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGears} from "@fortawesome/free-solid-svg-icons";
 import React, {memo} from "react";
 
-function SettingsIcon() {
+function SettingsIcon(props) {
     return (
-        <FontAwesomeIcon icon={faGears}/>
+        <FontAwesomeIcon {...props} icon={faGears}/>
     );
 }
 

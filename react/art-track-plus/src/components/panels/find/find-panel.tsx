@@ -3,6 +3,7 @@ import {Form} from "react-bootstrap";
 import {AppActions} from "../../../app-actions";
 import FindResult from "../../../models/find-result";
 import FindPanelResultTable from "./find-panel-result-table";
+import SearchIcon from "../../icons/search-icon";
 
 export interface Props {
     actions: AppActions
@@ -39,7 +40,8 @@ function FindPanel({actions}: Props) {
     return (
         <div className={"create-backup-panel my-3"}>
             <h1 className={"text-center mb-3"}>
-                Find
+                <SearchIcon/>
+                {" Find"}
             </h1>
             <hr/>
             <Form className={"my-4"}>

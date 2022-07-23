@@ -8,6 +8,8 @@ import ReportsPage from "./components/pages/reports-page";
 import ScreenTwoPage from "./components/pages/screen-two-page";
 import FindPage from "./components/pages/find-page";
 import ArtistPage from "./components/pages/artist-page";
+import ActionsPage from "./components/pages/actions-page";
+import SystemPage from "./components/pages/system-page";
 
 export default function AppRoutes(props) {
     return (
@@ -19,6 +21,8 @@ export default function AppRoutes(props) {
             <Route path={paths.secondScreen} element={<ScreenTwoPage {...props}/>}/>
             <Route path={paths.find} element={<FindPage {...props}/>}/>
             <Route path={paths.addArtist} element={<ArtistPage {...props} artistId={0} rapidEntry={false}/>}/>
+            <Route path={paths.actions} element={<ActionsPage {...props}/>}/>
+            <Route path={paths.system} element={<SystemPage {...props}/>}/>
         </Routes>
     );
 }

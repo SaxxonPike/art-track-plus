@@ -2,9 +2,9 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faClock} from "@fortawesome/free-solid-svg-icons";
 import React, {memo} from "react";
 
-function StandbyIcon() {
+function StandbyIcon(props) {
     return (
-        <FontAwesomeIcon icon={faClock}/>
+        <FontAwesomeIcon {...props} icon={faClock}/>
     );
 }
 

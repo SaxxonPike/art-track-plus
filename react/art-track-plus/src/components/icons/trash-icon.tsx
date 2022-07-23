@@ -2,9 +2,9 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import React, {memo} from "react";
 
-function TrashIcon() {
+function TrashIcon(props) {
     return (
-        <FontAwesomeIcon icon={faTrash}/>
+        <FontAwesomeIcon {...props} icon={faTrash}/>
     );
 }
 

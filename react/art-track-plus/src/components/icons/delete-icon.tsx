@@ -2,9 +2,9 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faClose} from "@fortawesome/free-solid-svg-icons";
 import React, {memo} from "react";
 
-function DeleteIcon() {
+function DeleteIcon(props) {
     return (
-        <FontAwesomeIcon icon={faClose}/>
+        <FontAwesomeIcon{...props}  icon={faClose}/>
     );
 }
 
