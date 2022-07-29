@@ -15,6 +15,7 @@ function NavPageLink({href, ...others}: Props) {
     return (<Nav.Item>
         <Nav.Link href={href}
                   onClick={handler}
+                  tabIndex={0}
                   {...others}>
 
         </Nav.Link>

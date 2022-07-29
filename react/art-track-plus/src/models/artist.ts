@@ -1,6 +1,6 @@
-export default interface Artist {
-    id?: number
-    name?: string
+import AppRecord from "../features/databases/app-record";
+
+export default interface Artist extends AppRecord {
     badgeNumber?: string
     tableNumber?: string
     roomNumber?: string

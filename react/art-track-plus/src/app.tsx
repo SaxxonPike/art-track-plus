@@ -18,12 +18,19 @@ export default class App extends React.Component<unknown, AppState> {
         this.state = DefaultAppState();
     }
 
+    componentDidMount() {
+        if (this.state.forceUpdate) {
+            this.setState({forceUpdate: false});
+            this.appContext.actions.refresh();
+        }
+    }
+
     render() {
         return (
             <>
                 <ToastComponent actions={this.appContext.actions}/>
                 <ModalComponent actions={this.appContext.actions}/>
-                <AppRoutes actions={this.appContext.actions}/>
+                <AppRoutes appState={this.appContext.state} actions={this.appContext.actions}/>
             </>
         );
     }

@@ -9,6 +9,7 @@ export const roomRapidEntryPath = "/tools/rapid-room-entry";
 export const runLotteryPath = "/tools/lottery";
 export const closeOutDayPath = "/tools/close-out";
 export const addArtistPath = "/artists/add";
+export const editArtistPath = "/artists/edit/:artistId";
 export const secondScreenPath = "/view-2";
 export const findPath = "/find";
 export const actionsPath = "/tools";
@@ -25,6 +26,7 @@ export const paths = {
     runLottery: runLotteryPath,
     closeOutDay: closeOutDayPath,
     addArtist: addArtistPath,
+    editArtist: editArtistPath,
     secondScreen: secondScreenPath,
     reports: reportsPath,
     find: findPath,

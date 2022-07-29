@@ -11,7 +11,7 @@ import names from "../../../names";
 import SettingsIcon from "../../icons/settings-icon";
 import CrumbIcon from "../../icons/crumb-icon";
 
-function CreateBackupPanel() {
+function DatabasePanel() {
     return (
         <div className={"create-backup-panel my-3"}>
             <h1 className={"text-center"}>
@@ -71,4 +71,4 @@ function CreateBackupPanel() {
     );
 }
 
-export default memo(CreateBackupPanel);
+export default memo(DatabasePanel);

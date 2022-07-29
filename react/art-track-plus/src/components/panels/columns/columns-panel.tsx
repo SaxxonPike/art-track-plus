@@ -2,6 +2,8 @@ import React, {memo} from "react";
 import "./columns-panel.scss";
 import {Button} from "react-bootstrap";
 import {AppActions} from "../../../app-actions";
+import {generatePath, Link} from "react-router-dom";
+import paths from "../../../paths";
 
 interface Props {
     actions: AppActions
@@ -24,6 +26,17 @@ function ColumnsPanel({actions, partial}: Props) {
         });
     }
 
+    const artistLinesTemp = actions.getArtists()
+        .map(artist => {
+            return (
+                <li key={"artist-id-" + artist.id}>
+                    <Link to={generatePath(paths.editArtist, {artistId: artist.id + ""})}>
+                        {artist.name}
+                    </Link>
+                </li>
+            );
+        });
+
     if (partial) {
         return (
             <>
@@ -39,6 +52,9 @@ function ColumnsPanel({actions, partial}: Props) {
                 <Button type={"button"} onClick={testToast}>
                     Test Toast
                 </Button>
+                <ul>
+                    {artistLinesTemp}
+                </ul>
             </div>
         );
     }
