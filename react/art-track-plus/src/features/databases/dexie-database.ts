@@ -3,6 +3,7 @@ import Dexie, {IndexableType, Table} from "dexie";
 import Artist from "../../models/artist";
 import AppDatabase from "./app-database";
 import AppSchema from "./app-schema";
+import AppRecord from "./app-record";
 
 // Configuration for DexieDatabase.
 export interface DexieConfiguration {
@@ -117,6 +118,35 @@ export default class DexieDatabase implements AppDataSource {
             result[table.name] = await table
                 .filter(filter)
                 .toArray();
+        });
+
+        await Promise.all(tasks);
+        return <AppDatabase>result;
+    }
+
+    async updateMany(updates: AppSchema) {
+        const tables = this.db.tables;
+        const result = {};
+
+        const tasks = tables.map(async table => {
+            const changes = updates[table.name];
+            if (!changes) {
+                return;
+            }
+
+            const folded = changes
+                .reduce((prev, curr) => ({...prev, ...curr}));
+
+            const tableResult = [];
+            const rows = await table.toArray();
+            const ops = rows.map(async row => {
+                if (await table.update((<AppRecord>row).id, folded)) {
+                    tableResult.push(({...row, ...folded}));
+                }
+            });
+
+            await Promise.all(ops);
+            result[table.name] = tableResult;
         });
 
         await Promise.all(tasks);

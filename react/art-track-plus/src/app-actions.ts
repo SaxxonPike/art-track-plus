@@ -7,6 +7,9 @@ import * as fuzzysort from "fuzzysort";
 import {generatePath} from "react-router-dom";
 import paths from "./paths";
 import AppRecord from "./features/databases/app-record";
+import ArtistTools from "./features/tools/artist-tools";
+import names from "./names";
+import ArrayTools from "./features/tools/array-tools";
 
 export class AppActions {
     private context: AppContext;
@@ -112,13 +115,19 @@ export class AppActions {
 
     // Reload all data.
     async refresh() {
-        console.log("refreshing");
-
-        const data = await this.context.dataSource.refresh();
-        this.context.setState({
-            artists: data.artists
-        });
-        return data;
+        try {
+            const data = await this.context.dataSource.refresh();
+            this.context.setState({
+                artists: data.artists
+            });
+            return data;
+        } catch (e) {
+            this.openToast({
+                header: "Failed to refresh database",
+                body: e
+            });
+            throw e;
+        }
     }
 
     // Get all artists.
@@ -128,36 +137,70 @@ export class AppActions {
 
     // Get a specific artist by ID.
     getArtist(id: number): Artist {
-        console.log("get artist", id);
-        const allArtists = this.context.state.artists;
-        const artists = allArtists
-            .filter(artist => artist.id === id);
-        return artists.length < 1 ? null : {...artists[0]};
+        try {
+            const allArtists = this.context.state.artists;
+            const artists = allArtists
+                .filter(artist => artist.id === id);
+            return artists.length < 1 ? null : {...artists[0]};
+        } catch (e) {
+            this.openToast({
+                header: "Failed to fetch " + names.vendor + " " + id,
+                body: e
+            });
+            throw e;
+        }
+    }
+
+    async updateAllArtists(fields: Artist) {
+        const {...artist} = fields;
+        delete artist.id;
+
+        try {
+            return await this.context.dataSource
+                .updateMany({
+                    artists: [artist]
+                });
+        } catch (e) {
+            this.openToast({
+                header: "Failed to update " + names.vendors,
+                body: e
+            });
+            throw e;
+        }
     }
 
     // Update artist information.
     async updateArtist(artist: Artist) {
-        const {id} = artist;
+        const {id, ...rest} = artist;
 
         if (!id) {
             return;
         }
 
-        const {...record} = artist;
+        try {
+            const existing = this.getArtist(id);
+            const {...record} = {...existing, ...rest};
 
-        const db = await this.context.dataSource
-            .save({artists: [record]});
+            const db = await this.context.dataSource
+                .save({artists: [record]});
 
-        const result = {...db.artists[0]};
+            const result = {...db.artists[0]};
 
-        console.log("Updated artist", result);
+            console.log("Updated artist", result);
 
-        const otherArtists = this.context.state.artists
-            .filter(record => record.id !== id);
+            const otherArtists = this.context.state.artists
+                .filter(record => record.id !== id);
 
-        this.context.setState({artists: [...otherArtists, result]});
+            this.context.setState({artists: [...otherArtists, result]});
 
-        return <Artist>result;
+            return <Artist>result;
+        } catch (e) {
+            this.openToast({
+                header: "Failed to update " + names.vendor + " " + id,
+                body: e
+            });
+            throw e;
+        }
     }
 
     // Create a new artist.
@@ -168,18 +211,26 @@ export class AppActions {
             return;
         }
 
-        const db = await this.context.dataSource
-            .save({artists: [record]});
+        try {
+            const db = await this.context.dataSource
+                .save({artists: [record]});
 
-        const result = {...db.artists[0]};
+            const result = {...db.artists[0]};
 
-        console.log("New artist", result);
+            console.log("New artist", result);
 
-        const otherArtists = this.context.state.artists;
+            const otherArtists = this.context.state.artists;
 
-        this.context.setState({artists: [...otherArtists, result]});
+            this.context.setState({artists: [...otherArtists, result]});
 
-        return <Artist>result;
+            return <Artist>result;
+        } catch (e) {
+            this.openToast({
+                header: "Failed to create " + names.vendor,
+                body: e
+            });
+            throw e;
+        }
     }
 
     // Delete an artist.
@@ -188,18 +239,120 @@ export class AppActions {
             return;
         }
 
-        const db = await this.context.dataSource
-            .save({artists: [{id: id, deleted: true}]});
+        try {
+            const db = await this.context.dataSource
+                .save({artists: [{id: id, deleted: true}]});
 
-        const result = {...db.artists[0]};
+            const result = {...db.artists[0]};
 
-        console.log("Delete artist", result);
+            console.log("Delete artist", result);
 
-        const otherArtists = this.context.state.artists
-            .filter(record => record.id !== id);
+            const otherArtists = this.context.state.artists
+                .filter(record => record.id !== id);
 
-        this.context.setState({artists: [...otherArtists]});
+            this.context.setState({artists: [...otherArtists]});
 
-        return <Artist>result;
+            return <Artist>result;
+        } catch (e) {
+            this.openToast({
+                header: "Failed to delete " + names.vendor + " " + id,
+                body: e
+            });
+            throw e;
+        }
+    }
+
+    // Get the next standby order.
+    getNextStandby() {
+        const orders = this.context.state.artists
+            .filter(a => !!a.standbyOrder)
+            .map(a => a.standbyOrder);
+
+        if (orders.length < 1) {
+            return 1;
+        }
+
+        return Math.max(...orders) + 1;
+    }
+
+    // Get the next lottery order.
+    getNextLottery() {
+        const orders = this.context.state.artists
+            .filter(a => !!a.lotteryOrder)
+            .map(a => a.lotteryOrder);
+
+        if (orders.length < 1) {
+            return 1;
+        }
+
+        return Math.max(...orders) + 1;
+    }
+
+    // Set an artist to the end of the standby list.
+    async standbyArtist(artistId: number) {
+        const artist = this.getArtist(artistId);
+        if (!artist) {
+            return;
+        }
+
+        return this.updateArtist({
+            id: artistId,
+            tableNumber: null,
+            lotteryOrder: null,
+            standbyOrder: this.getNextStandby(),
+            standbyDays: ArtistTools.addToday(artist.standbyDays)
+        });
+    }
+
+    // Sign out an artist and set whether they will be considered for the next lottery.
+    async signOutArtist(artistId: number, nextDayLotto: boolean) {
+        return this.updateArtist({
+            id: artistId,
+            tableNumber: null,
+            standbyOrder: null,
+            lotteryOrder: null,
+            lotteryEligible: nextDayLotto
+        });
+    }
+
+    // Sign in an artist with specified table number.
+    async signInArtist(artistId: number, tableNumber: string) {
+        return this.updateArtist({
+            id: artistId,
+            tableNumber: tableNumber,
+            standbyOrder: null,
+            lotteryOrder: null,
+            seatedLast: new Date().toISOString()
+        });
+    }
+
+    // Run the lottery.
+    async runLottery(seats: number) {
+        const artists = this.context.state.artists
+
+        if (!artists) {
+            return;
+        }
+
+        if (seats < 1) {
+            return;
+        }
+
+        // All artists that are guaranteed in the lottery.
+        const guaranteedArtists = ArrayTools.shuffle(artists
+            .filter(a => !!a.lotteryGuaranteed), 10);
+
+        // All remaining artists that are eligible for the drawing.
+        const eligibleArtists = ArrayTools.shuffle(artists
+            .filter(a => !!a.lotteryEligible && !a.lotteryGuaranteed), 10);
+
+        // Everybody else.
+        const ineligibleArtists = artists
+            .filter(a => !a.lotteryEligible && !a.lotteryGuaranteed);
+
+        // Clear lottery for all not in it.
+        this.updateAllArtists({lotteryOrder: null});
+
+
     }
 }

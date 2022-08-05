@@ -4,6 +4,7 @@ import {useNavigate} from "react-router-dom";
 
 export interface Props extends NavLinkProps {
     href: string
+    target?: string
 }
 
 function NavPageLink({href, ...others}: Props) {
@@ -13,11 +14,10 @@ function NavPageLink({href, ...others}: Props) {
         navigate(href);
     };
     return (<Nav.Item>
-        <Nav.Link href={href}
+        <Nav.Link href={"#" + href}
                   onClick={handler}
                   tabIndex={0}
                   {...others}>
-
         </Nav.Link>
     </Nav.Item>);
 }

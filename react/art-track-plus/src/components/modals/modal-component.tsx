@@ -5,6 +5,7 @@ import {AppActions} from "../../app-actions";
 
 export interface Props {
     actions: AppActions
+    onHide?: () => void
 }
 
 export default function ModalComponent(props: Props) {
@@ -16,10 +17,12 @@ export default function ModalComponent(props: Props) {
     }
 
     const modal = modals[0];
-    const onHide = () => actions.closeModal(modal.id);
+    const doHide = () => {
+        actions.closeModal(modal.id).then(() => props?.onHide());
+    };
 
     return (
-        <Modal onHide={onHide} {...modal.props} show={true}>
+        <Modal animation={false} onHide={doHide} {...modal.props} show={true}>
             <Modal.Header>
                 <h5 className={"modal-title"}>
                     {modal.header}
@@ -28,7 +31,7 @@ export default function ModalComponent(props: Props) {
                         className={"close"}
                         data-dismiss={"modal"}
                         aria-label={"Close"}
-                        onClick={modal.props?.onHide ?? onHide}>
+                        onClick={modal.props?.onHide ?? doHide}>
                             <span aria-hidden={"true"}>
                                 <CloseIcon/>
                             </span>

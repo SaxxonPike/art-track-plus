@@ -1,26 +1,52 @@
 .columns-panel {
-  .col-artists {
-    background: #080808;
-    color: #888;
+  height: inherit;
+
+  .column-title {
+    background: rgba(0, 0, 0, 0.5);
+    text-align: center;
+    border-bottom: 1px solid;
+    border-color: black;
+    font-weight: bolder;
+    padding: 4px 0;
   }
 
-  .col-lottery {
-    background: #002;
-    color: #66f;
+  .column-flex {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: stretch;
   }
 
-  .col-standby {
-    background: #200;
-    color: #f66;
+  .column-artists {
+    background: #282828;
+    color: #aaa;
   }
 
-  .col-seated {
-    background: #020;
-    color: #6f6;
+  .column-lottery {
+    background: #181840;
+    color: #77f;
   }
 
-  .col-checked-out {
-    background: #080808;
-    color: #888;
+  .column-standby {
+    background: #401818;
+    color: #f77;
+  }
+
+  .column-seated {
+    background: #184018;
+    color: #7f7;
+  }
+
+  .column-checked-out {
+    background: #282828;
+    color: #aaa;
+  }
+
+  .column-table-number {
+    background: rgba(0, 0, 0, 0.5);
+    font-size: 80%;
+    margin: 0;
+    &::before {
+      content: "#"
+    }
   }
 }

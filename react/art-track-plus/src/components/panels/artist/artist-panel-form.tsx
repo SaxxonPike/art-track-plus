@@ -24,6 +24,15 @@ export default function ArtistPanelForm({artist, onChange, onDelete, onCancel, o
     let lotteryEligibleCheckBox;
     let lotteryGuaranteedCheckBox;
 
+    function convertCommaValueString(str: string) {
+        if (!str)
+            return "";
+
+        return str.split(",")
+            .map(s => s.trim())
+            .filter(s => !!s);
+    }
+
     function onControlChange() {
         onChange({
             ...artist,
@@ -38,29 +47,34 @@ export default function ArtistPanelForm({artist, onChange, onDelete, onCancel, o
         });
     }
 
-    useEffect(() => {
-        if (!artist?.id) {
-            // nothing here yet
-        } else {
-            tableTextBox.value = artist?.tableNumber ?? "";
-            roomTextBox.value = artist?.roomNumber ?? "";
-        }
+    useEffect(
+        () => {
+            if (!artist?.id) {
+                // nothing here yet
+            } else {
+                tableTextBox.value = artist?.tableNumber ?? "";
+                roomTextBox.value = artist?.roomNumber ?? "";
+            }
 
-        nameTextBox.value = artist?.name ?? "";
-        badgeTextBox.value = artist?.badgeNumber ?? "";
-        phoneTextBox.value = artist?.phone ?? "";
-        remarksTextBox.value = artist?.remarks ?? "";
-        lotteryEligibleCheckBox.checked = artist?.lotteryEligible ?? false;
-        lotteryGuaranteedCheckBox.checked = artist?.lotteryGuaranteed ?? false;
-    }, [artist,
-        nameTextBox,
-        badgeTextBox,
-        phoneTextBox,
-        remarksTextBox,
-        tableTextBox,
-        roomTextBox,
-        lotteryEligibleCheckBox,
-        lotteryGuaranteedCheckBox]);
+            nameTextBox.value = artist?.name ?? "";
+            badgeTextBox.value = artist?.badgeNumber ?? "";
+            phoneTextBox.value = artist?.phone ?? "";
+            remarksTextBox.value = artist?.remarks ?? "";
+            lotteryEligibleCheckBox.checked = artist?.lotteryEligible ?? false;
+            lotteryGuaranteedCheckBox.checked = artist?.lotteryGuaranteed ?? false;
+        },
+        [
+            artist,
+            nameTextBox,
+            badgeTextBox,
+            phoneTextBox,
+            remarksTextBox,
+            tableTextBox,
+            roomTextBox,
+            lotteryEligibleCheckBox,
+            lotteryGuaranteedCheckBox
+        ]
+    );
 
     // Full info available only for existing records.
     const infoBlock = artist.id ? (
@@ -77,7 +91,7 @@ export default function ArtistPanelForm({artist, onChange, onDelete, onCancel, o
                     </Col>
                     <Col xs={8} sm={7}>
                         <Form.Text className={"text-white"}>
-                            12345
+                            {convertCommaValueString(artist?.seatedDays)}
                         </Form.Text>
                     </Col>
                 </Form.Group>
@@ -89,7 +103,7 @@ export default function ArtistPanelForm({artist, onChange, onDelete, onCancel, o
                     </Col>
                     <Col xs={8} sm={7}>
                         <Form.Text className={"text-white"}>
-                            12345
+                            {convertCommaValueString(artist?.seatedDays)}
                         </Form.Text>
                     </Col>
                 </Form.Group>
@@ -101,7 +115,7 @@ export default function ArtistPanelForm({artist, onChange, onDelete, onCancel, o
                     </Col>
                     <Col xs={8} sm={7}>
                         <Form.Text className={"text-white"}>
-                            12345
+                            {convertCommaValueString(artist?.standbyDays)}
                         </Form.Text>
                     </Col>
                 </Form.Group>
@@ -224,7 +238,7 @@ export default function ArtistPanelForm({artist, onChange, onDelete, onCancel, o
             <Row>
                 <Col xs={4}>
                     <BlockButtonGroup>
-                        <Button onClick={onDelete} variant={"warning"} disabled={!artist?.id}>
+                        <Button onClick={onDelete} variant={"dark"} disabled={!artist?.id}>
                             <DeleteIcon/>
                             {" Delete"}
                         </Button>

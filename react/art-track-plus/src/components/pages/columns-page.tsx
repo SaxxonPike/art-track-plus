@@ -7,9 +7,9 @@ import tabs from "./tabs";
 
 function ColumnsPage(props) {
     return (
-        <div className={"columns-page"}>
+        <div className={"columns-page with-nav"}>
             <UserNav activeTab={tabs.home} {...props}/>
-            <Container fluid={true}>
+            <Container fluid={true} className={"columns-container"}>
                 <ColumnsPanel {...props}/>
             </Container>
         </div>

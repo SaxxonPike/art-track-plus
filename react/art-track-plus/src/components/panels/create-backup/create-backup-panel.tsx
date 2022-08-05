@@ -10,6 +10,7 @@ import ConfirmRevealButton from "../../buttons/confirm-reveal-button";
 import names from "../../../names";
 import SettingsIcon from "../../icons/settings-icon";
 import CrumbIcon from "../../icons/crumb-icon";
+import GoIcon from "../../icons/go-icon";
 
 function DatabasePanel() {
     return (
@@ -28,14 +29,14 @@ function DatabasePanel() {
                     <h3><ExportJsonIcon/> Create Backup</h3>
                     <p>A backup of all application data can be made in JSON format.</p>
                     <BlockButtonGroup>
-                        <Button variant={"secondary"}>Create and Download</Button>
+                        <Button variant={"secondary"}><GoIcon/> Create and Download</Button>
                     </BlockButtonGroup>
                 </Col>
                 <Col sm={12} md={6} className={"mt-3 mt-md-1"}>
                     <h3><RestoreIcon/> Restore Backup</h3>
                     <p>A previously downloaded backup in JSON format can be restored.</p>
                     <BlockButtonGroup>
-                        <ConfirmRevealButton variant={"warning"} confirmText={"restore"}>Choose a File...</ConfirmRevealButton>
+                        <ConfirmRevealButton variant={"warning"} confirmText={"restore"}><GoIcon/> Choose a File...</ConfirmRevealButton>
                     </BlockButtonGroup>
                 </Col>
             </Row>
@@ -44,7 +45,7 @@ function DatabasePanel() {
                     <h3><TrashIcon/> Clear Database</h3>
                     <p>This will clear the entire database. Ensure you have created backups!</p>
                     <BlockButtonGroup>
-                        <ConfirmRevealButton variant={"danger"} confirmText={"clear"}>Wipe Everything</ConfirmRevealButton>
+                        <ConfirmRevealButton variant={"danger"} confirmText={"clear"}><GoIcon/> Wipe Everything</ConfirmRevealButton>
                     </BlockButtonGroup>
                 </Col>
             </Row>
@@ -56,14 +57,14 @@ function DatabasePanel() {
                     <h3><RawEditIcon/> Raw Data Editor</h3>
                     <p>Modify raw {names.vendor} data for otherwise unsupported on-the-fly situations.</p>
                     <BlockButtonGroup>
-                        <Button variant={"warning"}>Open</Button>
+                        <Button variant={"warning"}><GoIcon/> Open</Button>
                     </BlockButtonGroup>
                 </Col>
                 <Col sm={12} md={6} className={"mt-3 mt-md-0"}>
                     <h3><DatabaseIcon/> Generate Test Data</h3>
                     <p>The database will be replaced with randomized test data.</p>
                     <BlockButtonGroup>
-                        <ConfirmRevealButton variant={"danger"} confirmText={"generate"}>Generate Test Data</ConfirmRevealButton>
+                        <ConfirmRevealButton variant={"danger"} confirmText={"generate"}><GoIcon/> Generate Test Data</ConfirmRevealButton>
                     </BlockButtonGroup>
                 </Col>
             </Row>

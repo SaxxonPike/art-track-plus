@@ -18,4 +18,7 @@ export default interface AppDataSource {
 
     // Save records to a database. Returns the updated records.
     save: (records: AppSchema) => Promise<AppDatabase>
+
+    // Updates specific fields on records of specific tables in a database.
+    updateMany: (updates: AppSchema) => Promise<AppDatabase>
 }

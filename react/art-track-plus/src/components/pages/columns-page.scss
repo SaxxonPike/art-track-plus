@@ -1,3 +1,13 @@
 .columns-page {
+  &.with-nav {
+    height: calc(100vh - 63px);
+  }
 
+  &.without-nav {
+    height: 100vh;
+  }
+
+  .columns-container {
+    height: 100%;
+  }
 }
