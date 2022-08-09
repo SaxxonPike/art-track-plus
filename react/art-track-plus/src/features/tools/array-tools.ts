@@ -1,4 +1,4 @@
-function shuffle(items: unknown[], iterations: number) {
+function shuffle<T>(items: T[], iterations: number) {
     const result = [...items];
     const count = result.length;
     while (iterations-- > 0) {

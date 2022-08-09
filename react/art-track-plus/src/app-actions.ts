@@ -9,7 +9,7 @@ import paths from "./paths";
 import AppRecord from "./features/databases/app-record";
 import ArtistTools from "./features/tools/artist-tools";
 import names from "./names";
-import ArrayTools from "./features/tools/array-tools";
+import LotteryTools from "./features/tools/lottery-tools";
 
 export class AppActions {
     private context: AppContext;
@@ -122,7 +122,7 @@ export class AppActions {
             });
             return data;
         } catch (e) {
-            this.openToast({
+            await this.openToast({
                 header: "Failed to refresh database",
                 body: e
             });
@@ -161,7 +161,7 @@ export class AppActions {
                     artists: [artist]
                 });
         } catch (e) {
-            this.openToast({
+            await this.openToast({
                 header: "Failed to update " + names.vendors,
                 body: e
             });
@@ -195,7 +195,7 @@ export class AppActions {
 
             return <Artist>result;
         } catch (e) {
-            this.openToast({
+            await this.openToast({
                 header: "Failed to update " + names.vendor + " " + id,
                 body: e
             });
@@ -225,7 +225,7 @@ export class AppActions {
 
             return <Artist>result;
         } catch (e) {
-            this.openToast({
+            await this.openToast({
                 header: "Failed to create " + names.vendor,
                 body: e
             });
@@ -254,7 +254,7 @@ export class AppActions {
 
             return <Artist>result;
         } catch (e) {
-            this.openToast({
+            await this.openToast({
                 header: "Failed to delete " + names.vendor + " " + id,
                 body: e
             });
@@ -327,32 +327,7 @@ export class AppActions {
     }
 
     // Run the lottery.
-    async runLottery(seats: number) {
-        const artists = this.context.state.artists
-
-        if (!artists) {
-            return;
-        }
-
-        if (seats < 1) {
-            return;
-        }
-
-        // All artists that are guaranteed in the lottery.
-        const guaranteedArtists = ArrayTools.shuffle(artists
-            .filter(a => !!a.lotteryGuaranteed), 10);
-
-        // All remaining artists that are eligible for the drawing.
-        const eligibleArtists = ArrayTools.shuffle(artists
-            .filter(a => !!a.lotteryEligible && !a.lotteryGuaranteed), 10);
-
-        // Everybody else.
-        const ineligibleArtists = artists
-            .filter(a => !a.lotteryEligible && !a.lotteryGuaranteed);
-
-        // Clear lottery for all not in it.
-        this.updateAllArtists({lotteryOrder: null});
-
-
+    async runLottery(seats: number, day: string) {
+        return LotteryTools.runLottery(this.context.state.artists, seats, day);
     }
 }
