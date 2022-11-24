@@ -11,6 +11,7 @@ import ArtistPage from "./components/pages/artist-page";
 import ActionsPage from "./components/pages/actions-page";
 import SystemPage from "./components/pages/system-page";
 import ArtistEditPage from "./components/pages/artist-edit-page";
+import LotteryPage from "./components/pages/lottery-page";
 
 export default function AppRoutes(props) {
     return (
@@ -25,6 +26,7 @@ export default function AppRoutes(props) {
             <Route path={paths.editArtist} element={<ArtistEditPage {...props} rapidEntry={false}/>} />
             <Route path={paths.actions} element={<ActionsPage {...props}/>}/>
             <Route path={paths.system} element={<SystemPage {...props}/>}/>
+            <Route path={paths.lottery} element={<LotteryPage {...props}/>}/>
         </Routes>
     );
 }

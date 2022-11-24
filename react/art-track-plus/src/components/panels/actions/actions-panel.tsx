@@ -7,8 +7,11 @@ import ActionIcon from "../../icons/action-icon";
 import LotteryIcon from "../../icons/lottery-icon";
 import SignOutIcon from "../../icons/sign-out-icon";
 import GoIcon from "../../icons/go-icon";
+import {Props} from "../artist/artist-panel";
+import ButtonPageLink from "../../buttons/button-page-link";
+import paths from "../../../paths";
 
-function ActionsPanel() {
+function ActionsPanel({actions}: Props) {
     return (
         <div className={"actions-panel my-3"}>
             <h1 className={"text-center"}>
@@ -21,7 +24,7 @@ function ActionsPanel() {
                     <h3><LotteryIcon/> Run Tomorrow&apos;s Lottery</h3>
                     <p>Run the lottery for a number of seats.</p>
                     <BlockButtonGroup>
-                        <Button variant={"info"}><GoIcon/> Run Lottery</Button>
+                        <ButtonPageLink href={paths.lottery} variant={"info"}><GoIcon/> Run Lottery...</ButtonPageLink>
                     </BlockButtonGroup>
                 </Col>
                 <Col sm={12} md={6} className={"mt-3 mt-md-1"}>

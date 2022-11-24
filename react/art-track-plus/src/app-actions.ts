@@ -317,12 +317,18 @@ export class AppActions {
 
     // Sign in an artist with specified table number.
     async signInArtist(artistId: number, tableNumber: string) {
+        const artist = this.getArtist(artistId);
+        if (!artist) {
+            return;
+        }
+
         return this.updateArtist({
             id: artistId,
             tableNumber: tableNumber,
             standbyOrder: null,
             lotteryOrder: null,
-            seatedLast: new Date().toISOString()
+            seatedLast: new Date().toISOString(),
+            seatedDays: ArtistTools.addToday(artist.seatedDays)
         });
     }
 

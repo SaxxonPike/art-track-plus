@@ -14,6 +14,7 @@ export const secondScreenPath = "/view-2";
 export const findPath = "/find";
 export const actionsPath = "/tools";
 export const systemPath = "/system";
+export const lotteryPath = "/tools/lottery";
 
 export const paths = {
     about: aboutPath,
@@ -31,7 +32,8 @@ export const paths = {
     reports: reportsPath,
     find: findPath,
     actions: actionsPath,
-    system: systemPath
+    system: systemPath,
+    lottery: lotteryPath
 };
 
 export default paths;

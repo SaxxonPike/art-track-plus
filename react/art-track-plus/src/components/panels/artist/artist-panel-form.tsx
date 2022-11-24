@@ -5,6 +5,7 @@ import CancelIcon from "../../icons/cancel-icon";
 import SaveIcon from "../../icons/save-icon";
 import React, {useEffect} from "react";
 import Artist from "../../../models/artist";
+import {format, parse} from "date-fns";
 
 export interface Props {
     artist: Artist
@@ -23,6 +24,13 @@ export default function ArtistPanelForm({artist, onChange, onDelete, onCancel, o
     let remarksTextBox;
     let lotteryEligibleCheckBox;
     let lotteryGuaranteedCheckBox;
+
+    function convertDateTime(str: string) {
+        if (str) {
+            return format(Date.parse(str), "eeee p");
+        }
+        return "-";
+    }
 
     function convertCommaValueString(str: string) {
         if (!str)
@@ -91,7 +99,7 @@ export default function ArtistPanelForm({artist, onChange, onDelete, onCancel, o
                     </Col>
                     <Col xs={8} sm={7}>
                         <Form.Text className={"text-white"}>
-                            {convertCommaValueString(artist?.seatedDays)}
+                            {convertDateTime(artist?.seatedLast)}
                         </Form.Text>
                     </Col>
                 </Form.Group>
