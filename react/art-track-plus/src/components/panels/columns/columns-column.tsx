@@ -50,7 +50,12 @@ function ColumnsColumn({
                 </Link>
             );
         } else {
-            return <>{artist.name}{icons}</>;
+            return <>
+                {num}
+                {artist.name}
+                {" "}
+                {icons}
+            </>;
         }
     }
 
