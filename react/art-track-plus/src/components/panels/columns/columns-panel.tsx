@@ -17,7 +17,7 @@ interface Props {
 function ColumnsPanel({actions, partial}: Props) {
     const artists = actions.getArtists();
     const columns = [];
-    const cols = partial ? 2 : 1;
+    const cols = partial ? 3 : 1;
 
     function nameSortFn(a: Artist, b: Artist) {
         const a0 = a.name?.toLowerCase();
