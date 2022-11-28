@@ -117,15 +117,23 @@ export class AppActions {
 
     // Reload all data.
     async refresh(force = false) {
-        const last = force ? this.context.state.lastUpdate : null;
+        const last = force ? null : this.context.state.lastUpdate;
         const now = new Date();
 
         try {
             const data = await this.context.dataSource.refresh(last);
+            if (data.artists.length > 0) {
+                console.log("New artist data", data.artists);
+                const unchanged = this.context.state.artists
+                    .filter(a => !data.artists.some(a2 => a2.id == a.id));
+                this.context.setState({
+                    artists: [...unchanged, ...data.artists]
+                });
+            }
             this.context.setState({
-                artists: data.artists,
                 lastUpdate: now
             });
+            console.log()
             return data;
         } catch (e) {
             await this.openToast({

@@ -14,9 +14,27 @@ export interface Props {
     getArtistIcons?: (artist: Artist) => React.ReactNode
     width: number
     activeLinks?: boolean
+    cols?: number
 }
 
-function ColumnsColumn({columnType, artists, ordered, title, getArtistIcons, width, activeLinks, ...props}: Props) {
+function ColumnsColumn({
+                           columnType,
+                           artists,
+                           ordered,
+                           title,
+                           getArtistIcons,
+                           width,
+                           activeLinks,
+                           cols,
+                           ...props
+                       }: Props) {
+    function getColStyle() {
+        if (cols && cols > 1) {
+            return {columns: cols};
+        }
+        return {};
+    }
+
     function generateContents(artist: Artist, index?: number) {
         const icons = getArtistIcons ? getArtistIcons(artist) : [];
         const num = index ? (<span className={"column-list-index"}>{index}.</span>) : null;
@@ -54,7 +72,7 @@ function ColumnsColumn({columnType, artists, ordered, title, getArtistIcons, wid
 
     function generateOrdered(artists: Artist[]) {
         return (
-            <ol>
+            <ol style={{...getColStyle()}}>
                 {artists.map(generateOrderedItem)}
             </ol>
         );
@@ -71,11 +89,12 @@ function ColumnsColumn({columnType, artists, ordered, title, getArtistIcons, wid
     const items = ordered ? generateOrdered(artists) : generateUnordered(artists);
 
     return (
-        <Col xs={width} className={"columns-column column-" + columnType} {...props}>
+        <Col xs={width}
+             className={"columns-column column-" + columnType} {...props}>
             <div className={"column-title"}>
                 {title} ({artists.length})
             </div>
-            <SimpleBar style={{ maxHeight: "calc(100% - 30px)" }}>
+            <SimpleBar style={{maxHeight: "calc(100% - 30px)"}}>
                 {items}
             </SimpleBar>
         </Col>

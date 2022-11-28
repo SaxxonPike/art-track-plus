@@ -17,6 +17,7 @@ interface Props {
 function ColumnsPanel({actions, partial}: Props) {
     const artists = actions.getArtists();
     const columns = [];
+    const cols = partial ? 2 : 1;
 
     function nameSortFn(a: Artist, b: Artist) {
         const a0 = a.name?.toLowerCase();
@@ -109,6 +110,7 @@ function ColumnsPanel({actions, partial}: Props) {
                            artists={getAllArtists()}
                            title={"All Artists"}
                            width={3}
+                           cols={cols}
                            activeLinks={!partial}
                            getArtistIcons={getArtistIconsFn}/>
         );
@@ -121,6 +123,7 @@ function ColumnsPanel({actions, partial}: Props) {
                        ordered={!partial}
                        title={"Lottery"}
                        width={3}
+                       cols={cols}
                        activeLinks={!partial}
                        getArtistIcons={getNoArtistIcons}/>
     );
@@ -132,6 +135,7 @@ function ColumnsPanel({actions, partial}: Props) {
                        ordered={true}
                        title={"Standby"}
                        width={3}
+                       cols={cols}
                        activeLinks={!partial}
                        getArtistIcons={getNoArtistIcons}/>
     );
@@ -142,6 +146,7 @@ function ColumnsPanel({actions, partial}: Props) {
                        artists={getSignedInArtists()}
                        title={"Seated"}
                        width={3}
+                       cols={cols}
                        activeLinks={!partial}
                        getArtistIcons={getArtistTable}/>
     )
@@ -153,6 +158,7 @@ function ColumnsPanel({actions, partial}: Props) {
                            artists={getCheckedOutArtists()}
                            title={"Checked Out"}
                            width={3}
+                           cols={cols}
                            activeLinks={!partial}
                            getArtistIcons={getNoArtistIcons}/>
         )
