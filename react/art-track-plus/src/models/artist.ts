@@ -9,6 +9,7 @@ export default interface Artist extends AppRecord {
     lotteryEligible?: boolean
     lotteryGuaranteed?: boolean
     lotteryOrder?: number
+    lotteryDays?: string
     seatedLast?: string
     seatedDays?: string
     standbyDays?: string

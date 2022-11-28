@@ -22,7 +22,7 @@ function UserNav({activeTab}: Props) {
     function onView2Click(e) {
         // Can't open new tab with router, so do it manually
         e.preventDefault();
-        window.open(paths.secondScreen, "_blank");
+        window.open("/#" + paths.secondScreen, "_blank");
     }
 
     return (
@@ -81,7 +81,7 @@ function UserNav({activeTab}: Props) {
                 <NavPageLink href={paths.secondScreen}
                              title={"Open a new read-only view for use on a second screen."}
                              active={activeTab === tabs.view2}
-                             onClick={onView2Click}>
+                             handler={onView2Click}>
                     <ScreenIcon/>
                     <span className={"d-none d-md-inline"}>
                         {" View 2"}

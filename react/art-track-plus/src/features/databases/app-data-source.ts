@@ -4,7 +4,7 @@ import AppSchema from "./app-schema";
 export default interface AppDataSource {
 
     // Back up the entire database. Returns the backup.
-    backup: () => Promise<AppDatabase>
+    backup: () => Promise<AppSchema>
 
     // Restore database from backup. Returns the new database.
     restore: (backup: AppSchema) => Promise<AppDatabase>

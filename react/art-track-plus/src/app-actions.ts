@@ -10,6 +10,8 @@ import AppRecord from "./features/databases/app-record";
 import ArtistTools from "./features/tools/artist-tools";
 import names from "./names";
 import LotteryTools from "./features/tools/lottery-tools";
+import FileTools from "./features/tools/file-tools";
+import CsvTools from "./features/tools/csv-tools";
 
 export class AppActions {
     private context: AppContext;
@@ -114,11 +116,15 @@ export class AppActions {
     }
 
     // Reload all data.
-    async refresh() {
+    async refresh(force = false) {
+        const last = force ? this.context.state.lastUpdate : null;
+        const now = new Date();
+
         try {
-            const data = await this.context.dataSource.refresh();
+            const data = await this.context.dataSource.refresh(last);
             this.context.setState({
-                artists: data.artists
+                artists: data.artists,
+                lastUpdate: now
             });
             return data;
         } catch (e) {
@@ -145,24 +151,6 @@ export class AppActions {
         } catch (e) {
             this.openToast({
                 header: "Failed to fetch " + names.vendor + " " + id,
-                body: e
-            });
-            throw e;
-        }
-    }
-
-    async updateAllArtists(fields: Artist) {
-        const {...artist} = fields;
-        delete artist.id;
-
-        try {
-            return await this.context.dataSource
-                .updateMany({
-                    artists: [artist]
-                });
-        } catch (e) {
-            await this.openToast({
-                header: "Failed to update " + names.vendors,
                 body: e
             });
             throw e;
@@ -201,6 +189,23 @@ export class AppActions {
             });
             throw e;
         }
+    }
+
+    // Update mass artist information.
+    async updateArtists(artists: Artist[]) {
+        const db = await this.context.dataSource
+            .save({artists: artists});
+        const result = db.artists;
+
+        console.log("Updated artists", result);
+
+        // Keep existing records not specified in the update intact.
+        const otherArtists = this.context.state.artists
+            .filter(a => !artists.some(a2 => a.id == a2.id));
+
+        this.context.setState({artists: [...otherArtists, ...result]});
+
+        return result;
     }
 
     // Create a new artist.
@@ -333,7 +338,55 @@ export class AppActions {
     }
 
     // Run the lottery.
-    async runLottery(seats: number, day: string) {
-        return LotteryTools.runLottery(this.context.state.artists, seats, day);
+    async runLottery(seats: number, day: string, prioritizeUnlucky: boolean) {
+        const artists = await LotteryTools.runLottery(this.context.state.artists, seats, day, prioritizeUnlucky);
+        return await this.updateArtists(artists);
+    }
+
+    // Download a backup of the artist database.
+    async backupToDownload() {
+        console.log("Backing up to file.");
+
+        const slug = FileTools.getTimeStampFileName(new Date());
+        const backup = await this.context.dataSource.backup();
+        const content = JSON.stringify(backup);
+        FileTools.download(content, "text/json", `atp-backup-${slug}.json`);
+    }
+
+    // Export the artist database to CSV.
+    exportArtistsCsv(excelMode: boolean) {
+        console.log("Exporting to CSV.");
+
+        const slug = FileTools.getTimeStampFileName(new Date());
+        const artists = this.context.state.artists;
+        const content = CsvTools.exportArtists(artists, excelMode);
+        FileTools.download(content, "text/csv", `atp-export-${slug}.csv`);
+    }
+
+    // Restore artists from a backup.
+    async restoreFromUpload(blob: Blob) {
+        console.log("Restoring from backup.");
+
+        const toRevert = await this.context.dataSource.backup();
+        const toRestore = JSON.parse(await FileTools.upload(blob));
+        try {
+            await this.context.dataSource.restore(toRestore);
+        } catch (e) {
+            await this.openToast({
+                header: "Failed to restore from backup.",
+                body: e
+            });
+            try {
+                await this.context.dataSource.restore(toRevert);
+            } catch (e2) {
+                await this.openToast({
+                    header: "Failed to revert the restore; database is probably corrupt.",
+                    body: e2
+                });
+            }
+            throw e;
+        }
+
+        await this.refresh(true);
     }
 }

@@ -5,7 +5,7 @@ import CancelIcon from "../../icons/cancel-icon";
 import SaveIcon from "../../icons/save-icon";
 import React, {useEffect} from "react";
 import Artist from "../../../models/artist";
-import {format, parse} from "date-fns";
+import {format} from "date-fns";
 
 export interface Props {
     artist: Artist
@@ -29,7 +29,7 @@ export default function ArtistPanelForm({artist, onChange, onDelete, onCancel, o
         if (str) {
             return format(Date.parse(str), "eeee p");
         }
-        return "-";
+        return "Never";
     }
 
     function convertCommaValueString(str: string) {
@@ -38,7 +38,8 @@ export default function ArtistPanelForm({artist, onChange, onDelete, onCancel, o
 
         return str.split(",")
             .map(s => s.trim())
-            .filter(s => !!s);
+            .filter(s => !!s)
+            .join(", ");
     }
 
     function onControlChange() {

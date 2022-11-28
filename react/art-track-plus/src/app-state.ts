@@ -3,7 +3,6 @@ import Modal from "./models/modal";
 import Artist from "./models/artist";
 
 export interface AppState {
-    forceUpdate?: boolean
     showAlert?: boolean
     showInput?: boolean
     toasts?: Toast[]
@@ -11,15 +10,16 @@ export interface AppState {
     modals?: Modal[]
     modalId?: number
     artists?: Artist[]
+    lastUpdate?: Date
 }
 
 export const DefaultAppState = (): AppState => ({
-    forceUpdate: true,
     showAlert: false,
     showInput: false,
     toasts: [],
     toastId: 0,
     modals: [],
     modalId: 0,
-    artists: []
+    artists: [],
+    lastUpdate: null
 });

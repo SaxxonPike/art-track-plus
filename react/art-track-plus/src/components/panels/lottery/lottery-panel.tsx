@@ -1,5 +1,5 @@
 import React, {memo, useState} from "react";
-import {Button, Col, Row} from "react-bootstrap";
+import {Row} from "react-bootstrap";
 import names from "../../../names";
 import ActionIcon from "../../icons/action-icon";
 import LotteryIcon from "../../icons/lottery-icon";
@@ -9,6 +9,7 @@ import paths from "../../../paths";
 import {useNavigate} from "react-router-dom";
 import {AppActions} from "../../../app-actions";
 import "./lottery-panel.scss";
+import ArtistTools from "../../../features/tools/artist-tools";
 
 interface Props {
     actions: AppActions
@@ -16,13 +17,15 @@ interface Props {
 
 interface State {
     seats: string
-    preferUnseated: boolean
+    prioritizeUnlucky: boolean
+    runDate: Date
 }
 
 function LotteryPanel({actions}: Props) {
     const initialState = {
         seats: '',
-        preferUnseated: true
+        prioritizeUnlucky: true,
+        runDate: new Date()
     };
 
     const [state, setState] = useState<State>(initialState);
@@ -30,7 +33,7 @@ function LotteryPanel({actions}: Props) {
     const navigate = useNavigate();
 
     function doCancel() {
-        navigate(paths.columns);
+        navigate(paths.actions);
     }
 
     function doChange(newState) {
@@ -41,7 +44,15 @@ function LotteryPanel({actions}: Props) {
     }
 
     function doRun() {
-        // todo
+        const seatsNum = Number(state.seats);
+        if (!state.seats || seatsNum < 0) {
+            return;
+        }
+
+        console.log("Running lottery for " + seatsNum + "artists.");
+
+        actions.runLottery(seatsNum, ArtistTools.getDay(state.runDate), state.prioritizeUnlucky)
+            .then(() => navigate(paths.columns));
     }
 
     return (

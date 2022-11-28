@@ -15,6 +15,7 @@ export const findPath = "/find";
 export const actionsPath = "/tools";
 export const systemPath = "/system";
 export const lotteryPath = "/tools/lottery";
+export const testingPath = "/system/testing";
 
 export const paths = {
     about: aboutPath,
@@ -33,7 +34,8 @@ export const paths = {
     find: findPath,
     actions: actionsPath,
     system: systemPath,
-    lottery: lotteryPath
+    lottery: lotteryPath,
+    testing: testingPath
 };
 
 export default paths;

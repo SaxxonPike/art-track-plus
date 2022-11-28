@@ -58,7 +58,7 @@ export default class DexieDatabase implements AppDataSource {
         return <AppDatabase>result;
     }
 
-    async backup(): Promise<AppDatabase> {
+    async backup(): Promise<AppSchema> {
         const tables = this.db.tables;
 
         // Grab all tables' rows and stuff them into a single
@@ -72,7 +72,7 @@ export default class DexieDatabase implements AppDataSource {
                 }));
 
         await Promise.all(queries);
-        return <AppDatabase>result;
+        return <AppSchema>result;
     }
 
     async erase() {
@@ -111,8 +111,8 @@ export default class DexieDatabase implements AppDataSource {
         const result = {};
 
         const filter = lastUpdate ?
-            (x => !x.deleted && x.version > lastUpdate) :
-            (x => !x.deleted);
+            (x => x.version > lastUpdate) :
+            (x => x);
 
         const tasks = this.db.tables.map(async table => {
             result[table.name] = await table
@@ -159,7 +159,7 @@ class DexieImpl extends Dexie {
 
     constructor(config: DexieConfiguration) {
         super(config.databaseName);
-        this.version(2)
+        this.version(3)
             .stores({
                 artists: [
                     '++id',
@@ -172,6 +172,7 @@ class DexieImpl extends Dexie {
                     'lotteryEligible',
                     'lotteryGuaranteed',
                     'lotteryOrder',
+                    'lotteryDays',
                     'seatedLast',
                     'seatedDays',
                     'standbyDays',

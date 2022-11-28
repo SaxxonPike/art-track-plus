@@ -5,9 +5,11 @@ import {AppContext} from "./app-context";
 import {AppState, DefaultAppState} from "./app-state";
 import ToastComponent from "./components/toasts/toast-component";
 import ModalComponent from "./components/modals/modal-component";
+import TimerTools from "./features/tools/timer-tools";
 
 export default class App extends React.Component<unknown, AppState> {
-    appContext: AppContext;
+    private appContext: AppContext;
+    private interval: number;
 
     constructor(props) {
         super(props);
@@ -19,10 +21,11 @@ export default class App extends React.Component<unknown, AppState> {
     }
 
     componentDidMount() {
-        if (this.state.forceUpdate) {
-            this.setState({forceUpdate: false});
-            this.appContext.actions.refresh();
-        }
+        this.interval = TimerTools.setInterval(() => this.appContext.actions.refresh(), 2000);
+    }
+
+    componentWillUnmount() {
+        TimerTools.clearInterval(this.interval);
     }
 
     render() {

@@ -1,5 +1,5 @@
 import React, {memo} from "react";
-import {Button, Col, Row} from "react-bootstrap";
+import {Button, Col, Form, Row} from "react-bootstrap";
 import BlockButtonGroup from "../../buttons/block-button-group";
 import DatabaseIcon from "../../icons/database-icon";
 import TrashIcon from "../../icons/trash-icon";
@@ -11,10 +11,31 @@ import names from "../../../names";
 import SettingsIcon from "../../icons/settings-icon";
 import CrumbIcon from "../../icons/crumb-icon";
 import GoIcon from "../../icons/go-icon";
+import {AppActions} from "../../../app-actions";
 
-function DatabasePanel() {
+interface Props {
+    actions: AppActions
+}
+
+function DatabasePanel({actions}: Props) {
+    let restoreFileRef;
+
+    function onBackupClick() {
+        actions.backupToDownload();
+    }
+
+    function onRestoreClick() {
+        const file = restoreFileRef.files[0];
+        if (!file) {
+            console.log("No file to restore.");
+            return;
+        }
+
+        actions.restoreFromUpload(file);
+    }
+
     return (
-        <div className={"create-backup-panel my-3"}>
+        <Col className={"create-backup-panel my-3"}>
             <h1 className={"text-center"}>
                 <SettingsIcon/>
                 {" "}
@@ -29,14 +50,31 @@ function DatabasePanel() {
                     <h3><ExportJsonIcon/> Create Backup</h3>
                     <p>A backup of all application data can be made in JSON format.</p>
                     <BlockButtonGroup>
-                        <Button variant={"secondary"}><GoIcon/> Create and Download</Button>
+                        <Button variant={"secondary"}
+                                onClick={onBackupClick}>
+                            <GoIcon/> Create and Download
+                        </Button>
                     </BlockButtonGroup>
                 </Col>
                 <Col sm={12} md={6} className={"mt-3 mt-md-1"}>
                     <h3><RestoreIcon/> Restore Backup</h3>
                     <p>A previously downloaded backup in JSON format can be restored.</p>
+                    <Col sm={12}>
+                        <div className="mb-3">
+                            <Form.Group>
+                                <input className="form-control"
+                                       type="file"
+                                       id="restoreFile"
+                                       ref={r => restoreFileRef = r}/>
+                            </Form.Group>
+                        </div>
+                    </Col>
                     <BlockButtonGroup>
-                        <ConfirmRevealButton variant={"warning"} confirmText={"restore"}><GoIcon/> Choose a File...</ConfirmRevealButton>
+                        <ConfirmRevealButton variant={"warning"}
+                                             confirmText={"restore"}
+                                             onClick={onRestoreClick}>
+                            <GoIcon/> Restore this File...
+                        </ConfirmRevealButton>
                     </BlockButtonGroup>
                 </Col>
             </Row>
@@ -45,30 +83,14 @@ function DatabasePanel() {
                     <h3><TrashIcon/> Clear Database</h3>
                     <p>This will clear the entire database. Ensure you have created backups!</p>
                     <BlockButtonGroup>
-                        <ConfirmRevealButton variant={"danger"} confirmText={"clear"}><GoIcon/> Wipe Everything</ConfirmRevealButton>
+                        <ConfirmRevealButton variant={"danger"}
+                                             confirmText={"clear"}>
+                            <GoIcon/> Wipe Everything
+                        </ConfirmRevealButton>
                     </BlockButtonGroup>
                 </Col>
             </Row>
-            <hr/>
-            <h1 className={"text-center"}>Testing &amp; Troubleshooting</h1>
-            <hr/>
-            <Row>
-                <Col sm={12} md={6}>
-                    <h3><RawEditIcon/> Raw Data Editor</h3>
-                    <p>Modify raw {names.vendor} data for otherwise unsupported on-the-fly situations.</p>
-                    <BlockButtonGroup>
-                        <Button variant={"warning"}><GoIcon/> Open</Button>
-                    </BlockButtonGroup>
-                </Col>
-                <Col sm={12} md={6} className={"mt-3 mt-md-0"}>
-                    <h3><DatabaseIcon/> Generate Test Data</h3>
-                    <p>The database will be replaced with randomized test data.</p>
-                    <BlockButtonGroup>
-                        <ConfirmRevealButton variant={"danger"} confirmText={"generate"}><GoIcon/> Generate Test Data</ConfirmRevealButton>
-                    </BlockButtonGroup>
-                </Col>
-            </Row>
-        </div>
+        </Col>
     );
 }
 
