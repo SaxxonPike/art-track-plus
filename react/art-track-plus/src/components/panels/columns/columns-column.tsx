@@ -80,7 +80,7 @@ function ColumnsColumn({
 
     function generateUnordered(artists: Artist[]) {
         return (
-            <ul>
+            <ul style={{...getColStyle()}}>
                 {artists.map(generateItem)}
             </ul>
         );
