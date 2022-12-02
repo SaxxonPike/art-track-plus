@@ -328,6 +328,15 @@ export class AppActions {
         });
     }
 
+    // Sign out all artists.
+    async signOutAllArtists() {
+        const signedOut = this.getArtists()
+            .filter(a => !!a.tableNumber)
+            .map(a => ({...a, tableNumber: null, lotteryEligible: false}));
+
+        return this.updateArtists(signedOut);
+    }
+
     // Sign in an artist with specified table number.
     async signInArtist(artistId: number, tableNumber: string) {
         const artist = this.getArtist(artistId);

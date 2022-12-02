@@ -3,6 +3,7 @@ import React from "react";
 import BlockButtonGroup from "../../buttons/block-button-group";
 import CancelIcon from "../../icons/cancel-icon";
 import LotteryIcon from "../../icons/lottery-icon";
+import DaysStartingTodayInput from "./days-starting-today-input";
 
 export interface Props {
     onChange: (Data) => void
@@ -14,17 +15,37 @@ export interface Props {
 function LotteryPanelForm({enabled, onChange, onCancel, onRun}: Props) {
     let seatsTextBox;
     let unseatedPreferenceCheckBox;
+    let runDay;
 
     function onControlChange() {
         onChange({
             seats: seatsTextBox?.value,
-            unseatedPreference: unseatedPreferenceCheckBox?.checked
+            unseatedPreference: unseatedPreferenceCheckBox?.checked,
+            runDay: runDay
         });
+    }
+
+    function onDayChange(day?: string) {
+        runDay = day;
+        onControlChange();
     }
 
     return (
         <Form>
             <Row className={"mt-1"}>
+                <Col xs={12}>
+                    <Form.Group as={Row}>
+                        <Col xs={2} sm={2}>
+                            <Form.Label>Day</Form.Label>
+                        </Col>
+                        <Col xs={10} sm={10}>
+                            <DaysStartingTodayInput today={new Date()}
+                                                    onDayChange={onDayChange}/>
+                        </Col>
+                    </Form.Group>
+                </Col>
+            </Row>
+            <Row className={"mt-3"}>
                 <Col xs={12}>
                     <Form.Group as={Row}>
                         <Col xs={2} sm={2}>

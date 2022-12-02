@@ -21,13 +21,8 @@ function ActionsPanel({actions}: Props) {
     const navigate = useNavigate();
 
     function onCloseOutClick() {
-        // todo
-        navigate(paths.columns);
-    }
-
-    function onRapidArtistEntryClick() {
-        // todo
-        navigate(paths.addArtist);
+        actions.signOutAllArtists()
+            .then(() => navigate(paths.columns));
     }
 
     return (
@@ -46,13 +41,13 @@ function ActionsPanel({actions}: Props) {
                     </BlockButtonGroup>
                 </Col>
                 <Col sm={12} md={6} className={"mt-3 mt-md-1"}>
-                    <h3><SignOutIcon/> Close Out</h3>
-                    <p>Sign all remaining {names.vendors} out.</p>
+                    <h3><SignOutIcon/> Sign Everyone Out</h3>
+                    <p>Sign all seated {names.vendors} out and remove them from the lottery pool.</p>
                     <BlockButtonGroup>
                         <ConfirmRevealButton variant={"warning"}
                                              confirmText={"close"}
                                              onClick={onCloseOutClick}>
-                            <GoIcon/> Close Out
+                            <GoIcon/> Sign All {names.vendorsCap} Out
                         </ConfirmRevealButton>
                     </BlockButtonGroup>
                 </Col>

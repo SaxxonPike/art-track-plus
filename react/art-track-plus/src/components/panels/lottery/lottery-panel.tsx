@@ -9,7 +9,7 @@ import paths from "../../../paths";
 import {useNavigate} from "react-router-dom";
 import {AppActions} from "../../../app-actions";
 import "./lottery-panel.scss";
-import ArtistTools from "../../../features/tools/artist-tools";
+import {format} from "date-fns";
 
 interface Props {
     actions: AppActions
@@ -18,14 +18,15 @@ interface Props {
 interface State {
     seats: string
     prioritizeUnlucky: boolean
-    runDate: Date
+    runDate: string
 }
 
 function LotteryPanel({actions}: Props) {
+
     const initialState = {
         seats: '',
         prioritizeUnlucky: true,
-        runDate: new Date()
+        runDate: format(new Date(), "EEEE")
     };
 
     const [state, setState] = useState<State>(initialState);
@@ -49,9 +50,15 @@ function LotteryPanel({actions}: Props) {
             return;
         }
 
+        const actualDay = state.runDate || format(new Date(), "EEEE");
+
         console.log(`Running lottery for ${seatsNum} artists.`);
 
-        actions.runLottery(seatsNum, ArtistTools.getDay(state.runDate), state.prioritizeUnlucky)
+        actions.runLottery(seatsNum, actualDay, state.prioritizeUnlucky)
+            .then(() => actions.openToast({
+                header: `Lottery run.`,
+                body: `Lottery has run for ${seatsNum} seats.`
+            }))
             .then(() => navigate(paths.columns));
     }
 
