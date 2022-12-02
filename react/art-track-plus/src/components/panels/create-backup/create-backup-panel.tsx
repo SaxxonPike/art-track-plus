@@ -5,9 +5,7 @@ import DatabaseIcon from "../../icons/database-icon";
 import TrashIcon from "../../icons/trash-icon";
 import RestoreIcon from "../../icons/restore-icon";
 import ExportJsonIcon from "../../icons/export-json-icon";
-import RawEditIcon from "../../icons/raw-edit-icon";
 import ConfirmRevealButton from "../../buttons/confirm-reveal-button";
-import names from "../../../names";
 import SettingsIcon from "../../icons/settings-icon";
 import CrumbIcon from "../../icons/crumb-icon";
 import GoIcon from "../../icons/go-icon";
@@ -32,6 +30,14 @@ function DatabasePanel({actions}: Props) {
         }
 
         actions.restoreFromUpload(file);
+    }
+
+    function onWipeEverything() {
+        actions.eraseAllArtists()
+            .then(() => actions.openToast({
+                header: "Wipe Everything",
+                body: "Wipe was successful."
+            }));
     }
 
     return (
@@ -84,7 +90,8 @@ function DatabasePanel({actions}: Props) {
                     <p>This will clear the entire database. Ensure you have created backups!</p>
                     <BlockButtonGroup>
                         <ConfirmRevealButton variant={"danger"}
-                                             confirmText={"clear"}>
+                                             confirmText={"clear"}
+                                             onClick={onWipeEverything}>
                             <GoIcon/> Wipe Everything
                         </ConfirmRevealButton>
                     </BlockButtonGroup>

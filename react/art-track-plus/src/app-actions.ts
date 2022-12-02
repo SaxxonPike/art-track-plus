@@ -406,4 +406,9 @@ export class AppActions {
 
         await this.refresh(true);
     }
+
+    async eraseAllArtists() {
+        const db = await this.context.dataSource;
+        await db.erase();
+    }
 }
