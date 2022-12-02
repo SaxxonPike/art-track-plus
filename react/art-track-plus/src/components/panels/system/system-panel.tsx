@@ -28,7 +28,9 @@ function SystemPanel() {
                     <h3><ExperimentalIcon/> Testing &amp; Troubleshooting</h3>
                     <p>Directly manipulate JSON or work with test data.</p>
                     <BlockButtonGroup>
-                        <Button variant={"primary"}><GoIcon/> See Test Operations</Button>
+                        <ButtonPageLink href={paths.testing} variant={"primary"}>
+                            <GoIcon/> See Testing Operations
+                        </ButtonPageLink>
                     </BlockButtonGroup>
                 </Col>
             </Row>

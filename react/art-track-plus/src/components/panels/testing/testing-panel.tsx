@@ -4,8 +4,6 @@ import BlockButtonGroup from "../../buttons/block-button-group";
 import SettingsIcon from "../../icons/settings-icon";
 import DatabaseIcon from "../../icons/database-icon";
 import ExperimentalIcon from "../../icons/experimental-icon";
-import ButtonPageLink from "../../buttons/button-page-link";
-import paths from "../../../paths";
 import GoIcon from "../../icons/go-icon";
 import CrumbIcon from "../../icons/crumb-icon";
 import RawEditIcon from "../../icons/raw-edit-icon";
