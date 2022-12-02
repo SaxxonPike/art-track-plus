@@ -41,7 +41,7 @@ function ColumnsColumn({
 
         if (activeLinks) {
             return (
-                <Link to={generatePath(paths.editArtist, {artistId: artist.id + ""})}
+                <Link to={generatePath(paths.editArtist, {artistId: `${artist.id}`})}
                       tabIndex={0}>
                     {num}
                     {artist.name}
@@ -61,7 +61,7 @@ function ColumnsColumn({
 
     function generateItem(artist: Artist) {
         return (
-            <li key={"artist-id-" + artist.id}>
+            <li key={`artist-id-${artist.id}`}>
                 {generateContents(artist)}
             </li>
         );
@@ -69,7 +69,7 @@ function ColumnsColumn({
 
     function generateOrderedItem(artist: Artist, index: number) {
         return (
-            <li key={"artist-id-" + artist.id}>
+            <li key={`artist-id-${artist.id}`}>
                 {generateContents(artist, index + 1)}
             </li>
         );
@@ -95,7 +95,7 @@ function ColumnsColumn({
 
     return (
         <Col xs={width}
-             className={"columns-column column-" + columnType} {...props}>
+             className={`columns-column column-${columnType}`} {...props}>
             <div className={"column-title"}>
                 {title} ({artists.length})
             </div>

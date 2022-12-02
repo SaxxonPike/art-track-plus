@@ -13,7 +13,7 @@ export default function ToastComponent({actions}: Props) {
             return (
                 <Toast show={true}
                        bg={toast.variant}
-                       onClose={() => actions.closeToast(toast.id)} key={"toast" + toast.id}>
+                       onClose={() => actions.closeToast(toast.id)} key={`toast${toast.id}`}>
                     <Toast.Header>
                         <span className={"me-auto"}>{toast.header}</span>
                     </Toast.Header>

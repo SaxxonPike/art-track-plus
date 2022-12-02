@@ -105,8 +105,8 @@ export default function ArtistPanel({actions, artistId, rapidEntry}: Props) {
 
         ChoiceModal.showChoice({
             actions: actions,
-            title: "Delete " + state.artist.name,
-            message: "Really delete this " + names.vendor + "?",
+            title: `Delete ${state.artist.name}`,
+            message: `Really delete this ${names.vendor}?`,
             hideNo: true,
             onYes: doDelete
         })
@@ -134,8 +134,8 @@ export default function ArtistPanel({actions, artistId, rapidEntry}: Props) {
 
         ChoiceModal.showChoice({
             actions: actions,
-            title: "Signing Out " + state.artist.name,
-            message: "Would this " + names.vendor + " like to be included in tomorrow's lottery?",
+            title: `Signing Out ${state.artist.name}`,
+            message: `Would this ${names.vendor} like to be included in tomorrow's lottery?`,
             onYes: () => doSignOut(true),
             onNo: () => doSignOut(false)
         })
@@ -149,7 +149,7 @@ export default function ArtistPanel({actions, artistId, rapidEntry}: Props) {
 
         PromptModal.showPrompt({
             actions: actions,
-            title: "Sign In for " + state.artist.name,
+            title: `Sign In for ${state.artist.name}`,
             message: "Enter a table number.",
             onOk: doSignIn,
             required: true
@@ -162,9 +162,11 @@ export default function ArtistPanel({actions, artistId, rapidEntry}: Props) {
     }
 
     const titleName = state.artistName;
-    const title = (artistId ? " Edit " : " Add ") + (titleName ? titleName : names.vendorCap);
+    const title = `${rapidEntry ? " Rapid" : ""}` +
+        `${artistId ? " Edit " : " Add "}` +
+        `${titleName ? titleName : names.vendorCap}`;
     const titleIcon = (artistId ? <UserIcon/> : <UserAddIcon/>);
-    const titleId = (artistId ? <span className={"artist-id text-muted"}>{" (" + artistId + ")"}</span> : <></>)
+    const titleId = (artistId ? <span className={"artist-id text-muted"}>{` (${artistId})`}</span> : <></>)
 
     // Artist actions available only for existing records.
     const artistActions = artistId ? (
@@ -201,7 +203,8 @@ export default function ArtistPanel({actions, artistId, rapidEntry}: Props) {
                           onChange={onChange}
                           onDelete={onDelete}
                           onCancel={onCancel}
-                          onSave={onSave}/>
+                          onSave={onSave}
+                          rapidEntry={rapidEntry}/>
         ) : (<p>loading...</p>)
 
     return (

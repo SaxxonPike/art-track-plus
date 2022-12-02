@@ -49,7 +49,7 @@ function LotteryPanel({actions}: Props) {
             return;
         }
 
-        console.log("Running lottery for " + seatsNum + "artists.");
+        console.log(`Running lottery for ${seatsNum} artists.`);
 
         actions.runLottery(seatsNum, ArtistTools.getDay(state.runDate), state.prioritizeUnlucky)
             .then(() => navigate(paths.columns));

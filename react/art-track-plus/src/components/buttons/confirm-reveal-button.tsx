@@ -83,7 +83,7 @@ function ConfirmRevealButton(props: Props) {
             <Row prefix={"form"}>
                 <Col className={"d-grid ps-3 pe-0"}>
                     <Form.Control type={"text"}
-                                  placeholder={"Confirm: \"" + confirmText + "\""}
+                                  placeholder={`Confirm: "${confirmText}"`}
                                   onChange={doChange}
                                   onKeyDown={doKey}
                                   ref={setTextbox}/>

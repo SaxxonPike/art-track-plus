@@ -26,7 +26,7 @@ function UserNavSystemDropdown() {
         <NavDropdownPageLink href={paths.about}
                              title={"Read more about this application."}>
             <AboutIcon/>
-            {" About " + names.app}
+            {` About ${names.app}`}
         </NavDropdownPageLink>
     </NavDropdown>
     );

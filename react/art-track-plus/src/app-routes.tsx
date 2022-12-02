@@ -22,11 +22,12 @@ export default function AppRoutes(props) {
             <Route path={paths.reports} element={<ReportsPage {...props}/>}/>
             <Route path={paths.secondScreen} element={<ScreenTwoPage {...props}/>}/>
             <Route path={paths.find} element={<FindPage {...props}/>}/>
-            <Route path={paths.addArtist} element={<ArtistPage {...props} artistId={0} rapidEntry={false}/>} />
-            <Route path={paths.editArtist} element={<ArtistEditPage {...props} rapidEntry={false}/>} />
+            <Route path={paths.addArtist} element={<ArtistPage {...props} artistId={0} rapidEntry={false}/>}/>
+            <Route path={paths.editArtist} element={<ArtistEditPage {...props} rapidEntry={false}/>}/>
             <Route path={paths.actions} element={<ActionsPage {...props}/>}/>
             <Route path={paths.system} element={<SystemPage {...props}/>}/>
             <Route path={paths.lottery} element={<LotteryPage {...props}/>}/>
+            <Route path={paths.artistRapidEntry} element={<ArtistPage {...props} rapidEntry={true}/>}/>
         </Routes>
     );
 }

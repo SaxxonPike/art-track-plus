@@ -13,9 +13,10 @@ export interface Props {
     onDelete: () => void
     onCancel: () => void
     onSave: () => void
+    rapidEntry: boolean
 }
 
-export default function ArtistPanelForm({artist, onChange, onDelete, onCancel, onSave}: Props) {
+export default function ArtistPanelForm({artist, onChange, onDelete, onCancel, onSave, rapidEntry}: Props) {
     let nameTextBox;
     let badgeTextBox;
     let tableTextBox;
@@ -34,7 +35,7 @@ export default function ArtistPanelForm({artist, onChange, onDelete, onCancel, o
 
     function convertCommaValueString(str: string) {
         if (!str)
-            return "";
+            return "None";
 
         return str.split(",")
             .map(s => s.trim())
@@ -88,47 +89,47 @@ export default function ArtistPanelForm({artist, onChange, onDelete, onCancel, o
     // Full info available only for existing records.
     const infoBlock = artist.id ? (
         <>
-            <Col xs={2} sm={0}>
-                {/* spacing */}
-            </Col>
-            <Col xs={10} sm={6} className={"mt-2 mt-sm-0"}>
-                <Form.Group as={Row}>
-                    <Col xs={4} sm={5}>
-                        <Form.Text>
-                            Last Seated
-                        </Form.Text>
-                    </Col>
-                    <Col xs={8} sm={7}>
-                        <Form.Text className={"text-white"}>
-                            {convertDateTime(artist?.seatedLast)}
-                        </Form.Text>
-                    </Col>
-                </Form.Group>
-                <Form.Group as={Row}>
-                    <Col xs={4} sm={5}>
-                        <Form.Text>
-                            Days Seated
-                        </Form.Text>
-                    </Col>
-                    <Col xs={8} sm={7}>
-                        <Form.Text className={"text-white"}>
-                            {convertCommaValueString(artist?.seatedDays)}
-                        </Form.Text>
-                    </Col>
-                </Form.Group>
-                <Form.Group as={Row}>
-                    <Col xs={4} sm={5}>
-                        <Form.Text>
-                            Days on Standby
-                        </Form.Text>
-                    </Col>
-                    <Col xs={8} sm={7}>
-                        <Form.Text className={"text-white"}>
-                            {convertCommaValueString(artist?.standbyDays)}
-                        </Form.Text>
-                    </Col>
-                </Form.Group>
-            </Col>
+            <hr/>
+            <Row>
+                <Col xs={12} className={"mt-2 mt-sm-0"}>
+                    <Form.Group as={Row}>
+                        <Col xs={12} sm={2}>
+                            <Form.Text>
+                                Last Seated
+                            </Form.Text>
+                        </Col>
+                        <Col xs={12} sm={10}>
+                            <Form.Text className={"text-white"}>
+                                {convertDateTime(artist?.seatedLast)}
+                            </Form.Text>
+                        </Col>
+                    </Form.Group>
+                    <Form.Group as={Row}>
+                        <Col xs={12} sm={2}>
+                            <Form.Text>
+                                Days Seated
+                            </Form.Text>
+                        </Col>
+                        <Col xs={12} sm={10}>
+                            <Form.Text className={"text-white"}>
+                                {convertCommaValueString(artist?.seatedDays)}
+                            </Form.Text>
+                        </Col>
+                    </Form.Group>
+                    <Form.Group as={Row}>
+                        <Col xs={12} sm={2}>
+                            <Form.Text>
+                                Days on Standby
+                            </Form.Text>
+                        </Col>
+                        <Col xs={12} sm={10}>
+                            <Form.Text className={"text-white"}>
+                                {convertCommaValueString(artist?.standbyDays)}
+                            </Form.Text>
+                        </Col>
+                    </Form.Group>
+                </Col>
+            </Row>
         </>
     ) : (<></>);
 
@@ -223,9 +224,10 @@ export default function ArtistPanelForm({artist, onChange, onDelete, onCancel, o
                     </Form.Group>
                 </Col>
             </Row>
-            <Row className={"mt-3"}>
+            <hr/>
+            <Row className={"mb-3"}>
                 <Col xs={2} sm={2}>
-                    <Form.Label>Info</Form.Label>
+                    <Form.Label>Flags</Form.Label>
                 </Col>
                 <Col xs={10} sm={4}>
                     <Form.Group as={Row} className={"text-lottery"}>
@@ -241,13 +243,16 @@ export default function ArtistPanelForm({artist, onChange, onDelete, onCancel, o
                                     onChange={onControlChange}/>
                     </Form.Group>
                 </Col>
-                {infoBlock}
             </Row>
+            {infoBlock}
             <hr/>
             <Row>
                 <Col xs={4}>
                     <BlockButtonGroup>
-                        <Button onClick={onDelete} variant={"dark"} disabled={!artist?.id}>
+                        <Button onClick={onDelete}
+                                variant={"dark"}
+                                disabled={rapidEntry || !artist?.id}
+                                title={"Delete this artist."}>
                             <DeleteIcon/>
                             {" Delete"}
                         </Button>
@@ -255,15 +260,18 @@ export default function ArtistPanelForm({artist, onChange, onDelete, onCancel, o
                 </Col>
                 <Col xs={4}>
                     <BlockButtonGroup>
-                        <Button onClick={onCancel} variant={"secondary"}>
+                        <Button onClick={onCancel}
+                                variant={"secondary"}
+                                title={"Exit without saving changes."}>
                             <CancelIcon/>
-                            {" Cancel"}
+                            {rapidEntry ? " Exit" : " Cancel"}
                         </Button>
                     </BlockButtonGroup>
                 </Col>
                 <Col xs={4}>
                     <BlockButtonGroup>
-                        <Button onClick={onSave}>
+                        <Button onClick={onSave}
+                                title={"Save changes."}>
                             <SaveIcon/>
                             {" Save"}
                         </Button>

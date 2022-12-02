@@ -70,10 +70,9 @@ function ActionsPanel({actions}: Props) {
                     <h3><PlusIcon/> Rapid {names.vendorCap} Entry</h3>
                     <p>A quick way to add many new {names.vendors} at once.</p>
                     <BlockButtonGroup>
-                        <Button variant={"primary"}
-                                onClick={onRapidArtistEntryClick}>
+                        <ButtonPageLink href={paths.artistRapidEntry} variant={"primary"}>
                             <GoIcon/> Begin {names.vendorCap} Entry
-                        </Button>
+                        </ButtonPageLink>
                     </BlockButtonGroup>
                 </Col>
             </Row>

@@ -22,7 +22,7 @@ function UserNav({activeTab}: Props) {
     function onView2Click(e) {
         // Can't open new tab with router, so do it manually
         e.preventDefault();
-        window.open("/#" + paths.secondScreen, "_blank");
+        window.open(`/#${paths.secondScreen}`, "_blank");
     }
 
     return (
@@ -71,11 +71,11 @@ function UserNav({activeTab}: Props) {
                 </NavPageLink>
                 {/*<UserNavActionsDropdown/>*/}
                 <NavPageLink href={paths.addArtist}
-                             title={"Add a new " + names.vendor + "."}
+                             title={`Add a new ${names.vendor}.`}
                              active={activeTab === tabs.artist}>
                     <UserAddIcon/>
                     <span className={"d-none d-md-inline"}>
-                        {" " + names.vendorCap}
+                        {` ${names.vendorCap}`}
                     </span>
                 </NavPageLink>
                 <NavPageLink href={paths.secondScreen}

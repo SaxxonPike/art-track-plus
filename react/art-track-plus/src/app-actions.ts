@@ -26,7 +26,7 @@ export class AppActions {
     }
 
     // Open a toast and return its ID.
-    async openToast(toast: Toast) {
+    openToast(toast: Toast) {
         const state = this.context.state;
         const id = state.toastId;
         const toasts = [...state.toasts];
@@ -136,7 +136,7 @@ export class AppActions {
             console.log()
             return data;
         } catch (e) {
-            await this.openToast({
+            this.openToast({
                 header: "Failed to refresh database",
                 body: e
             });
@@ -158,7 +158,7 @@ export class AppActions {
             return artists.length < 1 ? null : {...artists[0]};
         } catch (e) {
             this.openToast({
-                header: "Failed to fetch " + names.vendor + " " + id,
+                header: `Failed to fetch ${names.vendor} ${id}`,
                 body: e
             });
             throw e;
@@ -191,8 +191,8 @@ export class AppActions {
 
             return <Artist>result;
         } catch (e) {
-            await this.openToast({
-                header: "Failed to update " + names.vendor + " " + id,
+            this.openToast({
+                header: `Failed to update ${names.vendor} ${id}`,
                 body: e
             });
             throw e;
@@ -238,8 +238,8 @@ export class AppActions {
 
             return <Artist>result;
         } catch (e) {
-            await this.openToast({
-                header: "Failed to create " + names.vendor,
+            this.openToast({
+                header: `Failed to create ${names.vendor}`,
                 body: e
             });
             throw e;
@@ -267,8 +267,8 @@ export class AppActions {
 
             return <Artist>result;
         } catch (e) {
-            await this.openToast({
-                header: "Failed to delete " + names.vendor + " " + id,
+            this.openToast({
+                header: `Failed to delete ${names.vendor} ${id}`,
                 body: e
             });
             throw e;
@@ -380,14 +380,14 @@ export class AppActions {
         try {
             await this.context.dataSource.restore(toRestore);
         } catch (e) {
-            await this.openToast({
+            this.openToast({
                 header: "Failed to restore from backup.",
                 body: e
             });
             try {
                 await this.context.dataSource.restore(toRevert);
             } catch (e2) {
-                await this.openToast({
+                this.openToast({
                     header: "Failed to revert the restore; database is probably corrupt.",
                     body: e2
                 });
