@@ -38,7 +38,7 @@ function FindPanel({actions}: Props) {
     }
 
     return (
-        <div className={"create-backup-panel my-3"}>
+        <div className={"database-panel my-3"}>
             <h1 className={"text-center mb-3"}>
                 <SearchIcon/>
                 {" Find"}

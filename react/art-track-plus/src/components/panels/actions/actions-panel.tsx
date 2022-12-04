@@ -12,6 +12,7 @@ import paths from "../../../paths";
 import ConfirmRevealButton from "../../buttons/confirm-reveal-button";
 import {useNavigate} from "react-router-dom";
 import {AppActions} from "../../../app-actions";
+import UserAddIcon from "../../icons/user-add-icon";
 
 interface Props {
     actions: AppActions
@@ -67,6 +68,15 @@ function ActionsPanel({actions}: Props) {
                     <BlockButtonGroup>
                         <ButtonPageLink href={paths.artistRapidEntry} variant={"primary"}>
                             <GoIcon/> Begin {names.vendorCap} Entry
+                        </ButtonPageLink>
+                    </BlockButtonGroup>
+                </Col>
+                <Col sm={12} md={6} className={"my-3 mt-md-4"}>
+                    <h3><UserAddIcon/> Import {names.vendorsCap}</h3>
+                    <p>Import {names.vendors} from CSV.</p>
+                    <BlockButtonGroup>
+                        <ButtonPageLink href={paths.importArtists} variant={"primary"}>
+                            <GoIcon/> Import...
                         </ButtonPageLink>
                     </BlockButtonGroup>
                 </Col>

@@ -107,7 +107,7 @@ export class AppActions {
 
         const artistResults = transformFuzzySort(fuzzysort
             .go(query, this.context.state.artists, {
-                keys: ["name", "badgeNumber", "tableNumber"]
+                keys: ["name", "badgeNumber", "tableNumber", "phone", "remarks"]
             }), "artist", a => generatePath(paths.editArtist, {artistId: a.id}));
 
         // Sort by score, descending.
@@ -407,8 +407,10 @@ export class AppActions {
         await this.refresh(true);
     }
 
+    // Completely wipe the database and reset the data source.
     async eraseAllArtists() {
         const db = await this.context.dataSource;
         await db.erase();
+        this.context.resetDataSource();
     }
 }

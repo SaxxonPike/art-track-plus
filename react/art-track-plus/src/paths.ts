@@ -16,6 +16,7 @@ export const actionsPath = "/tools";
 export const systemPath = "/system";
 export const lotteryPath = "/tools/lottery";
 export const testingPath = "/system/testing";
+export const importPath = "/tools/import";
 
 export const paths = {
     about: aboutPath,
@@ -35,7 +36,8 @@ export const paths = {
     actions: actionsPath,
     system: systemPath,
     lottery: lotteryPath,
-    testing: testingPath
+    testing: testingPath,
+    importArtists: importPath
 };
 
 export default paths;

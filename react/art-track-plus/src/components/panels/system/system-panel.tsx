@@ -10,7 +10,7 @@ import GoIcon from "../../icons/go-icon";
 
 function SystemPanel() {
     return (
-        <div className={"create-backup-panel my-3"}>
+        <div className={"database-panel my-3"}>
             <h1 className={"text-center"}>
                 <SettingsIcon />
                 {" System"}

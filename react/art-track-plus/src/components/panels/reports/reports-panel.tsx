@@ -7,7 +7,7 @@ import GoIcon from "../../icons/go-icon";
 
 function ReportsPanel() {
     return (
-        <div className={"create-backup-panel my-3"}>
+        <div className={"database-panel my-3"}>
             <h1 className={"text-center"}>
                 <ReportIcon/>
                 {" Reports"}

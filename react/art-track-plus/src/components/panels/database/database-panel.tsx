@@ -41,7 +41,7 @@ function DatabasePanel({actions}: Props) {
     }
 
     return (
-        <Col className={"create-backup-panel my-3"}>
+        <Col className={"database-panel my-3"}>
             <h1 className={"text-center"}>
                 <SettingsIcon/>
                 {" "}

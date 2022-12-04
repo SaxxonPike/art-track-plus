@@ -13,6 +13,7 @@ import SystemPage from "./components/pages/system-page";
 import ArtistEditPage from "./components/pages/artist-edit-page";
 import LotteryPage from "./components/pages/lottery-page";
 import TestingPage from "./components/pages/testing-page";
+import ImportPage from "./components/pages/import-page";
 
 export default function AppRoutes(props) {
     return (
@@ -30,6 +31,7 @@ export default function AppRoutes(props) {
             <Route path={paths.lottery} element={<LotteryPage {...props}/>}/>
             <Route path={paths.artistRapidEntry} element={<ArtistPage {...props} rapidEntry={true}/>}/>
             <Route path={paths.testing} element={<TestingPage {...props}/>}/>
+            <Route path={paths.importArtists} element={<ImportPage {...props}/>}/>
         </Routes>
     );
 }

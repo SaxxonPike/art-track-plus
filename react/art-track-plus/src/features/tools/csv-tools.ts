@@ -1,4 +1,15 @@
 import Artist from "../../models/artist";
+import CsvParser from "./csv-parser";
+
+// Parse the first line out of a CSV and return it.
+function getColumns(csv: string) {
+    return CsvParser.parse(csv, 0)[0];
+}
+
+// Import artists from a CSV using the specified column mapping.
+function importArtists(csv: string, columnMap: { sourceColumn: string, targetColumn: string }[]) {
+    return [];
+}
 
 function exportArtists(artists: Artist[], excelMode: boolean) {
     let csv = '';

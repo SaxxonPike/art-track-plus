@@ -13,7 +13,10 @@ export class AppContext {
         this.getter = getter;
         this.setter = setter;
         this._actions = new AppActions(this);
+        this.resetDataSource();
+    }
 
+    resetDataSource() {
         // Todo: make this user configurable later
         this._dataSource = new DexieDatabase({
             databaseName: "ArtTrackPlus2"
