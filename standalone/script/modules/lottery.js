@@ -19,10 +19,10 @@
 
   // Shuffle artists.
   function shuffleArtists(artists) {
-    var count = artists.length;
+    const count = artists.length;
     artists.forEach(function(a, i) {
-      var randomIndex = Math.floor(Math.random() * count);
-      var temp = artists[i];
+      const randomIndex = Math.floor(Math.random() * count);
+      const temp = artists[i];
       artists[i] = artists[randomIndex];
       artists[randomIndex] = temp;
     });
@@ -32,13 +32,13 @@
   function runLottery(slotsAvailable) {
     Artists.getAll().then(function(allArtists) {
       // Initialization.
-      var eligibleArtists = Filter.lotteryEligible(allArtists);
+      const eligibleArtists = Filter.lotteryEligible(allArtists);
 
       resetSeating(allArtists);
       shuffleArtists(eligibleArtists);
 
       // Populate the guaranteed artists first.
-      var lotteryNumber = 1;
+      let lotteryNumber = 1;
       eligibleArtists.forEach(function(a) {
         if (slotsAvailable > 0 && a.lotteryGuaranteed) {
           a.lotteryOrder = lotteryNumber++;
@@ -48,7 +48,7 @@
 
       // Fill up the remaining slots. If no further slots are
       // avaialble, assign standby order.
-      var standbyNumber = 1;
+      let standbyNumber = 1;
       eligibleArtists.forEach(function(a) {
         if (!a.lotteryOrder) {
           if (slotsAvailable > 0) {

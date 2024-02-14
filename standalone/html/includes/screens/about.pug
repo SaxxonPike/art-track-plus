@@ -1,0 +1,11 @@
+.screen.limited-width#about
+  .content
+    h1.text-center= AppName
+    h3.text-center= `Built ${BuildTime}`
+    hr
+    include ../license
+    hr
+    .row
+      .col-xs-3
+      .col-xs-6
+        a.btn.btn-primary.btn-block(data-screen='main')#main Thank you!

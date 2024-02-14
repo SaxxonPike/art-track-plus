@@ -2,7 +2,7 @@
 
 $(function() {
   function InitializeFirstScreen() {
-    var screenId = window.location.hash.substring(1);
+    let screenId = window.location.hash.substring(1);
     if (!screenId || screenId.length === 0) {
       screenId = 'main';
     }
@@ -18,8 +18,8 @@ $(function() {
   // activated.
   function InitializeModalNavigation() {
     $('a[data-modal]').each(function(i, e) {
-      var linkElement = $(e);
-      var modalId = linkElement.attr('data-modal');
+      const linkElement = $(e);
+      const modalId = linkElement.attr('data-modal');
       linkElement
         .click(function() {
           Modal[modalId]();
@@ -34,8 +34,8 @@ $(function() {
   // screens when clicked.
   function InitializeScreenNavigation() {
     $('a[data-screen]').each(function(i, e) {
-      var linkElement = $(e);
-      var screenId = linkElement.attr('data-screen');
+      const linkElement = $(e);
+      const screenId = linkElement.attr('data-screen');
       linkElement
         .attr('href', '#' + screenId)
         .click(function() {
@@ -47,8 +47,8 @@ $(function() {
   // Initialize links with system actions.
   function InitializeSystemActions() {
     $('[data-system-action]').each(function(i, e) {
-      var linkElement = $(e);
-      var action = linkElement.attr('data-system-action');
+      const linkElement = $(e);
+      const action = linkElement.attr('data-system-action');
       linkElement
         .click(function() {
           SystemActions[action]();
@@ -88,8 +88,8 @@ $(function() {
 
     function setModalsAndBackdropsOrder() {
       $('body').addClass('modal-open');
-      var modalZIndex = $('.modal.in').length + 1050 + 1;
-      var backdropZIndex = modalZIndex - 1;
+      const modalZIndex = $('.modal.in').length + 1050 + 1;
+      const backdropZIndex = modalZIndex - 1;
       $('.modal-backdrop').addClass('hidden');
       $('.modal.in:last').css('z-index', modalZIndex);
       $('.modal-backdrop.in:last').css('z-index', backdropZIndex).removeClass('hidden');

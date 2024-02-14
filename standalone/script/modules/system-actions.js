@@ -43,7 +43,7 @@
       .then(function() {
         return Artists.getAll().then(function(artists) {
           return Database.transaction(function() {
-            return Dexie.Promise.all(artists.map(function(a) {
+            return Promise.all(artists.map(function(a) {
               if (a.tableNumber) {
                 return Artists.setSignedOut(a.id, false);
               } else if (a.standbyOrder || a.lotteryOrder) {
@@ -62,10 +62,10 @@
       'Export CSV')
       .then(function(excelMode) {
         return Artists.getAll().then(function(users) {
-          var csv = '';
+          let csv = '';
 
           // build CSV columns
-          var csvColumns = [
+          const csvColumns = [
             'name',
             'badgeNumber',
             'tableNumber',
@@ -80,9 +80,9 @@
 
           // build CSV rows
           users.forEach(function(user) {
-            var csvRow = [];
+            const csvRow = [];
             csvColumns.forEach(function(column) {
-              var columnValue = user[column];
+              let columnValue = user[column];
               if (columnValue === false) {
                 columnValue = 'N';
               } else if (columnValue === true) {
@@ -117,7 +117,7 @@
   // Find an artist. Pass in a function that returns TRUE for criteria.
   function findArtist(predicate) {
     return Artists.getAll().then(function(artists) {
-      var filteredArtists = artists.filter(predicate);
+      const filteredArtists = artists.filter(predicate);
       if (filteredArtists.length > 0) {
         Modal.editArtist(filteredArtists[0].id);
       } else {
@@ -131,7 +131,7 @@
 
   // Find an artist by field===value
   function findArtistBy(fieldName, value) {
-    var valueString = '' + value;
+    const valueString = '' + value;
     return findArtist(function(a) {
       return a[fieldName] &&
         ('' + a[fieldName]) === valueString;
@@ -187,7 +187,7 @@
       'Run Lottery')
       .then(function(seats) {
         if (seats) {
-          var slotsAvailable = +seats;
+          const slotsAvailable = +seats;
           if (slotsAvailable > 0) {
             Lottery.run(slotsAvailable);
           }
@@ -198,9 +198,9 @@
   // Save raw artist data.
   function saveArtistRaw() {
     try {
-      var artistId = +$('[data-select-raw]').find(':selected').attr('value');
+      const artistId = +$('[data-select-raw]').find(':selected').attr('value');
       if (artistId) {
-        var artist = JSON.parse($('[data-edit-raw]').val());
+        const artist = JSON.parse($('[data-edit-raw]').val());
         artist.id = artistId;
         Artists.set(artist).then(function() {
           Modal.alert('The artist was saved successfully.');
@@ -218,8 +218,8 @@
       'Generate Test Data')
       .then(function() {
         Artists.clear().then(function() {
-          var artists = [];
-          for (var i = 0; i < 200; i++) {
+          const artists = [];
+          for (let i = 0; i < 200; i++) {
             artists.push(Generator.getRandomArtist());
           }
           return Artists.setAll(artists);
@@ -230,18 +230,18 @@
   // Backup database to JSON
   function databaseBackup() {
     return Database.backup().then(function(data) {
-      var fileName = 'backup-' + moment().format('x') + '.json';
+      const fileName = 'backup-' + moment().format('x') + '.json';
       return FileTransfer.download(fileName, JSON.stringify(data));
     });
   }
 
   // Restore database from JSON
   function databaseRestore() {
-    var files = $('#import-dialog-file')[0].files;
+    const files = $('#import-dialog-file')[0].files;
     if (files[0]) {
       return FileTransfer.upload(files[0]).then(
         function(fileData) {
-          var jsonData;
+          let jsonData;
           try {
             jsonData = JSON.parse(fileData);
           } catch (e) {

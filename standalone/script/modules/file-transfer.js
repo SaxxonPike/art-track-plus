@@ -9,7 +9,7 @@
   // Send file contents to a user.
   function download(fileName, text) {
     return new Promise(function(resolve) {
-      var anchor = docScope.createElement('a');
+      const anchor = docScope.createElement('a');
       anchor.href = scope.URL.createObjectURL(new Blob([text], {
         type: 'text/csv'
       }));
@@ -24,7 +24,7 @@
   // Retrieve file contents from a user.
   function upload(file) {
     return new Promise(function(resolve, reject) {
-      var reader = new FileReader();
+      const reader = new FileReader();
       reader.onload = function(response) {
         resolve(response.target.result);
       };
