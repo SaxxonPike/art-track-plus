@@ -1,0 +1,26 @@
+.btn-standby {
+  @include button-variant(#622, #311, #f66);
+}
+
+.btn-seated {
+  @include button-variant(#262, #131, #6f6);
+}
+
+.btn-sign-in {
+  @include button-variant(#262, #131, #6f6);
+}
+
+.btn-sign-out {
+  @include button-variant(#444, #222, #aaa);
+}
+
+.btn-lottery {
+  @include button-variant(#66f, #113, #226);
+}
+
+.btn.btn-link {
+  text-decoration-line: none;
+  &:focus {
+    text-decoration-line: underline;
+  }
+}

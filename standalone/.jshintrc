@@ -9,6 +9,7 @@
   "quotmark": true,
   "undef": true,
   "unused": true,
+  "esversion": 6,
 
   "predef": [
     "$",

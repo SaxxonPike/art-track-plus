@@ -17,7 +17,7 @@
   };
 
   // Constants.
-  var ARTISTS_TABLE_NAME = 'artists';
+  const ARTISTS_TABLE_NAME = 'artists';
 
   function getDatabase() {
     return scope.Database;
@@ -140,11 +140,11 @@
 
   // Set multiple artist data.
   function setAllArtists(artists) {
-    var database = getDatabase();
+    const database = getDatabase();
     return database.transaction(function() {
       artists.forEach(function(artist) {
-        var isNew = !artist.id;
-        var data = Object.assign({}, artist);
+        const isNew = !artist.id;
+        const data = Object.assign({}, artist);
         delete data.id;
         if (isNew) {
           database.open().artists.put(data);

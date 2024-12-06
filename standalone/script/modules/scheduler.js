@@ -8,9 +8,9 @@
   };
 
   // Handlers for when artist data changes.
-  var artistChangeEvents = [];
-  var artistTableVersion = -1;
-  var isDatabaseBusy = false;
+  const artistChangeEvents = [];
+  let artistTableVersion = -1;
+  let isDatabaseBusy = false;
 
   // Initialize the timer event on load.
   $(function() {

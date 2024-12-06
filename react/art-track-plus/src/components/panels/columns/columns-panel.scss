@@ -1,0 +1,52 @@
+.columns-panel {
+  height: inherit;
+
+  .column-title {
+    background: rgba(0, 0, 0, 0.5);
+    text-align: center;
+    border-bottom: 1px solid;
+    border-color: black;
+    font-weight: bolder;
+    padding: 4px 0;
+  }
+
+  .column-flex {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: stretch;
+  }
+
+  .column-artists {
+    background: #282828;
+    color: #aaa;
+  }
+
+  .column-lottery {
+    background: #181840;
+    color: #77f;
+  }
+
+  .column-standby {
+    background: #401818;
+    color: #f77;
+  }
+
+  .column-seated {
+    background: #184018;
+    color: #7f7;
+  }
+
+  .column-checked-out {
+    background: #282828;
+    color: #aaa;
+  }
+
+  .column-table-number {
+    background: rgba(0, 0, 0, 0.5);
+    font-size: 80%;
+    margin: 0;
+    &::before {
+      content: "#"
+    }
+  }
+}

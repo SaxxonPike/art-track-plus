@@ -9,15 +9,13 @@
 
   // Generate random artist data.
   function getRandomArtist() {
-    var artist = {
+    return {
       name: 'Test ' + (random(9000) + 1000),
       badgeNumber: random(10000) + 1,
       phone: randomOf([null, randomPhone()]),
       remarks: randomOf([null, 'Etc Whatever']),
       lotteryEligible: randomBool(),
     };
-
-    return artist;
   }
 
   // Generate a random integer up to (but not including) the max value.
@@ -37,8 +35,8 @@
 
   // Generate a random US phone number.
   function randomPhone() {
-    var separator = randomOf(['.', '-', '']);
-    var countryCode = randomOf(['', '1' + separator]);
+    const separator = randomOf(['.', '-', '']);
+    const countryCode = randomOf(['', '1' + separator]);
     return countryCode +
       (random(800) + 200) + separator +
       (random(800) + 200) + separator +

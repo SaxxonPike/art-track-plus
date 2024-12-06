@@ -8,12 +8,12 @@
   // Populate columns in all places in the app that contain artist lists.
   function populate() {
     Artists.getAll().then(function(artistData) {
-      var allListByName = Filter.sorted(artistData);
-      var standbyList = Filter.standbyInOrder(artistData);
-      var seatedList = Filter.seated(artistData);
-      var lotteryList = Filter.lotteryInOrder(artistData);
-      var lotteryListByName = Filter.lottery(artistData);
-      var checkedOutList = Filter.sorted(Filter.checkedOutToday(artistData));
+      const allListByName = Filter.sorted(artistData);
+      const standbyList = Filter.standbyInOrder(artistData);
+      const seatedList = Filter.seated(artistData);
+      const lotteryList = Filter.lotteryInOrder(artistData);
+      const lotteryListByName = Filter.lottery(artistData);
+      const checkedOutList = Filter.sorted(Filter.checkedOutToday(artistData));
 
       buildNames($('.artist-names'), allListByName, {
         withSymbols: true
@@ -51,7 +51,7 @@
 
   // Build a name list for a Select element.
   function buildNameOptions(container, nameData) {
-    var tempContainer = $('<div/>');
+    const tempContainer = $('<div/>');
     tempContainer.append($('<option/>')
       .text('(select one...)'));
 
@@ -76,9 +76,9 @@
     container.empty();
 
     nameData.forEach(function(artist, index) {
-      var nameElement = $('<a/>')
-        .addClass('line')
-        .text(artist.name + ' ');
+      const nameElement = $('<a/>')
+          .addClass('line')
+          .text(artist.name + ' ');
 
       if (options.withOrder) {
         nameElement.prepend(Elements.buildSpan('artist-order')
@@ -87,14 +87,14 @@
       }
 
       if (artist.tableNumber) {
-        var tableElement = Elements.buildSpan('artist-seat');
+        const tableElement = Elements.buildSpan('artist-seat');
         tableElement.text('#' + artist.tableNumber)
           .attr('title', 'Table Number');
         nameElement.append(tableElement);
       }
 
       if (options.withSymbols) {
-        var symbolElement = Elements.buildSymbols(artist);
+        const symbolElement = Elements.buildSymbols(artist);
         if (symbolElement.html().length > 0) {
           symbolElement.addClass('faded');
           nameElement.append(symbolElement);

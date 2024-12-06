@@ -1,0 +1,20 @@
+.artist-panel {
+  .text-lottery {
+    color: lighten(#66f, 5%);
+  }
+
+  .form-check-input {
+    margin-left: -0.9em;
+    margin-right: 0.5em;
+    margin-top: 0.55em;
+    border-color: #ced4da;
+
+    &:focus {
+      border-color: #86b7fe;
+    }
+  }
+
+  .artist-id {
+    font-size: 60%
+  }
+}

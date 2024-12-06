@@ -1,0 +1,62 @@
+{
+  "name": "art-track-plus",
+  "version": "0.3.0",
+  "private": true,
+  "dependencies": {
+    "@fontsource/open-sans-condensed": "^4.5.5",
+    "@fortawesome/fontawesome-common-types": "^6.1.1",
+    "@fortawesome/fontawesome-free": "^6.1.1",
+    "@fortawesome/fontawesome-svg-core": "^6.1.1",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "@types/react-router-bootstrap": "^0.24.5",
+    "@types/react-router-dom": "^5.3.3",
+    "bootstrap": "^5.2.0-beta1",
+    "date-fns": "^2.28.0",
+    "dexie": "^3.2.2",
+    "fuzzysort": "^2.0.1",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.4.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "5.0.1",
+    "react-timer-hook": "^3.0.5",
+    "sass": "^1.53.0",
+    "sass-loader": "^13.0.2",
+    "simplebar-react": "^2.4.1",
+    "ts-loader": "^9.3.1",
+    "typescript": "^4.7.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.30.7",
+    "@typescript-eslint/parser": "^5.30.7",
+    "csv-stringify": "^6.2.2",
+    "eslint": "^8.20.0",
+    "eslint-plugin-react": "^7.30.1",
+    "eslint-plugin-react-hooks": "^4.6.0"
+  }
+}

@@ -1,0 +1,34 @@
+doctype html
+html(lang="en")
+  head
+    title= AppName
+    link(rel='stylesheet', href=`${StylePath}app.css`)
+    //script(src=`${ScriptPath}es5-shim.min.js`)
+    //script(src=`${ScriptPath}es6-shim.min.js`)
+    script(src=`${ScriptPath}jquery.min.js`)
+    script(src=`${ScriptPath}jquery.slimscroll.js`)
+    script(src=`${ScriptPath}emulatetab.joelpurra.js`)
+    script(src=`${ScriptPath}plusastab.joelpurra.js`)
+    script(src=`${ScriptPath}dexie.min.js`)
+    script(src=`${ScriptPath}bootstrap.min.js`)
+    script(src=`${ScriptPath}moment.min.js`)
+    script(src=`${ScriptPath}app.js`)
+  body
+    include includes/nav
+    include includes/screens/about
+    include includes/screens/main
+    include includes/screens/second
+
+    include includes/modals/alert-dialog
+    include includes/modals/artist-detail
+    include includes/modals/batch-sign-out
+    include includes/modals/bulk-artist-room
+    include includes/modals/checked-out-artists
+    include includes/modals/confirm-dialog
+    include includes/modals/generate-dialog
+    include includes/modals/import-dialog
+    include includes/modals/prompt-dialog
+    include includes/modals/raw-editor
+    include includes/modals/reset-dialog
+    include includes/modals/run-lottery
+    include includes/modals/yes-no-cancel

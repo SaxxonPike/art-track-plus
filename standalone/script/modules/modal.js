@@ -24,8 +24,8 @@
   };
 
   // Private vars.
-  var _promptConfirm = [];
-  var _rapidEntry = false;
+  const _promptConfirm = [];
+  let _rapidEntry = false;
 
   // Register a modal response handler.
   function registerConfirm(handler) {
@@ -98,27 +98,27 @@
   // Show the Rapid Room Entry modal.
   function bulkArtistRoom() {
     Artists.getAll().then(function(artists) {
-      var container = $('<div/>');
+      const container = $('<div/>');
 
       // Filter out artists who are not already seated.
       artists = Filter.seatedInOrder(artists);
 
       // Generate HTML elements for seated artists.
       artists.forEach(function(a) {
-        var nameField = $('<p/>')
-          .addClass('form-control-static')
-          .text(a.name);
+        const nameField = $('<p/>')
+            .addClass('form-control-static')
+            .text(a.name);
 
-        var tableField = $('<p/>')
-          .addClass('form-control-static')
-          .text(a.tableNumber);
+        const tableField = $('<p/>')
+            .addClass('form-control-static')
+            .text(a.tableNumber);
 
-        var inputBox = $('<input/>')
-          .addClass('form-control')
-          .attr('type', 'text')
-          .attr('id', 'bulk-artist-room-number-' + a.id)
-          .attr('value', a.roomNumber)
-          .attr('data-artist-id', a.id);
+        const inputBox = $('<input/>')
+            .addClass('form-control')
+            .attr('type', 'text')
+            .attr('id', 'bulk-artist-room-number-' + a.id)
+            .attr('value', a.roomNumber)
+            .attr('data-artist-id', a.id);
 
         container.append(
           $('<tr/>').append($('<td/>').append(nameField))
@@ -142,7 +142,7 @@
 
       // Dynamically add SlimScroll bar to the modal (it can't be added on load)
       $('#bulk-artist-room .room-content').each(function() {
-        var div = $(this);
+        const div = $(this);
         if (!div.hasClass('scroll-added')) {
           div.addClass('scroll-added');
           div.slimScroll({
@@ -175,7 +175,8 @@
 
   // Show the Restore Database modal.
   function restoreDatabase() {
-    $('#import-dialog-file').replaceWith($('#import-dialog-file').clone());
+    const fileControl = $('#import-dialog-file');
+    fileControl.replaceWith(fileControl.clone());
     $('#import-dialog').modal();
   }
 
@@ -200,7 +201,7 @@
 
   // Fill in the raw artist data text area.
   function setRawArtistId(selectedId) {
-    var editor = $('[data-edit-raw=artist]');
+    const editor = $('[data-edit-raw=artist]');
     if (selectedId) {
       Artists.get(selectedId).then(function(artist) {
         if (artist) {
@@ -234,10 +235,12 @@
   // Show checked out artists modal.
   function showCheckedOutArtists() {
     Artists.getAll().then(function(artists) {
-      var names = Filter.checkedOutToday(artists)
-        .map(function(a) { return a.name; });
+      const names = Filter.checkedOutToday(artists)
+          .map(function (a) {
+            return a.name;
+          });
       names.sort();
-      var elements = names.map(function(a) {
+      const elements = names.map(function (a) {
         return $('<div/>').text(a);
       });
       $('#checked-out-artists-body').html(elements);
@@ -320,16 +323,17 @@
     }
 
     function saveEditedArtist() {
-      var artistData = {};
-      artistData.id = getArtistFormId();
-      artistData.name = $('#artist-name').val();
-      artistData.badgeNumber = $('#artist-badge').val();
-      artistData.tableNumber = $('#artist-table').val();
-      artistData.roomNumber = $('#artist-room').val();
-      artistData.phone = $('#artist-phone').val();
-      artistData.remarks = $('#artist-remarks').val();
-      artistData.lotteryEligible = $('#artist-lottery-eligible').prop('checked');
-      artistData.lotteryGuaranteed = $('#artist-lottery-guaranteed').prop('checked');
+      const artistData = {
+        id: getArtistFormId(),
+        name: $('#artist-name').val(),
+        badgeNumber: $('#artist-badge').val(),
+        tableNumber: $('#artist-table').val(),
+        roomNumber: $('#artist-room').val(),
+        phone: $('#artist-phone').val(),
+        remarks: $('#artist-remarks').val(),
+        lotteryEligible: $('#artist-lottery-eligible').prop('checked'),
+        lotteryGuaranteed: $('#artist-lottery-guaranteed').prop('checked')
+      };
       if (artistData.tableNumber) {
         artistData.lotteryOrder = 0;
         artistData.standbyOrder = 0;
@@ -338,11 +342,11 @@
     }
 
     function saveEditedRooms() {
-      var artistRooms = [];
+      const artistRooms = [];
 
       $('#bulk-artist-room-table input[type=text]').each(function() {
-        var inputElement = $(this);
-        var artistId = inputElement.attr('data-artist-id');
+        const inputElement = $(this);
+        const artistId = inputElement.attr('data-artist-id');
         if (artistId) {
           artistRooms.push({
             id: artistId,
@@ -402,23 +406,23 @@
     });
 
     $('[data-standby=artist]').click(function() {
-      var performAction = function(artist) {
-        Artists.setStandby(artistId).then(function() {
-          Artists.getAll().then(function(artists) {
-            var index = Filter.standbyInOrder(artists).length;
+      const artistId = getArtistFormId();
+      const performAction = function (artist) {
+        Artists.setStandby(artistId).then(function () {
+          Artists.getAll().then(function (artists) {
+            const index = Filter.standbyInOrder(artists).length;
             showAlert(
-              'The artist is #' + index + ' in standby.',
-              'Add ' + artist.name + ' to Standby List'
-            ).then(function() {
+                'The artist is #' + index + ' in standby.',
+                'Add ' + artist.name + ' to Standby List'
+            ).then(function () {
               toggleArtistModal();
             });
           });
         });
       };
 
-      var artistId = getArtistFormId();
       Artists.get(artistId).then(function(artist) {
-        var caption = 'Add ' + artist.name + ' to Standby List';
+        const caption = 'Add ' + artist.name + ' to Standby List';
         if (artist.standbyOrder) {
           showConfirm(
             'This artist is already on standby. Performing this action will move them to the bottom of the list.',
@@ -450,7 +454,7 @@
 
     $('[data-signout=artist]').click(function() {
       Artists.get(getArtistFormId()).then(function(artist) {
-        var caption = 'Signing out ' + artist.name;
+        const caption = 'Signing out ' + artist.name;
         if (artist.tableNumber || artist.standbyOrder || artist.lotteryOrder) {
           showYesNoCancel(
             'Would this artist like to be included in tomorrow\'s lottery?',
@@ -469,8 +473,8 @@
     });
 
     $('[data-select-raw=artist]').change(function() {
-      var selectOption = $(this).find(':selected');
-      var selectedId = selectOption.attr('value');
+      const selectOption = $(this).find(':selected');
+      const selectedId = selectOption.attr('value');
       setRawArtistId(selectedId);
     });
 

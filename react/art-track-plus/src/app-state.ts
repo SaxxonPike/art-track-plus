@@ -1,0 +1,25 @@
+import Toast from "./models/toast";
+import Modal from "./models/modal";
+import Artist from "./models/artist";
+
+export interface AppState {
+    showAlert?: boolean
+    showInput?: boolean
+    toasts?: Toast[]
+    toastId?: number
+    modals?: Modal[]
+    modalId?: number
+    artists?: Artist[]
+    lastUpdate?: Date
+}
+
+export const DefaultAppState = (): AppState => ({
+    showAlert: false,
+    showInput: false,
+    toasts: [],
+    toastId: 0,
+    modals: [],
+    modalId: 0,
+    artists: [],
+    lastUpdate: null
+});
